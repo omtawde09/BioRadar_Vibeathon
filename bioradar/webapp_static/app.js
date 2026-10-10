@@ -1181,7 +1181,7 @@
     var run = finished.filter(function (r) { return r.run_id === state.activeRun; })[0];
     var analysis = state.analyses[run.run_id];
 
-    var signature2 = run.run_id + ":" + run.status + ":" + (analysis ? "a" : "-") +
+    var signature2 = run.run_id + ":" + run.status +
                      ":" + finished.length + ":" + currentTheme() + ":" + I18n.language();
     if (signature2 === resultsSignature) return;
     resultsSignature = signature2;
@@ -1198,6 +1198,7 @@
       UI.button(t("results.clear"), { id: "clearRuns", size: "sm" });
 
     var report = run.report;
+    var V = window.BioRadarVisuals;
     host.innerHTML =
       '<div class="kpis">' +
         UI.kpi(t("results.namedSpecies"), report.named_species, { color: "accent" }) +
@@ -1206,18 +1207,17 @@
         UI.kpi(t("results.detections"), UI.num(report.detections)) +
         UI.kpi(t("results.unnamed"), report.placeholders, { color: "rare" }) +
       "</div>" +
-      '<div id="aiBriefingHost-' + esc(run.run_id) + '"></div>' +
       emptyResultNotice(report) +
-
+      V.overview(report, run.run_id) +
       UI.card('<div class="map-toolbar" id="mapToolbar-' + esc(run.run_id) + '"></div>' +
               '<div class="map" id="map-' + esc(run.run_id) + '"></div>' +
               '<div id="timeline-' + esc(run.run_id) + '" style="margin-top:12px"></div>',
               { className: "map-card" }) +
-      UI.card("<h2>" + esc(t("results.composition")) + UI.tooltipIcon("Shows the relative distribution of sequencing reads across biological phyla, highlighting the dominant organism groups in the water sample.") + "</h2><div style='margin-top:16px'>" +
-              UI.bars((report.phyla_breakdown || []).map(function (p) {
-                return { label: p.name, value: p.reads };
-              })) + "</div>") +
-      UI.card("<h2>" + esc(t("results.inventory")) + UI.tooltipIcon("An interactive table containing all detected species at the site, categorized by taxonomic rank with confidence metrics and count statistics.") + "</h2>" + speciesTable(report)) +
+      '<details class="vz-fold" id="brief-' + esc(run.run_id) + '"><summary><span>' + esc(V.text("vz.briefing")) + "</span>" +
+        '<span id="briefChip-' + esc(run.run_id) + '"></span><span class="hint">' + esc(V.text("vz.briefingHint")) + "</span></summary>" +
+        '<div class="vz-fold-body"><div id="aiBriefingHost-' + esc(run.run_id) + '"></div></div></details>' +
+      '<details class="vz-fold"><summary><span>' + esc(V.text("vz.table")) + " (" + (report.top_species || []).length + ")</span></summary>" +
+        '<div class="vz-fold-body">' + speciesTable(report) + "</div></details>" +
       exportCard(run) +
       UI.card('<details class="more"><summary>' + esc(t("results.provenance")) + "</summary>" +
         '<div class="hint mono" style="margin-top:8px;line-height:1.8">' +
@@ -1242,6 +1242,13 @@
         var el = document.getElementById("aiBriefingHost-" + run.run_id);
         if (el) {
           el.innerHTML = UI.aiBriefing(briefing);
+          var chip = document.getElementById("briefChip-" + run.run_id);
+          var risk = briefing && briefing.report_header && briefing.report_header.risk_level;
+          if (chip && risk) {
+            chip.innerHTML = UI.badge(V.text({ HIGH_INVASIVE_RISK: "vz.risk.invasive", CONSERVATION_ALERT: "vz.risk.protected",
+              STABLE_COMMUNITY: "vz.risk.stable" }[risk] || "vz.risk.stable"), { HIGH_INVASIVE_RISK: "invasive", CONSERVATION_ALERT: "rare",
+              STABLE_COMMUNITY: "healthy" }[risk] || "healthy");
+          }
           if (UI.countUpAll) UI.countUpAll(el);
 
           // Fetch & append 10-Year PVA Population Trajectory Chart
@@ -1386,6 +1393,12 @@
     document.getElementById("clearRuns").addEventListener("click", clearResults);
     wireExports(run);
     drawMap(run);
+    ensureAnalysis(run.run_id).then(function () {
+      var box = document.getElementById("vz-samples-" + run.run_id);
+      var data = state.analyses[run.run_id];
+      var html = data ? V.samples(data) : "";
+      if (box && html) box.innerHTML = html; else if (box) box.remove();
+    });
 
     host.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-pva]");

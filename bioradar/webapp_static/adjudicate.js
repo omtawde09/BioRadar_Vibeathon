@@ -670,7 +670,7 @@
       .bindPopup("<b>" + esc(r.metadata.label) + "</b><br>" + (ev ? esc(ev.headline) : esc(T("rv.map.noFlag"))) +
         "<br>" + esc(r.metadata.collection_date));
     S.map = m;
-    setTimeout(function () { m.invalidateSize(); }, 200);
+    setTimeout(function () { if (S.map === m) m.invalidateSize(); }, 200);  // the map may be gone after a quick tab switch
   }
 
   /* ── data guard ─────────────────────────────────────────────────────── */
@@ -767,7 +767,7 @@
         L.circleMarker([site.latitude, site.longitude], { radius: 12, color: tok("--surface-raised", "#fff"), weight: 2,
           fillColor: pos === 0 ? tok("--alert-rare", "#e0912f") : tok("--accent-secondary", "#bd3b67"), fillOpacity: 1 }).addTo(m)
           .bindTooltip(T("rv.season.speciesTip", { s: seasonName(cur), n: cs.species_detected }), { permanent: true });
-        S.seasonMap = m; setTimeout(function () { m.invalidateSize(); }, 200);
+        S.seasonMap = m; setTimeout(function () { if (S.seasonMap === m) m.invalidateSize(); }, 200);
       } else { el.outerHTML = '<p class="hint">' + esc(T("rv.season.noPin")) + "</p>"; }
     }
   }
@@ -855,7 +855,7 @@
     });
     if (bounds.length === 1) m.setView(bounds[0], 8); else m.fitBounds(bounds, { padding: [30, 30], maxZoom: 9 });
     S.alertMap = m;
-    setTimeout(function () { m.invalidateSize(); }, 200);
+    setTimeout(function () { if (S.alertMap === m) m.invalidateSize(); }, 200);
   }
 
   /* ── numbers & sources ──────────────────────────────────────────────── */
