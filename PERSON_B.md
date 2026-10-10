@@ -15,7 +15,7 @@ This file is updated and pushed after every phase.
 | B1 | UI audit: what already passes | **done** |
 | B2 | Challenge review states | **done** |
 | B3 | Map, alert and seasons | **done** |
-| B4 | One-page officer report | pending |
+| B4 | One-page officer report | **done** |
 | B5 | UI regression + demo path | pending |
 
 ---
@@ -162,6 +162,39 @@ WithoutFilter -> back` during this phase and stashed the untracked data (downloa
 was safe on the branch; the ignored data was restored from `stash@{0}` with `git restore --source`. The stash was **not**
 popped or edited. To avoid repeats: do not switch branches in this checkout while a phase is running, and re-run
 `runner fetch` / `runner all` if the ignored data ever disappears.
+
+---
+
+## Phase B4: one-page officer report (done)
+
+**Audit result (B1, restated):** `exports.printable_report` is a multi-section *run* report (KPIs, sites table, full
+species inventory, phylum table, provenance): no risk level, no officer action, no per-sample uncertainty, not limited
+to one page. It still serves pipeline runs and was **not touched**. The one-page officer report is the stdlib PDF writer in
+`bioradar/adjudicate/report.py` (no PDF library, so no new dependency; works the same on Windows and in the Python 3.8 image).
+
+| Change | Detail |
+|---|---|
+| **Site report** | new `build_site_pdf`: one place, **summer and winter side by side** (bars + reads for the top 10 animals), risk = highest alert across both seasons, action, source (archive, run IDs, both sets of dates, pin), uncertainty (per-season verdicts and % of reads named, reference size, pin precision, "poorer reads can show fewer species"), "only in summer / only in winter does not mean absent" |
+| **Button on the site page** | the Seasons tab now has **Print officer report for this site (PDF)** (opens `/api/adjudicate/site-report/<place>.pdf`) |
+| Per-sample report wording | no "conf": shows `share (reads)` plus a denominator line (`reads of the animal / N reads that could be named; a proportion of DNA reads, not animals or weight`) |
+| **One-page guard** | `Page` refuses to draw below the footer line; if content would not fit it is cut and the page says so. Nothing can spill to a second page |
+
+Required fields (workpack C9): animals detected, risk level, source and sample date, uncertainty / missing coverage,
+officer action in plain words. All five are asserted by tests.
+
+**Verified.** New `tests/test_report_one_page.py` runs on the real pre-run results: **38 sample reports + 4 site reports =
+43 tests passed**. Each one checks: exactly 1 page; text inside the page and side margins; **no overlapping text**; all five
+section headings present; not truncated; no "confidence" wording; "does not mean absent" on site reports; the site risk
+equals the highest confirmed alert across both seasons. Live endpoint: `site-report/HongQimen.pdf` 200 `application/pdf`,
+unknown place 404, a path-traversal attempt 404; the button was clicked and opens the right URL.
+
+**Ownership note (deliberate, small).** Person B owns the report *presentation*; the site report needed one read-only route,
+so `bioradar/adjudicate/api.py` got one additive branch (`site-report/...`) plus a name regex. No existing route, field or
+contract changed. Person A can move it if they prefer it elsewhere.
+
+**Not done / limits.** The report is a PDF produced by the server; the browser's Save-as-PDF path was not used because
+the stdlib PDF already satisfies the one-page requirement. The "unseen sample" report works the same way through
+`report/<run>.pdf`.
 
 ## Open questions for the maintainer / Person A
 

@@ -52,10 +52,14 @@ def _esc(text: str) -> str:
     return text.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
 
 
+FOOTER_TOP = 70.0  # nothing is drawn below this line except the footer
+
+
 class Page:
     def __init__(self) -> None:
         self.ops: List[str] = []
         self.y = PAGE_H - MARGIN
+        self.truncated = False  # True if content had to be cut to stay on one page
 
     def rect(self, x: float, y: float, w: float, h: float, rgb: Tuple[float, float, float]) -> None:
         self.ops.append("{:.3f} {:.3f} {:.3f} rg {:.1f} {:.1f} {:.1f} {:.1f} re f".format(
@@ -84,6 +88,9 @@ class Page:
              rgb: Tuple[float, float, float] = (0.1, 0.1, 0.12)) -> None:
         width = width or (PAGE_W - 2 * MARGIN - (x - MARGIN))
         for line in self.wrap(s, width, size, bold):
+            if self.y - size * lead < FOOTER_TOP:
+                self.truncated = True
+                return
             self.y -= size * lead
             self.text(x, self.y, line, size, bold, rgb)
 
@@ -169,7 +176,7 @@ def build_pdf(result: Dict[str, Any], season: Optional[Dict[str, Any]] = None,
     p.para(summary["action"], 12, True, lead=1.35)
 
     # animals
-    p.heading("Animals detected (share of fish DNA reads)")
+    p.heading("Animals detected (share of the fish DNA reads that could be named)")
     species = [s for s in result["species"] if s["kind"] == "species" and s["status"] == "detected"]
     complexes = [s for s in result["species"] if s["kind"] == "complex"]
     flagged = {e["species"] for e in result.get("alerts", [])}
@@ -187,8 +194,11 @@ def build_pdf(result: Dict[str, Any], season: Optional[Dict[str, Any]] = None,
             bar = 175 * r["share"] / mx
             p.rect(MARGIN + 232, p.y - 1, max(bar, 1.5), 9,
                    (0.78, 0.13, 0.13) if r["species"] in flagged else (0.20, 0.50, 0.42))
-            p.text(MARGIN + 232 + max(bar, 1.5) + 6, p.y, "{:.1%}  conf {:.2f}".format(
-                r["share"], r["confidence"]), 8.5)
+            p.text(MARGIN + 232 + max(bar, 1.5) + 6, p.y, "{:.1%}  ({:,} reads)".format(
+                r["share"], r["reads"]), 8.5)
+        named = sum(r["reads"] for r in result["species"])
+        p.para("Share = reads of the animal / {:,} reads that could be named. A share is a proportion of DNA "
+               "reads, not a count of animals or their weight.".format(named), 8, rgb=(0.4, 0.4, 0.45))
         if len(species) + len(complexes) > 9:
             p.para("... and {} more in the full table.".format(
                 len(species) + len(complexes) - 9), 8.5)
@@ -249,4 +259,141 @@ def build_pdf(result: Dict[str, Any], season: Optional[Dict[str, Any]] = None,
     p.text(MARGIN, 30, "Invasive-species listing: IUCN Global Invasive Species Database "
                        "(iucngisd.org). Thresholds: bioradar/adjudicate/thresholds.json.", 7.5, False,
            (0.4, 0.4, 0.45))
+    if p.truncated:
+        p.text(MARGIN, FOOTER_TOP - 2, "Some detail was cut to keep this report to one page; see the app for the full result.",
+               7.5, False, (0.55, 0.42, 0.0))
+    return p.to_pdf()
+
+
+# --------------------------------------------------------------------------
+# site report: one place, both seasons
+# --------------------------------------------------------------------------
+
+_LEVEL_ORDER = {"CRITICAL": 0, "HIGH": 1, "WATCH": 2}
+
+
+def site_summary(results: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Highest invasive alert across every sample at the site, in plain words."""
+    if all(r["verdict"] == "Retake sample" for r in results):
+        return {"level": "RETAKE", "label": "RETAKE SAMPLES AT THIS SITE", "top": None,
+                "action": "Collect new water samples at this spot. The samples taken here were too poor to read."}
+    confirmed: Dict[str, Dict[str, Any]] = {}
+    possible: Dict[str, Dict[str, Any]] = {}
+    for r in results:
+        for e in r.get("alerts", []):
+            bucket = confirmed if e["kind"] == "confirmed" else possible
+            old = bucket.get(e["species"])
+            if old is None or (_LEVEL_ORDER[e["level"]], -e["reads"]) < (_LEVEL_ORDER[old["level"]], -old["reads"]):
+                bucket[e["species"]] = e
+    if confirmed:
+        top = sorted(confirmed.values(), key=lambda e: (_LEVEL_ORDER[e["level"]], -e["reads"]))[0]
+        return {"level": top["level"], "label": top["level"] + " - INVASIVE FISH DETECTED AT THIS SITE",
+                "action": top["action"], "top": top, "confirmed": confirmed, "possible": possible}
+    if possible:
+        top = sorted(possible.values(), key=lambda e: -e["reads"])[0]
+        return {"level": "WATCH", "label": "WATCH - POSSIBLE INVASIVE FISH (NOT CONFIRMED)",
+                "action": top["action"], "top": top, "confirmed": {}, "possible": possible}
+    return {"level": "NONE", "label": "NO INVASIVE FISH FOUND AT THIS SITE", "top": None,
+            "confirmed": {}, "possible": {},
+            "action": "No action needed now. Keep the normal monitoring schedule. This is not proof the "
+                      "water is free of invasive fish: DNA can miss animals that are rare or far away."}
+
+
+def build_site_pdf(site: Dict[str, Any], results: List[Dict[str, Any]], reference_note: str = "") -> bytes:
+    """One-page report for a place sampled in two seasons (data = pre-run results)."""
+    summ = site_summary(results)
+    p = Page()
+    p.rect(0, PAGE_H - 62, PAGE_W, 62, (0.07, 0.30, 0.22))
+    p.text(MARGIN, PAGE_H - 30, "BioRadar - Site Officer Report", 17, True, (1, 1, 1))
+    p.text(MARGIN, PAGE_H - 48, "{}  |  summer and winter  |  generated {}".format(
+        site["location"], time.strftime("%Y-%m-%d %H:%M")), 9, False, (0.85, 0.95, 0.9))
+    p.y = PAGE_H - 62 - 10
+
+    p.rect(MARGIN, p.y - 52, PAGE_W - 2 * MARGIN, 52, LEVEL_COLOR[summ["level"]])
+    p.text(MARGIN + 12, p.y - 17, "RISK LEVEL", 8, True, (1, 1, 1))
+    p.text(MARGIN + 12, p.y - 34, summ["label"], 13, True, (1, 1, 1))
+    p.y -= 58
+    p.heading("What to do")
+    p.para(summ["action"], 12, True, lead=1.35)
+    top = summ.get("top")
+    if top:
+        p.para("Where: {} ({}), seen at pin {}.".format(top["common_name"], top["species"],
+               "{:.4f}, {:.4f}".format(top["pin"]["latitude"], top["pin"]["longitude"])
+               if top["pin"]["latitude"] is not None else "not recorded"), 9.5)
+
+    # animals, both seasons
+    p.heading("Animals detected: summer vs winter (DNA reads)")
+    flagged = set(summ.get("confirmed", {}))
+    rows = site["species"][:10]
+    if rows:
+        mx = max(max(r["summer_reads"], r["winter_reads"]) for r in rows) or 1
+        p.text(MARGIN + 205, p.y - 11, "summer", 7.5, True, (0.78, 0.45, 0.05))
+        p.text(MARGIN + 205 + 60, p.y - 11, "winter", 7.5, True, (0.25, 0.40, 0.70))
+        p.y -= 12
+        for r in rows:
+            p.y -= 15
+            bad = r["species"] in flagged
+            p.text(MARGIN, p.y, r["species"][:30] + ("  [INVASIVE]" if bad else ""), 9, bad,
+                   (0.78, 0.13, 0.13) if bad else (0.1, 0.1, 0.12))
+            for k, (key, col) in enumerate((("summer_reads", (0.88, 0.50, 0.08)), ("winter_reads", (0.30, 0.45, 0.75)))):
+                w = 150 * r[key] / mx
+                p.rect(MARGIN + 205, p.y + 5 - 5 * k, max(w, 1.0) if r[key] else 0, 4, col)
+            p.text(MARGIN + 365, p.y, "{:,} / {:,}".format(r["summer_reads"], r["winter_reads"]), 8.5)
+    c = site["counts"]
+    p.para("{} species detected in summer, {} in winter. {} seen in both; {} only in summer; {} only in winter. "
+           "'Only in' means not detected in the other season's bottles. It does not mean absent.".format(
+               site["summer"]["species_detected"], site["winter"]["species_detected"],
+               c["both"], c["summer_only"], c["winter_only"]), 8.5, rgb=(0.3, 0.3, 0.35))
+    possible = summ.get("possible", {})
+    if possible and not flagged:
+        names = "; ".join("{} (not separable from {})".format(
+            e["species"], ", ".join(x for x in e["candidates"] if x != e["species"]) or "other species")
+            for e in list(possible.values())[:3])
+        p.para("Possible invasive fish, NOT confirmed: " + names + ".", 9, True, rgb=(0.55, 0.42, 0.0))
+
+    # source
+    p.heading("Source and sample dates")
+    first = results[0]["metadata"]
+    where = site["location"]
+    if site.get("latitude") is not None:
+        where += " ({:.4f}, {:.4f})".format(site["latitude"], site["longitude"])
+    p.para("Place: {}.   Summer: {} sample(s) collected {}.   Winter: {} sample(s) collected {}.".format(
+        where, site["summer"]["samples"], ", ".join(site["summer"]["dates"]),
+        site["winter"]["samples"], ", ".join(site["winter"]["dates"])), 9.5)
+    p.para("Public archive: {} ({}). Runs: {}.".format(
+        first.get("bioproject", ""), first.get("dataset_title", ""),
+        ", ".join(site["summer"]["sample_ids"] + site["winter"]["sample_ids"])), 8.5)
+
+    # uncertainty
+    p.heading("Uncertainty and missing coverage")
+    def read_share(rs: List[Dict[str, Any]]) -> str:
+        tot = sum(max(r["reads_total"], 1) for r in rs)
+        named = sum(r["summary"]["kept"]["reads"] for r in rs)
+        return "{:.0%}".format(named / tot)
+    by = {"summer": [r for r in results if r["sample_id"] in site["summer"]["sample_ids"]],
+          "winter": [r for r in results if r["sample_id"] in site["winter"]["sample_ids"]]}
+    bullets = [
+        "Sample quality - summer: {}. Winter: {}. Reads named to a species: {} (summer), {} (winter); the rest were "
+        "dropped by quality checks or could not be named.".format(
+            ", ".join(sorted(set(site["summer"]["verdicts"]))), ", ".join(sorted(set(site["winter"]["verdicts"]))),
+            read_share(by["summer"]), read_share(by["winter"])),
+        "Only fish in the reference list ({:,} species) can be named. A fish missing from it appears as unknown, "
+        "never under a wrong name; unknown sequences are queued for expert review.".format(
+            results[0]["reference"]["species"]),
+        "A season with poorer reads can show fewer species because of the data, not because of the water.",
+    ]
+    if site.get("coordinate_note"):
+        bullets.append("Map pin: " + site["coordinate_note"] + ".")
+    for b in bullets:
+        p.para("-  " + b, 9, x=MARGIN + 4, width=PAGE_W - 2 * MARGIN - 8)
+
+    p.rect(MARGIN, 52, PAGE_W - 2 * MARGIN, 0.6, (0.7, 0.72, 0.75))
+    p.text(MARGIN, 40, _latin("Generated live from real public sequence data. Reference: " +
+                              (reference_note or "RefSeq fish mitogenomes (MiFish-U amplicon)")), 7.5, False,
+           (0.4, 0.4, 0.45))
+    p.text(MARGIN, 30, "Invasive-species listing: IUCN Global Invasive Species Database (iucngisd.org). "
+                       "Thresholds: bioradar/adjudicate/thresholds.json.", 7.5, False, (0.4, 0.4, 0.45))
+    if p.truncated:
+        p.text(MARGIN, FOOTER_TOP - 2, "Some detail was cut to keep this report to one page; see the app for the full result.",
+               7.5, False, (0.55, 0.42, 0.0))
     return p.to_pdf()

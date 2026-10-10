@@ -535,12 +535,17 @@
         '<p class="hint">Season rule (set in thresholds.json): ' + esc(JSON.stringify(doc.season_rule.value)) + ". " +
         esc(doc.season_rule.why) + "</p>" +
         seasonQuality(site) +
+        '<div class="card-foot">' + UI.button("Print officer report for this site (PDF)", { variant: "primary", id: "adjSitePdf", icon: "download" }) +
+        '<span class="hint">One page: animals, risk, source and dates, uncertainty, what to do.</span></div>' +
         '<div id="adjSeasonMap" class="adj-map short"></div>' +
         (site.coordinate_note ? '<p class="hint">Note: ' + esc(site.coordinate_note) + ".</p>" : "")) +
       UI.card('<div class="adj-two"><div><h3 class="adj-h3">Newly detected in ' + cur + "</h3>" + list(fresh, cur, true) + "</div>" +
         "<div><h3 class=\"adj-h3\">Seen in " + other + ", not detected in " + cur + "</h3>" + list(missing, other, false) + "</div></div>" +
         "<h3 class=\"adj-h3\">Detected in " + cur + " (all)</h3>" + list(inCur, cur, true));
     document.getElementById("adjSeasonRange").addEventListener("input", function (e) { paintSeason(doc, siteIdx, +e.target.value); });
+    document.getElementById("adjSitePdf").addEventListener("click", function () {
+      window.open("/api/adjudicate/site-report/" + encodeURIComponent(site.location) + ".pdf", "_blank");
+    });
     if (window.L) {
       if (S.seasonMap) { S.seasonMap.remove(); S.seasonMap = null; }
       var el = document.getElementById("adjSeasonMap");
