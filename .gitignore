@@ -87,6 +87,6 @@ node_modules/
 
 # Real challenge dataset: raw reads and downloaded references are re-fetched and
 # md5-verified by `python -m bioradar.adjudicate.fetch all`. The manifest is committed.
-data/real_challenge/raw/
-data/real_challenge/cache/
+data/real_challenge/datasets/*/raw/
+data/real_challenge/reference/cache/
 data/real_challenge/results/

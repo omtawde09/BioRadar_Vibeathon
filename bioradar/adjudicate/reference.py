@@ -19,8 +19,8 @@ from typing import Any, Dict, List, NamedTuple, Optional, Tuple
 from bioradar.adjudicate.seqio import read_records, revcomp
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-REF_DIR = REPO_ROOT / "data" / "real_challenge" / "reference_12s"
-CACHE_DIR = REPO_ROOT / "data" / "real_challenge" / "cache"
+REF_DIR = REPO_ROOT / "data" / "real_challenge" / "reference" / "refseq_fish_12s"
+CACHE_DIR = REPO_ROOT / "data" / "real_challenge" / "reference" / "cache"
 
 # MiFish-U primers (Miya et al. 2015). The reads in the chosen dataset contain
 # them, so the reference amplicon is cut from primer start to primer end.
@@ -115,7 +115,7 @@ def _fasta_with_headers(path: Path):
 
 
 def build() -> Dict[str, Any]:
-    """Build data/real_challenge/reference_12s/ from the downloaded RefSeq FASTA."""
+    """Build data/real_challenge/reference/refseq_fish_12s/ from the downloaded RefSeq FASTA."""
     REF_DIR.mkdir(parents=True, exist_ok=True)
     total = unresolved = 0
     rows = []

@@ -29,8 +29,9 @@ from bioradar.fetch_data import _urlopen  # TLS context that works behind AV pro
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "data" / "real_challenge"
-RAW_DIR = DATA_DIR / "raw"
-CACHE_DIR = DATA_DIR / "cache"
+DATASETS_DIR = DATA_DIR / "datasets"
+CACHE_DIR = DATA_DIR / "reference" / "cache"  # downloaded mitogenomes (not committed)
+RECORDS_FOLDER = "PRJEB108476_bge_records"
 
 PROJECT = "PRJNA1059782"
 ENA_FILEREPORT = "https://www.ebi.ac.uk/ena/portal/api/filereport"
@@ -98,6 +99,7 @@ def download_verified(url: str, destination: Path, md5: str) -> str:
 DATASETS = [
     {
         "bioproject": "PRJNA1059782",
+        "folder": "PRJNA1059782_pearl_river_12S",
         "title": "Real and mock estuarine fish data (12S MiFish-U)",
         "centre": "South China Agricultural University",
         "publication": "Chen J. et al. 2025, Global Ecology and Conservation 64:e03906, "
@@ -108,6 +110,7 @@ DATASETS = [
     },
     {
         "bioproject": "PRJNA1433820",
+        "folder": "PRJNA1433820_martapura_12S",
         "title": "eDNA metabarcoding of freshwater fishes, Martapura River & irrigation (12S MiFish-U)",
         "centre": "Universitas Airlangga",
         "publication": "none listed in the archive record",
@@ -117,6 +120,7 @@ DATASETS = [
     },
     {
         "bioproject": "PRJNA1269473",
+        "folder": "PRJNA1269473_british_columbia_12S",
         "title": "eDNA metabarcoding (12S, MiFish-U), British Columbia",
         "centre": "see ENA record",
         "publication": "none listed in the archive record",
@@ -125,6 +129,7 @@ DATASETS = [
     },
     {
         "bioproject": "PRJNA985779",
+        "folder": "PRJNA985779_uk_12S",
         "title": "12S MiFish water sample metabarcode data, United Kingdom",
         "centre": "see ENA record",
         "publication": "none listed in the archive record",
@@ -132,6 +137,31 @@ DATASETS = [
         "used_for": "real field water blank, low yield",
     },
 ]
+
+
+def _write_dataset_folder(entry: Dict[str, Any]) -> None:
+    """A manifest and a plain-language README beside each dataset's reads."""
+    folder = DATASETS_DIR / entry["folder"]
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / "manifest.json").write_text(json.dumps(entry, indent=2), encoding="utf-8")
+    lines = [
+        "# {}".format(entry["title"]), "",
+        "- Public archive: {} ({})".format(entry["bioproject"], entry["ena_url"]),
+        "- Submitted by: {}".format(entry["centre"]),
+        "- Publication: {}".format(entry["publication"]),
+        "- Used for: {}".format(entry["used_for"]),
+        "- Runs here: {} (R1 reads only)".format(len(entry["runs"])), "",
+        "Files in `raw/` are the archive's original files, byte for byte, verified by md5 against the",
+        "archive. Nothing was created, trimmed, converted or edited. `manifest.json` lists every file's",
+        "source URL, md5, sample ID and the submitter's metadata.", "",
+        "| Run | Sample | Collected | Place | Reads (pairs) | File |", "|---|---|---|---|---|---|",
+    ]
+    for run in entry["runs"]:
+        lines.append("| {} | {} | {} | {} | {:,} | `{}` |".format(
+            run["run_accession"], run["sample_alias"], run["collection_date"] or "n/a",
+            run["location"] or "n/a", run["read_pairs"],
+            run["files"][0]["file"].rsplit("/", 1)[-1] if run["files"] else "-"))
+    (folder / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Path:
@@ -151,10 +181,11 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
                 if str(index) not in mates:
                     continue
                 name = url.rsplit("/", 1)[-1]
-                status = download_verified("https://" + url, RAW_DIR / name, md5)
+                raw_dir = DATASETS_DIR / ds["folder"] / "raw"
+                status = download_verified("https://" + url, raw_dir / name, md5)
                 print("  {:<11} {:<30} {:>6.1f} MB".format(status, name, int(size) / 1e6),
                       flush=True)
-                files.append({"file": "raw/" + name, "mate": index, "md5": md5,
+                files.append({"file": "datasets/{}/raw/{}".format(ds["folder"], name), "mate": index, "md5": md5,
                               "bytes": int(size), "source_url": "https://" + url})
             records.append({
                 "run_accession": row["run_accession"],
@@ -170,8 +201,10 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
                 "read_pairs": int(row["read_count"] or 0),
                 "files": files,
             })
-        out_sets.append(dict(ds, ena_url="https://www.ebi.ac.uk/ena/browser/view/" + ds["bioproject"],
-                             runs=records))
+        entry = dict(ds, ena_url="https://www.ebi.ac.uk/ena/browser/view/" + ds["bioproject"],
+                     runs=records)
+        out_sets.append(entry)
+        _write_dataset_folder(entry)
     manifest = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "mates_downloaded": "R1 only. Originals are stored unmodified and verified by md5; "
@@ -340,7 +373,7 @@ def fetch_records() -> Path:
         "accession": "PRJEB108476", "result": "read_run", "format": "tsv",
         "fields": "run_accession,sample_accession,sample_alias,scientific_name,collection_date,"
                   "country,location,lat,lon,read_count,fastq_md5,experiment_title,first_public"})
-    target = DATA_DIR / "records" / "PRJEB108476_runs.tsv"
+    target = DATASETS_DIR / RECORDS_FOLDER / "records" / "PRJEB108476_runs.tsv"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(_get("{}?{}".format(ENA_FILEREPORT, query)))
     return target

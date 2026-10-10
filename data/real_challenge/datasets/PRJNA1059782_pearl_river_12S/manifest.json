@@ -1,0 +1,1045 @@
+{
+  "bioproject": "PRJNA1059782",
+  "folder": "PRJNA1059782_pearl_river_12S",
+  "title": "Real and mock estuarine fish data (12S MiFish-U)",
+  "centre": "South China Agricultural University",
+  "publication": "Chen J. et al. 2025, Global Ecology and Conservation 64:e03906, doi:10.1016/j.gecco.2025.e03906",
+  "runs": [
+    {
+      "run_accession": "SRR27401754",
+      "biosample": "SAMN39214961",
+      "sample_alias": "A1",
+      "collection_date": "2019",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:HongQimen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 123979,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401754_1.fastq.gz",
+          "mate": 1,
+          "md5": "56196ae3ea2d3ff525e78c61f589a944",
+          "bytes": 3387835,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/054/SRR27401754/SRR27401754_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401753",
+      "biosample": "SAMN39214962",
+      "sample_alias": "A2",
+      "collection_date": "2019",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:HongQimen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 127829,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401753_1.fastq.gz",
+          "mate": 1,
+          "md5": "15764e01eaf210c2dded851f61913635",
+          "bytes": 3468310,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/053/SRR27401753/SRR27401753_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401752",
+      "biosample": "SAMN39214963",
+      "sample_alias": "A3",
+      "collection_date": "2019",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:HongQimen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 125012,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401752_1.fastq.gz",
+          "mate": 1,
+          "md5": "fb2f96dbfa57defbf0eb5c03f49acf33",
+          "bytes": 3403430,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/052/SRR27401752/SRR27401752_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401751",
+      "biosample": "SAMN39214964",
+      "sample_alias": "B1",
+      "collection_date": "2019",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Humen",
+        "samp_size": "30 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 131978,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401751_1.fastq.gz",
+          "mate": 1,
+          "md5": "c7ba68d47b22880ddab4b173af0b6052",
+          "bytes": 3141272,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/051/SRR27401751/SRR27401751_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401750",
+      "biosample": "SAMN39214965",
+      "sample_alias": "B2",
+      "collection_date": "2019",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Humen",
+        "samp_size": "30 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 124861,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401750_1.fastq.gz",
+          "mate": 1,
+          "md5": "fc96115706fd53cd622ad6d1dc84940e",
+          "bytes": 3014148,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/050/SRR27401750/SRR27401750_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401749",
+      "biosample": "SAMN39214966",
+      "sample_alias": "B3",
+      "collection_date": "2019",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "equal concentration gradient",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Humen",
+        "samp_size": "30 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 129264,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401749_1.fastq.gz",
+          "mate": 1,
+          "md5": "955990d79f0640fab42396773346f98d",
+          "bytes": 3101487,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/049/SRR27401749/SRR27401749_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401748",
+      "biosample": "SAMN39214967",
+      "sample_alias": "C1",
+      "collection_date": "2019",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jiaomen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 126962,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401748_1.fastq.gz",
+          "mate": 1,
+          "md5": "29a262dbfc051fd3843d43c28164e118",
+          "bytes": 3217424,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/048/SRR27401748/SRR27401748_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401747",
+      "biosample": "SAMN39214968",
+      "sample_alias": "C2",
+      "collection_date": "2019",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jiaomen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 127397,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401747_1.fastq.gz",
+          "mate": 1,
+          "md5": "32710407a52cde593c362921f0a41ab1",
+          "bytes": 3240527,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/047/SRR27401747/SRR27401747_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401746",
+      "biosample": "SAMN39214969",
+      "sample_alias": "C3",
+      "collection_date": "2019",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Jiaomen",
+        "samp_size": "15 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 124386,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401746_1.fastq.gz",
+          "mate": 1,
+          "md5": "c445c1df81660feb629b8ac2f206e2c5",
+          "bytes": 3159034,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/046/SRR27401746/SRR27401746_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401744",
+      "biosample": "SAMN39214970",
+      "sample_alias": "D1",
+      "collection_date": "2019",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jitimen",
+        "samp_size": "30 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 126574,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401744_1.fastq.gz",
+          "mate": 1,
+          "md5": "5148203f2b2471981874280e56727452",
+          "bytes": 2914363,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/044/SRR27401744/SRR27401744_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401743",
+      "biosample": "SAMN39214971",
+      "sample_alias": "D2",
+      "collection_date": "2019",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jitimen",
+        "samp_size": "30 fish",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 126979,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401743_1.fastq.gz",
+          "mate": 1,
+          "md5": "f46a8359fb648656fbe4f8c565b70986",
+          "bytes": 2957487,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/043/SRR27401743/SRR27401743_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401742",
+      "biosample": "SAMN39214972",
+      "sample_alias": "D3",
+      "collection_date": "2019",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "",
+        ""
+      ],
+      "design_note_from_submitter": "abundances spanning four orders of magnitude",
+      "biosample_attributes": {
+        "collection_date": "2019",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Jitimen",
+        "lat_lon": "not collected",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 125951,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401742_1.fastq.gz",
+          "mate": 1,
+          "md5": "0c41449ef53e9268288c4bef06a924bf",
+          "bytes": 2877387,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/042/SRR27401742/SRR27401742_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401756",
+      "biosample": "SAMN39214942",
+      "sample_alias": "HQD1",
+      "collection_date": "2019-11",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:HongQimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 125769,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401756_1.fastq.gz",
+          "mate": 1,
+          "md5": "f9c33428e2d9019f5a281511762b66cb",
+          "bytes": 3996055,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/056/SRR27401756/SRR27401756_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401741",
+      "biosample": "SAMN39214944",
+      "sample_alias": "HQD2",
+      "collection_date": "2019-11",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:HongQimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 112715,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401741_1.fastq.gz",
+          "mate": 1,
+          "md5": "c2a24ee0a0e65733f31fe656c54c206f",
+          "bytes": 3942125,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/041/SRR27401741/SRR27401741_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401768",
+      "biosample": "SAMN39214940",
+      "sample_alias": "HQX1",
+      "collection_date": "2019-08",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:HongQimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 97749,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401768_1.fastq.gz",
+          "mate": 1,
+          "md5": "03dd162f7f1c193d59cc34dd71b026eb",
+          "bytes": 3346422,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/068/SRR27401768/SRR27401768_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401767",
+      "biosample": "SAMN39214941",
+      "sample_alias": "HQX2",
+      "collection_date": "2019-08",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:HongQimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 90848,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401767_1.fastq.gz",
+          "mate": 1,
+          "md5": "6bb82600ced807907781f9b24d1bc8cd",
+          "bytes": 2840612,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/067/SRR27401767/SRR27401767_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401745",
+      "biosample": "SAMN39214943",
+      "sample_alias": "HQX3",
+      "collection_date": "2019-08",
+      "location": "China:HongQimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:HongQimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 100826,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401745_1.fastq.gz",
+          "mate": 1,
+          "md5": "686becc9c47f39f1a8f480492aa17692",
+          "bytes": 3189188,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/045/SRR27401745/SRR27401745_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401739",
+      "biosample": "SAMN39214946",
+      "sample_alias": "HUD1",
+      "collection_date": "2019-11",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 95311,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401739_1.fastq.gz",
+          "mate": 1,
+          "md5": "3d4167a513f93194ace4e6eae4b24884",
+          "bytes": 3152826,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/039/SRR27401739/SRR27401739_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401738",
+      "biosample": "SAMN39214947",
+      "sample_alias": "HUD2",
+      "collection_date": "2019-11",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 128125,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401738_1.fastq.gz",
+          "mate": 1,
+          "md5": "20d30ee8bf307b063589598e2ec330d2",
+          "bytes": 11144239,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/038/SRR27401738/SRR27401738_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401736",
+      "biosample": "SAMN39214949",
+      "sample_alias": "HUD3",
+      "collection_date": "2019-11",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 98518,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401736_1.fastq.gz",
+          "mate": 1,
+          "md5": "87bfca16dd1bd038406aa469c6444401",
+          "bytes": 8522745,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/036/SRR27401736/SRR27401736_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401740",
+      "biosample": "SAMN39214945",
+      "sample_alias": "HUX1",
+      "collection_date": "2019-08",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 147492,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401740_1.fastq.gz",
+          "mate": 1,
+          "md5": "7eaca191246e9e1ef9b0c9b9f77a12bd",
+          "bytes": 14219461,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/040/SRR27401740/SRR27401740_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401737",
+      "biosample": "SAMN39214948",
+      "sample_alias": "HUX2",
+      "collection_date": "2019-08",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 417953,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401737_1.fastq.gz",
+          "mate": 1,
+          "md5": "e93cda57698f7f90145aace9267093fc",
+          "bytes": 39964219,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/037/SRR27401737/SRR27401737_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401766",
+      "biosample": "SAMN39214950",
+      "sample_alias": "HUX3",
+      "collection_date": "2019-08",
+      "location": "China:Humen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Humen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 97164,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401766_1.fastq.gz",
+          "mate": 1,
+          "md5": "7aa74dd787369e618d62c09eb34a139d",
+          "bytes": 9297647,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/066/SRR27401766/SRR27401766_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401765",
+      "biosample": "SAMN39214951",
+      "sample_alias": "JMD1",
+      "collection_date": "2019-11",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 239078,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401765_1.fastq.gz",
+          "mate": 1,
+          "md5": "990f8379b92382fe47835aaf74ebeccd",
+          "bytes": 24513828,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/065/SRR27401765/SRR27401765_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401764",
+      "biosample": "SAMN39214952",
+      "sample_alias": "JMD2",
+      "collection_date": "2019-11",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 152398,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401764_1.fastq.gz",
+          "mate": 1,
+          "md5": "a0c18c6eea710533c95249c9937802a5",
+          "bytes": 13343293,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/064/SRR27401764/SRR27401764_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401762",
+      "biosample": "SAMN39214954",
+      "sample_alias": "JMD3",
+      "collection_date": "2019-11",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 80552,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401762_1.fastq.gz",
+          "mate": 1,
+          "md5": "716bb69e01b3234a49bd412b5e3afe79",
+          "bytes": 7042252,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/062/SRR27401762/SRR27401762_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401763",
+      "biosample": "SAMN39214953",
+      "sample_alias": "JMX1",
+      "collection_date": "2019-08",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 148962,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401763_1.fastq.gz",
+          "mate": 1,
+          "md5": "c72b6e6f56ddb92228b47a3342256ccb",
+          "bytes": 14298691,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/063/SRR27401763/SRR27401763_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401761",
+      "biosample": "SAMN39214955",
+      "sample_alias": "JMX2",
+      "collection_date": "2019-08",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 59412,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401761_1.fastq.gz",
+          "mate": 1,
+          "md5": "7a6b4a26dadbb1ba817deae9a55aaaae",
+          "bytes": 5777670,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/061/SRR27401761/SRR27401761_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401760",
+      "biosample": "SAMN39214956",
+      "sample_alias": "JMX3",
+      "collection_date": "2019-08",
+      "location": "China:Jiaomen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 3",
+        "geo_loc_name": "China:Jiaomen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 135396,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401760_1.fastq.gz",
+          "mate": 1,
+          "md5": "ae4073c7fe15a3ec8ac2fcf271a016e2",
+          "bytes": 12653406,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/060/SRR27401760/SRR27401760_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401759",
+      "biosample": "SAMN39214957",
+      "sample_alias": "JTD1",
+      "collection_date": "2019-11",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jitimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 105448,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401759_1.fastq.gz",
+          "mate": 1,
+          "md5": "c45d2e6904cb354234f1951bd9681dfc",
+          "bytes": 3275312,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/059/SRR27401759/SRR27401759_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401757",
+      "biosample": "SAMN39214959",
+      "sample_alias": "JTD2",
+      "collection_date": "2019-11",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-11",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jitimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 77289,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401757_1.fastq.gz",
+          "mate": 1,
+          "md5": "d0dfaea3cba8a514b6af6b65b3f088af",
+          "bytes": 2330567,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/057/SRR27401757/SRR27401757_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401758",
+      "biosample": "SAMN39214958",
+      "sample_alias": "JTX1",
+      "collection_date": "2019-08",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 1",
+        "geo_loc_name": "China:Jitimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 63167,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401758_1.fastq.gz",
+          "mate": 1,
+          "md5": "b9915a53b887ba863848196a0e1fe18f",
+          "bytes": 2126372,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/058/SRR27401758/SRR27401758_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR27401755",
+      "biosample": "SAMN39214960",
+      "sample_alias": "JTX2",
+      "collection_date": "2019-08",
+      "location": "China:Jitimen",
+      "latitude_longitude_as_deposited": [
+        "22.0",
+        "113.0"
+      ],
+      "design_note_from_submitter": "Metagenome or environmental sample from hydrozoan metagenome",
+      "biosample_attributes": {
+        "collection_date": "2019-08",
+        "replicate": "biological replicate 2",
+        "geo_loc_name": "China:Jitimen",
+        "lat_lon": "22 N 113 E",
+        "isolation_source": "water"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S seq of water sample",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 51157,
+      "files": [
+        {
+          "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401755_1.fastq.gz",
+          "mate": 1,
+          "md5": "ddc976cd380f19a85af87f9a2c3c2cb1",
+          "bytes": 1707502,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR274/055/SRR27401755/SRR27401755_1.fastq.gz"
+        }
+      ]
+    }
+  ],
+  "used_for": "mixed mock communities (A-D) and the same four sites sampled in summer (2019-08) and winter (2019-11)",
+  "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1059782"
+}

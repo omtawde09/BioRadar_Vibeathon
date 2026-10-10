@@ -199,6 +199,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("fetch")
+    sub.add_parser("verify")
     p_all = sub.add_parser("all")
     p_all.add_argument("--workers", type=int, default=4)
     p_all.add_argument("--force", action="store_true")
@@ -208,6 +209,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.cmd == "fetch":
         from bioradar.adjudicate import fetch
         return fetch.main(["all"])
+    if args.cmd == "verify":
+        from bioradar.adjudicate import compliance
+        return compliance.run()
     if args.cmd == "sample":
         r = run_sample(args.sample_id, force=True)
         print(r["verdict"], r["verdict_reasons"], r["seconds"], "s")

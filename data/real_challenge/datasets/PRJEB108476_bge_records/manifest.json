@@ -1,0 +1,16 @@
+{
+  "bioproject": "PRJEB108476",
+  "folder": "PRJEB108476_bge_records",
+  "title": "12S metabarcoding of water samples (Biodiversity Genomics Europe) - archive run records only",
+  "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJEB108476",
+  "source_query": "https://www.ebi.ac.uk/ena/portal/api/filereport?accession=PRJEB108476&result=read_run&format=tsv&fields=run_accession,sample_accession,sample_alias,scientific_name,collection_date,country,location,lat,lon,read_count,fastq_md5,experiment_title,first_public",
+  "files": [
+    {
+      "file": "records/PRJEB108476_runs.tsv",
+      "md5": "28a4f5635ead4b7e1a788c7ad62fc56d",
+      "rows": 5119
+    }
+  ],
+  "used_for": "data-guard checks on real archive metadata (duplicate sample ID, GPS boundary, future date). No reads from this project are analysed.",
+  "unmodified": "The TSV is the archive's response saved byte for byte; no record was edited. The guard only reads it."
+}

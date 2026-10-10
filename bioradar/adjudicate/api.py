@@ -10,6 +10,7 @@
     GET  /api/adjudicate/thresholds            every threshold with its rationale
     GET  /api/adjudicate/provenance            dataset manifest + reference version
     GET  /api/adjudicate/report/<id>.pdf       one-page officer report, generated now
+    GET  /api/adjudicate/site-report/<place>.pdf   one-page report for a place, both seasons
 """
 
 from __future__ import annotations
@@ -26,6 +27,7 @@ from bioradar.adjudicate.thresholds import load
 Response = Tuple[int, bytes, str]
 
 _ID = re.compile(r"^[A-Za-z0-9_.-]{3,40}$")
+_SITE = re.compile(r"^[A-Za-z0-9 _.-]{1,60}$")
 
 
 def _json(status: int, payload: Any) -> Response:
@@ -73,6 +75,18 @@ def get(path: str) -> Response:
         if _ID.match(sid) and path_csv.is_file():
             return 200, path_csv.read_bytes(), "text/csv; charset=utf-8"
         return _json(404, {"error": "no such file"})
+    if len(parts) == 2 and parts[0] == "site-report" and parts[1].endswith(".pdf"):
+        location = unquote(parts[1][:-4])
+        seasons_file = runner.RESULTS_DIR / "seasons.json"
+        if not _SITE.match(location) or not seasons_file.is_file():
+            return _json(404, {"error": "unknown site"})
+        doc = json.loads(seasons_file.read_text(encoding="utf-8"))
+        site = next((s for s in doc["sites"] if s["location"] == location), None)
+        if site is None:
+            return _json(404, {"error": "no site with both seasons"})
+        results = [runner.run_sample(i) for i in site["summer"]["sample_ids"] + site["winter"]["sample_ids"]]
+        ref = json.loads((REF_DIR / "reference.json").read_text(encoding="utf-8"))
+        return 200, report.build_site_pdf(site, results, ref.get("reference_database_version", "")), "application/pdf"
     if len(parts) == 2 and parts[0] == "report" and parts[1].endswith(".pdf"):
         sid = unquote(parts[1][:-4])
         if not _ID.match(sid):

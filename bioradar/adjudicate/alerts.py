@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "data" / "real_challenge"
-INVASIVE_FILE = DATA_DIR / "invasive_species.json"
+INVASIVE_FILE = DATA_DIR / "lists" / "invasive_species.json"
 RESULTS_DIR = DATA_DIR / "results"
 ALERT_LOG = RESULTS_DIR / "alert_log.jsonl"
 
