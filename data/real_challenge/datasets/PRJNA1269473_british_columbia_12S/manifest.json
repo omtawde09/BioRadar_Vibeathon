@@ -1,0 +1,69 @@
+{
+  "bioproject": "PRJNA1269473",
+  "folder": "PRJNA1269473_british_columbia_12S",
+  "title": "eDNA metabarcoding (12S, MiFish-U), British Columbia",
+  "centre": "see ENA record",
+  "publication": "none listed in the archive record",
+  "runs": [
+    {
+      "run_accession": "SRR33845265",
+      "biosample": "SAMN48850149",
+      "sample_alias": "GSS356",
+      "collection_date": "2021-09-12",
+      "location": "Canada: British Columbia",
+      "latitude_longitude_as_deposited": [
+        "51.95327",
+        "-128.241836"
+      ],
+      "design_note_from_submitter": "Keywords: GSC:MIxS MIMARKS:6.0",
+      "biosample_attributes": {
+        "collection_date": "2021-09-12",
+        "geo_loc_name": "Canada: British Columbia",
+        "lat_lon": "51.95327 N 128.241836 W"
+      },
+      "experiment": "Illumina MiSeq sequencing: eDNA metabarcoding (12S, MiFish-U)",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 361,
+      "files": [
+        {
+          "file": "datasets/PRJNA1269473_british_columbia_12S/raw/SRR33845265_1.fastq.gz",
+          "mate": 1,
+          "md5": "fc45c8f81d259323af4032988e20683a",
+          "bytes": 36138,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR338/065/SRR33845265/SRR33845265_1.fastq.gz"
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR33845234",
+      "biosample": "SAMN48850263",
+      "sample_alias": "GSS471",
+      "collection_date": "2021-09-13",
+      "location": "Canada: British Columbia",
+      "latitude_longitude_as_deposited": [
+        "51.403159",
+        "-127.713662"
+      ],
+      "design_note_from_submitter": "Keywords: GSC:MIxS MIMARKS:6.0",
+      "biosample_attributes": {
+        "collection_date": "2021-09-13",
+        "geo_loc_name": "Canada: British Columbia",
+        "lat_lon": "51.403159 N 127.713662 W"
+      },
+      "experiment": "Illumina MiSeq sequencing: eDNA metabarcoding (12S, MiFish-U)",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 814,
+      "files": [
+        {
+          "file": "datasets/PRJNA1269473_british_columbia_12S/raw/SRR33845234_1.fastq.gz",
+          "mate": 1,
+          "md5": "6748de9439e395c66d474cbad8284aa3",
+          "bytes": 111347,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR338/034/SRR33845234/SRR33845234_1.fastq.gz"
+        }
+      ]
+    }
+  ],
+  "used_for": "real low-yield field samples (a few hundred reads): unusable, retake",
+  "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1269473"
+}

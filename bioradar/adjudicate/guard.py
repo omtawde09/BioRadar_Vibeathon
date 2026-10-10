@@ -31,7 +31,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "data" / "real_challenge"
-RECORDS_TSV = DATA_DIR / "records" / "PRJEB108476_runs.tsv"
+RECORDS_TSV = DATA_DIR / "datasets" / "PRJEB108476_bge_records" / "records" / "PRJEB108476_runs.tsv"
 BOUNDARY_FILE = DATA_DIR / "boundary" / "litoral_norte.geojson"
 
 RULES = {

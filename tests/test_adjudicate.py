@@ -18,9 +18,9 @@ from bioradar.adjudicate.thresholds import load
 
 T = load()
 DATA = Path(__file__).resolve().parents[1] / "data" / "real_challenge"
-REAL_POOR = DATA / "raw" / "SRR33845265_1.fastq.gz"
-REAL_MIXED = DATA / "raw" / "SRR27401753_1.fastq.gz"
-HAVE_REAL = REAL_POOR.is_file() and (DATA / "reference_12s" / "reference.fasta").is_file()
+REAL_POOR = DATA / "datasets" / "PRJNA1269473_british_columbia_12S" / "raw" / "SRR33845265_1.fastq.gz"
+REAL_MIXED = DATA / "datasets" / "PRJNA1059782_pearl_river_12S" / "raw" / "SRR27401753_1.fastq.gz"
+HAVE_REAL = REAL_POOR.is_file() and (DATA / "reference" / "refseq_fish_12s" / "reference.fasta").is_file()
 needs_real = pytest.mark.skipif(not HAVE_REAL, reason="real dataset not fetched")
 
 

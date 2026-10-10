@@ -1,9 +1,10 @@
 {
-  "retrieved_at": "2026-10-10T07:44:26+00:00",
+  "retrieved_at": "2026-10-10T08:01:21+00:00",
   "mates_downloaded": "R1 only. Originals are stored unmodified and verified by md5; no sequence or metadata record has been created or edited.",
   "datasets": [
     {
       "bioproject": "PRJNA1059782",
+      "folder": "PRJNA1059782_pearl_river_12S",
       "title": "Real and mock estuarine fish data (12S MiFish-U)",
       "centre": "South China Agricultural University",
       "publication": "Chen J. et al. 2025, Global Ecology and Conservation 64:e03906, doi:10.1016/j.gecco.2025.e03906",
@@ -32,7 +33,7 @@
           "read_pairs": 123979,
           "files": [
             {
-              "file": "raw/SRR27401754_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401754_1.fastq.gz",
               "mate": 1,
               "md5": "56196ae3ea2d3ff525e78c61f589a944",
               "bytes": 3387835,
@@ -64,7 +65,7 @@
           "read_pairs": 127829,
           "files": [
             {
-              "file": "raw/SRR27401753_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401753_1.fastq.gz",
               "mate": 1,
               "md5": "15764e01eaf210c2dded851f61913635",
               "bytes": 3468310,
@@ -96,7 +97,7 @@
           "read_pairs": 125012,
           "files": [
             {
-              "file": "raw/SRR27401752_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401752_1.fastq.gz",
               "mate": 1,
               "md5": "fb2f96dbfa57defbf0eb5c03f49acf33",
               "bytes": 3403430,
@@ -128,7 +129,7 @@
           "read_pairs": 131978,
           "files": [
             {
-              "file": "raw/SRR27401751_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401751_1.fastq.gz",
               "mate": 1,
               "md5": "c7ba68d47b22880ddab4b173af0b6052",
               "bytes": 3141272,
@@ -160,7 +161,7 @@
           "read_pairs": 124861,
           "files": [
             {
-              "file": "raw/SRR27401750_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401750_1.fastq.gz",
               "mate": 1,
               "md5": "fc96115706fd53cd622ad6d1dc84940e",
               "bytes": 3014148,
@@ -192,7 +193,7 @@
           "read_pairs": 129264,
           "files": [
             {
-              "file": "raw/SRR27401749_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401749_1.fastq.gz",
               "mate": 1,
               "md5": "955990d79f0640fab42396773346f98d",
               "bytes": 3101487,
@@ -224,7 +225,7 @@
           "read_pairs": 126962,
           "files": [
             {
-              "file": "raw/SRR27401748_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401748_1.fastq.gz",
               "mate": 1,
               "md5": "29a262dbfc051fd3843d43c28164e118",
               "bytes": 3217424,
@@ -256,7 +257,7 @@
           "read_pairs": 127397,
           "files": [
             {
-              "file": "raw/SRR27401747_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401747_1.fastq.gz",
               "mate": 1,
               "md5": "32710407a52cde593c362921f0a41ab1",
               "bytes": 3240527,
@@ -288,7 +289,7 @@
           "read_pairs": 124386,
           "files": [
             {
-              "file": "raw/SRR27401746_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401746_1.fastq.gz",
               "mate": 1,
               "md5": "c445c1df81660feb629b8ac2f206e2c5",
               "bytes": 3159034,
@@ -320,7 +321,7 @@
           "read_pairs": 126574,
           "files": [
             {
-              "file": "raw/SRR27401744_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401744_1.fastq.gz",
               "mate": 1,
               "md5": "5148203f2b2471981874280e56727452",
               "bytes": 2914363,
@@ -352,7 +353,7 @@
           "read_pairs": 126979,
           "files": [
             {
-              "file": "raw/SRR27401743_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401743_1.fastq.gz",
               "mate": 1,
               "md5": "f46a8359fb648656fbe4f8c565b70986",
               "bytes": 2957487,
@@ -383,7 +384,7 @@
           "read_pairs": 125951,
           "files": [
             {
-              "file": "raw/SRR27401742_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401742_1.fastq.gz",
               "mate": 1,
               "md5": "0c41449ef53e9268288c4bef06a924bf",
               "bytes": 2877387,
@@ -414,7 +415,7 @@
           "read_pairs": 125769,
           "files": [
             {
-              "file": "raw/SRR27401756_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401756_1.fastq.gz",
               "mate": 1,
               "md5": "f9c33428e2d9019f5a281511762b66cb",
               "bytes": 3996055,
@@ -445,7 +446,7 @@
           "read_pairs": 112715,
           "files": [
             {
-              "file": "raw/SRR27401741_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401741_1.fastq.gz",
               "mate": 1,
               "md5": "c2a24ee0a0e65733f31fe656c54c206f",
               "bytes": 3942125,
@@ -476,7 +477,7 @@
           "read_pairs": 97749,
           "files": [
             {
-              "file": "raw/SRR27401768_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401768_1.fastq.gz",
               "mate": 1,
               "md5": "03dd162f7f1c193d59cc34dd71b026eb",
               "bytes": 3346422,
@@ -507,7 +508,7 @@
           "read_pairs": 90848,
           "files": [
             {
-              "file": "raw/SRR27401767_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401767_1.fastq.gz",
               "mate": 1,
               "md5": "6bb82600ced807907781f9b24d1bc8cd",
               "bytes": 2840612,
@@ -538,7 +539,7 @@
           "read_pairs": 100826,
           "files": [
             {
-              "file": "raw/SRR27401745_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401745_1.fastq.gz",
               "mate": 1,
               "md5": "686becc9c47f39f1a8f480492aa17692",
               "bytes": 3189188,
@@ -569,7 +570,7 @@
           "read_pairs": 95311,
           "files": [
             {
-              "file": "raw/SRR27401739_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401739_1.fastq.gz",
               "mate": 1,
               "md5": "3d4167a513f93194ace4e6eae4b24884",
               "bytes": 3152826,
@@ -600,7 +601,7 @@
           "read_pairs": 128125,
           "files": [
             {
-              "file": "raw/SRR27401738_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401738_1.fastq.gz",
               "mate": 1,
               "md5": "20d30ee8bf307b063589598e2ec330d2",
               "bytes": 11144239,
@@ -631,7 +632,7 @@
           "read_pairs": 98518,
           "files": [
             {
-              "file": "raw/SRR27401736_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401736_1.fastq.gz",
               "mate": 1,
               "md5": "87bfca16dd1bd038406aa469c6444401",
               "bytes": 8522745,
@@ -662,7 +663,7 @@
           "read_pairs": 147492,
           "files": [
             {
-              "file": "raw/SRR27401740_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401740_1.fastq.gz",
               "mate": 1,
               "md5": "7eaca191246e9e1ef9b0c9b9f77a12bd",
               "bytes": 14219461,
@@ -693,7 +694,7 @@
           "read_pairs": 417953,
           "files": [
             {
-              "file": "raw/SRR27401737_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401737_1.fastq.gz",
               "mate": 1,
               "md5": "e93cda57698f7f90145aace9267093fc",
               "bytes": 39964219,
@@ -724,7 +725,7 @@
           "read_pairs": 97164,
           "files": [
             {
-              "file": "raw/SRR27401766_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401766_1.fastq.gz",
               "mate": 1,
               "md5": "7aa74dd787369e618d62c09eb34a139d",
               "bytes": 9297647,
@@ -755,7 +756,7 @@
           "read_pairs": 239078,
           "files": [
             {
-              "file": "raw/SRR27401765_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401765_1.fastq.gz",
               "mate": 1,
               "md5": "990f8379b92382fe47835aaf74ebeccd",
               "bytes": 24513828,
@@ -786,7 +787,7 @@
           "read_pairs": 152398,
           "files": [
             {
-              "file": "raw/SRR27401764_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401764_1.fastq.gz",
               "mate": 1,
               "md5": "a0c18c6eea710533c95249c9937802a5",
               "bytes": 13343293,
@@ -817,7 +818,7 @@
           "read_pairs": 80552,
           "files": [
             {
-              "file": "raw/SRR27401762_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401762_1.fastq.gz",
               "mate": 1,
               "md5": "716bb69e01b3234a49bd412b5e3afe79",
               "bytes": 7042252,
@@ -848,7 +849,7 @@
           "read_pairs": 148962,
           "files": [
             {
-              "file": "raw/SRR27401763_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401763_1.fastq.gz",
               "mate": 1,
               "md5": "c72b6e6f56ddb92228b47a3342256ccb",
               "bytes": 14298691,
@@ -879,7 +880,7 @@
           "read_pairs": 59412,
           "files": [
             {
-              "file": "raw/SRR27401761_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401761_1.fastq.gz",
               "mate": 1,
               "md5": "7a6b4a26dadbb1ba817deae9a55aaaae",
               "bytes": 5777670,
@@ -910,7 +911,7 @@
           "read_pairs": 135396,
           "files": [
             {
-              "file": "raw/SRR27401760_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401760_1.fastq.gz",
               "mate": 1,
               "md5": "ae4073c7fe15a3ec8ac2fcf271a016e2",
               "bytes": 12653406,
@@ -941,7 +942,7 @@
           "read_pairs": 105448,
           "files": [
             {
-              "file": "raw/SRR27401759_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401759_1.fastq.gz",
               "mate": 1,
               "md5": "c45d2e6904cb354234f1951bd9681dfc",
               "bytes": 3275312,
@@ -972,7 +973,7 @@
           "read_pairs": 77289,
           "files": [
             {
-              "file": "raw/SRR27401757_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401757_1.fastq.gz",
               "mate": 1,
               "md5": "d0dfaea3cba8a514b6af6b65b3f088af",
               "bytes": 2330567,
@@ -1003,7 +1004,7 @@
           "read_pairs": 63167,
           "files": [
             {
-              "file": "raw/SRR27401758_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401758_1.fastq.gz",
               "mate": 1,
               "md5": "b9915a53b887ba863848196a0e1fe18f",
               "bytes": 2126372,
@@ -1034,7 +1035,7 @@
           "read_pairs": 51157,
           "files": [
             {
-              "file": "raw/SRR27401755_1.fastq.gz",
+              "file": "datasets/PRJNA1059782_pearl_river_12S/raw/SRR27401755_1.fastq.gz",
               "mate": 1,
               "md5": "ddc976cd380f19a85af87f9a2c3c2cb1",
               "bytes": 1707502,
@@ -1048,6 +1049,7 @@
     },
     {
       "bioproject": "PRJNA1433820",
+      "folder": "PRJNA1433820_martapura_12S",
       "title": "eDNA metabarcoding of freshwater fishes, Martapura River & irrigation (12S MiFish-U)",
       "centre": "Universitas Airlangga",
       "publication": "none listed in the archive record",
@@ -1073,7 +1075,7 @@
           "read_pairs": 232450,
           "files": [
             {
-              "file": "raw/SRR37521672_1.fastq.gz",
+              "file": "datasets/PRJNA1433820_martapura_12S/raw/SRR37521672_1.fastq.gz",
               "mate": 1,
               "md5": "aa4ff8b2d6a9b46093b4d1baf1241451",
               "bytes": 4460917,
@@ -1102,7 +1104,7 @@
           "read_pairs": 211573,
           "files": [
             {
-              "file": "raw/SRR37521667_1.fastq.gz",
+              "file": "datasets/PRJNA1433820_martapura_12S/raw/SRR37521667_1.fastq.gz",
               "mate": 1,
               "md5": "345722866e42ee12a41ce78820e146ab",
               "bytes": 4405638,
@@ -1116,6 +1118,7 @@
     },
     {
       "bioproject": "PRJNA1269473",
+      "folder": "PRJNA1269473_british_columbia_12S",
       "title": "eDNA metabarcoding (12S, MiFish-U), British Columbia",
       "centre": "see ENA record",
       "publication": "none listed in the archive record",
@@ -1141,7 +1144,7 @@
           "read_pairs": 361,
           "files": [
             {
-              "file": "raw/SRR33845265_1.fastq.gz",
+              "file": "datasets/PRJNA1269473_british_columbia_12S/raw/SRR33845265_1.fastq.gz",
               "mate": 1,
               "md5": "fc45c8f81d259323af4032988e20683a",
               "bytes": 36138,
@@ -1170,7 +1173,7 @@
           "read_pairs": 814,
           "files": [
             {
-              "file": "raw/SRR33845234_1.fastq.gz",
+              "file": "datasets/PRJNA1269473_british_columbia_12S/raw/SRR33845234_1.fastq.gz",
               "mate": 1,
               "md5": "6748de9439e395c66d474cbad8284aa3",
               "bytes": 111347,
@@ -1184,6 +1187,7 @@
     },
     {
       "bioproject": "PRJNA985779",
+      "folder": "PRJNA985779_uk_12S",
       "title": "12S MiFish water sample metabarcode data, United Kingdom",
       "centre": "see ENA record",
       "publication": "none listed in the archive record",
@@ -1209,7 +1213,7 @@
           "read_pairs": 343,
           "files": [
             {
-              "file": "raw/SRR25108818_1.fastq.gz",
+              "file": "datasets/PRJNA985779_uk_12S/raw/SRR25108818_1.fastq.gz",
               "mate": 1,
               "md5": "2cbe5c38e6bc51dc2fd068330fe94791",
               "bytes": 29155,

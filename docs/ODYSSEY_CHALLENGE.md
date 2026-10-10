@@ -9,6 +9,7 @@ Branch: `challenge/odyssey-adjudication`. The QIIME2 / DADA2 / BLAST pipeline is
 ```bash
 python -m bioradar.adjudicate.runner fetch    # download real data + reference, md5-verified (once)
 python -m bioradar.adjudicate.runner all      # process every real sample (about 3 min cold, 2 s cached)
+python -m bioradar.adjudicate.runner verify   # check every condition of the brief -> data/real_challenge/COMPLIANCE.md
 python -m bioradar.webapp --port 8099         # open http://localhost:8099 -> Review
 ```
 
@@ -33,7 +34,8 @@ output instantly. **Re-run live** in the view recomputes one sample (15-35 s) wi
 
 ## Real data used (nothing created or edited)
 
-Manifest with accessions, URLs, md5 and the submitter's metadata: `data/real_challenge/manifest.json`.
+Layout, selection and compliance: [data/real_challenge/README.md](../data/real_challenge/README.md), `selection.json`, `COMPLIANCE.md`.
+Manifest with accessions, URLs, md5 and the submitter's metadata: `data/real_challenge/manifest.json` (and one per dataset folder).
 Reads are R1 only, stored unmodified.
 
 | Project | What it is | Used for |
@@ -45,7 +47,7 @@ Reads are R1 only, stored unmodified.
 | OpenStreetMap relation 6803599 "Litoral Norte" | protected-area polygon (ODbL) | GPS-boundary rule |
 
 Reference: NCBI RefSeq Actinopteri mitogenomes, retrieved 2026-10-10, 3,799 amplicons /
-3,694 species (`data/real_challenge/reference_12s/reference.json` holds the exact query and version).
+3,694 species (`data/real_challenge/reference/refseq_fish_12s/reference.json` holds the exact query and version).
 
 ## Demo map: scenario -> real sample
 

@@ -1,0 +1,49 @@
+{
+  "_about": "The documented dataset selection for the Odyssey challenge: which real public sample answers which condition of the brief, and why. All other samples under datasets/ are supporting inputs for the 'unseen sample' picker. compliance.py reads this file and checks each case against the actual results.",
+  "selection_policy": "Own selection from public archives (ENA/SRA). No other team's prepared test pack is used. No sequence or record was created or edited. Where the archive does not contain a requested case, the gap is reported rather than filled.",
+  "cases": {
+    "poor_quality": {
+      "sample_id": "SRR33845265",
+      "dataset": "datasets/PRJNA1269473_british_columbia_12S",
+      "why": "Real field sample with 361 reads: human DNA, short fragments, low-quality and unrelated sequences. Unusable, so the verdict must be Retake sample.",
+      "condition": "A poor-quality sample containing short fragments, many N bases, unrelated sequences, or human contamination; rejected with a written reason per sequence; unusable means 'Retake sample'."
+    },
+    "mixed": {
+      "sample_id": "SRR27401753",
+      "dataset": "datasets/PRJNA1059782_pearl_river_12S",
+      "why": "Mock community A2 (15 fish tissue DNAs, 'equal concentration gradient'). The archive states the number of fish mixed but the per-species table is in the linked paper, which could not be retrieved, so only the count is checked.",
+      "condition": "A mixed sample containing 5 identifiable species, with source-supported information to check the estimated share of each species."
+    },
+    "unknowns": {
+      "sample_id": "SRR37521672",
+      "dataset": "datasets/PRJNA1433820_martapura_12S",
+      "why": "Real freshwater sample with many fish not in the reference list and primer-dimer fragments.",
+      "condition": "Marks unrecognized sequences as unknown, shows the closest match and confidence, and places them in a review queue; never confirmed, never full confidence."
+    },
+    "bad_records": {
+      "dataset": "datasets/PRJEB108476_bge_records",
+      "why": "5,119 real archive run records from five countries; they contain future dates, repeated sample IDs, missing/outside GPS pins. Species double spellings come from real RefSeq names in the reference.",
+      "condition": "Real records with a duplicate sample ID, a GPS pin outside the selected boundary, a future date, and a species name with two spellings; reject or merge each with a written reason; the database stays clean."
+    },
+    "invasive": {
+      "sample_id": "SRR37521672",
+      "dataset": "datasets/PRJNA1433820_martapura_12S",
+      "why": "Real sample in which Nile tilapia and African catfish are detected at species level.",
+      "condition": "A real sample that crosses the danger rule raises an alert with map pin, species name and threat level."
+    },
+    "seasons": {
+      "dataset": "datasets/PRJNA1059782_pearl_river_12S",
+      "why": "Same four sites sampled in 2019-08 and 2019-11.",
+      "condition": "Real samples from the same location for two seasons, shown on a map with a season slider: detected, new, not detected, counts."
+    },
+    "report": {
+      "condition": "A button that prints a one-page PDF: animals detected, risk level, source and sample date, uncertainty or missing coverage, and the action for the officer."
+    }
+  },
+  "excluded_from_this_challenge": {
+    "data/demo_survey": "Simulated community generated from reference sequences: synthetic, not real data.",
+    "mock/": "Generated mock output (gitignored).",
+    "testing_data/": "Test pack that ships with the upstream eDNA pipeline; the brief forbids another team's prepared test pack.",
+    "data/india_goa, india_goa_reef, india_lakshadweep, indo_martapura": "Real public projects used by the QIIME2 pipeline path. Not reorganised here so that pipeline is not disturbed, and not used as challenge evidence."
+  }
+}

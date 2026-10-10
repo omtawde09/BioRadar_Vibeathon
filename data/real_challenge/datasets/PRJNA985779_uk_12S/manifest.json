@@ -1,0 +1,40 @@
+{
+  "bioproject": "PRJNA985779",
+  "folder": "PRJNA985779_uk_12S",
+  "title": "12S MiFish water sample metabarcode data, United Kingdom",
+  "centre": "see ENA record",
+  "publication": "none listed in the archive record",
+  "runs": [
+    {
+      "run_accession": "SRR25108818",
+      "biosample": "SAMN35809762",
+      "sample_alias": "St.1.water.blank",
+      "collection_date": "2021-08-10",
+      "location": "United Kingdom",
+      "latitude_longitude_as_deposited": [
+        "57.48",
+        "-1.38"
+      ],
+      "design_note_from_submitter": "Keywords: GSC:MIxS MIMS:6.0",
+      "biosample_attributes": {
+        "collection_date": "2021-08-10",
+        "geo_loc_name": "United Kingdom",
+        "lat_lon": "57.48 N 1.38 W"
+      },
+      "experiment": "Illumina MiSeq sequencing: 12S MiFish water sample metabarcode data",
+      "instrument": "Illumina MiSeq",
+      "read_pairs": 343,
+      "files": [
+        {
+          "file": "datasets/PRJNA985779_uk_12S/raw/SRR25108818_1.fastq.gz",
+          "mate": 1,
+          "md5": "2cbe5c38e6bc51dc2fd068330fe94791",
+          "bytes": 29155,
+          "source_url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR251/018/SRR25108818/SRR25108818_1.fastq.gz"
+        }
+      ]
+    }
+  ],
+  "used_for": "real field water blank, low yield",
+  "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA985779"
+}
