@@ -4,7 +4,8 @@ Role (from `BioRadar_Challenge_Workpack`): the challenge-facing **user flow, sea
 Owns `bioradar/webapp_static/` and the report presentation. Does **not** edit `webapp.py`, `contract.py`,
 `normalize.py`, `data/datasets.json` or the backend QC/data code (Person A).
 
-Branch: `challenge/odyssey-adjudication` on `origin` (https://github.com/omtawde09/BioRadar_Vibeathon).
+Branch: **`main`** on `origin` (https://github.com/omtawde09/BioRadar_Vibeathon). The earlier working branch `challenge/odyssey-adjudication`
+was fast-forward merged into `main` and deleted (decision: no separate branch; the QIIME2/DADA2/BLAST pipeline is untouched and runs as before).
 This file is updated and pushed after every phase.
 
 ## Status board
