@@ -159,6 +159,8 @@
     var request = force ? api("/api/adjudicate/sample/" + encodeURIComponent(id) + "/run", { method: "POST", body: "{}" })
                         : api("/api/adjudicate/sample/" + encodeURIComponent(id));
     request.then(function (r) {
+      return ensureProvenance().then(function () { return r; });
+    }).then(function (r) {
       clearInterval(S.timer);
       S.result = r;
       if (S.tab === "sample") paintSample(r);
@@ -173,6 +175,16 @@
     });
   }
 
+  function ensureProvenance() {
+    if (S.provenance) return Promise.resolve(S.provenance);
+    return api("/api/adjudicate/provenance").then(function (p) { S.provenance = p; return p; })
+      .catch(function () { return null; });
+  }
+
+  function refVersion() {
+    return S.provenance ? S.provenance.reference.reference_database_version : "not loaded";
+  }
+
   function showBanner(r) {
     var b = document.getElementById("adjBanner");
     if (!b) return;
@@ -182,7 +194,7 @@
       '<div class="adj-banner-level">' + esc(ev.level) + "</div>" +
       '<div class="adj-banner-main"><b>' + esc(ev.headline) + "</b>" +
       "<div>Pin " + pin(ev.pin) + " &middot; " + esc(ev.sample_label) + " &middot; " + UI.num(ev.reads) +
-      " reads &middot; confidence " + ev.confidence.toFixed(2) + "</div>" +
+      " reads &middot; match score " + ev.confidence.toFixed(2) + "</div>" +
       '<div class="adj-banner-act">' + esc(ev.action) + "</div></div></div>";
   }
 
@@ -226,6 +238,8 @@
       (r.dropped_csv ? '<a class="btn sm" href="/api/adjudicate/dropped/' + encodeURIComponent(r.sample_id) +
         '.csv">All dropped sequences (CSV)</a>' : "") +
       '<a class="btn sm" target="_blank" rel="noopener" href="' + esc(sourceUrl(r)) + '">Source record</a></div>');
+
+    html += sourceCard(r);
 
     // dropped reasons
     var reasons = Object.keys(r.drop_reasons);
@@ -294,6 +308,10 @@
     var flagged = {};
     (r.alerts || []).forEach(function (a) { flagged[a.species] = a; (a.candidates || []).forEach(function (c) { flagged[c] = a; }); });
     var mx = rows[0].share || 1;
+    var den = r.species.reduce(function (sum, x) { return sum + x.reads; }, 0);
+    var complexReads = r.species.filter(function (x) { return x.kind === "complex"; })
+      .reduce(function (sum, x) { return sum + x.reads; }, 0);
+    var novelReads = Math.max(0, r.summary.unknown.reads - complexReads);
     var out = '<div class="adj-bars">' + rows.map(function (x) {
       var bad = x.kind === "species" ? !!flagged[x.species] : (x.members || []).some(function (m) { return flagged[m]; });
       var color = x.kind === "complex" ? "var(--alert-neutral)" : bad ? "var(--alert-invasive)" : "var(--accent-primary)";
@@ -303,12 +321,68 @@
         (x.kind === "complex" ? ' <span class="badge info">cannot separate</span>' : "") + "</div>" +
         '<div class="adj-bar-track"><div class="adj-bar-fill" style="width:' + (100 * x.share / mx) +
         "%;background:" + color + '"></div></div>' +
-        '<div class="adj-bar-val">' + pct(x.share) + " &middot; conf " + x.confidence.toFixed(2) + "</div></div>";
+        '<div class="adj-bar-val"><b>' + UI.num(x.reads) + "</b> / " + UI.num(den) + " = " + pct(x.share) +
+        '<div class="hint">identity ' + pct(x.best_identity) + " &middot; score " + x.confidence.toFixed(2) + "</div></div></div>";
     }).join("") + "</div>";
     var trace = r.species.filter(function (x) { return x.status === "trace"; }).length;
-    return out + '<p class="hint">Share = share of reads that could be named. Confidence is capped below 1.0 for every call. ' +
-      "Species with fewer than 10 reads (" + trace + ") are listed as trace, not as detections. " +
-      "Two species whose 12S sequence cannot be told apart are shown together, never forced to one name.</p>";
+    return out + '<div class="adj-note adj-denominator"><b>How the share is calculated:</b> reads of the species &divide; ' +
+      UI.num(den) + " reads that could be named (species-level calls + groups the marker cannot separate). " +
+      "Left out of that denominator: " + UI.num(r.summary.dropped.reads) + " dropped reads and " + UI.num(novelReads) +
+      " reads of sequences too different from the reference to name, out of " + UI.num(r.reads_total) + " reads in the sample. " +
+      "A share is a proportion of DNA reads, not a count of animals or their biomass.</div>" +
+      '<p class="hint">Species with fewer than 10 reads (' + trace + ") are listed as trace, not as detections. " +
+      "Two species whose 12S sequence cannot be told apart are shown together, never forced to one name. " + scoreNote() + "</p>";
+  }
+
+  function scoreNote() {
+    return "Match score (0-1) is a heuristic built from identity and the gap to the next-best species: it falls 4 points per " +
+      "1% of identity lost, is halved when a different species is almost as close, and is capped (0.99 for a species call, " +
+      "0.60 for anything unconfirmed). It is not a calibrated probability.";
+  }
+
+  function dateCheck(text) {
+    var m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(String(text || ""));
+    if (!m) return { badge: "missing", text: "no collection date recorded" };
+    var precision = m[3] ? "day" : m[2] ? "month" : "year";
+    var d = new Date(Number(m[1]), m[2] ? Number(m[2]) - 1 : 0, m[3] ? Number(m[3]) : 1);
+    if (d.getTime() > Date.now()) return { badge: "high", text: "date is in the future" };
+    return { badge: precision === "year" ? "medium" : "healthy",
+             text: "not in the future; precision: " + precision +
+               (precision === "year" ? " only, so it cannot be assigned to a season" : "") };
+  }
+
+  function coordCheck(m) {
+    if (m.latitude === null || m.latitude === undefined) return { badge: "missing", text: "no GPS pin recorded" };
+    var ok = Math.abs(m.latitude) <= 90 && Math.abs(m.longitude) <= 180;
+    return { badge: ok ? (m.coordinate_note ? "medium" : "healthy") : "high",
+             text: ok ? "inside valid ranges" + (m.coordinate_note ? "; low precision: " + m.coordinate_note : "")
+                      : "outside valid latitude/longitude range" };
+  }
+
+  function checkBadge(c) {
+    var label = { healthy: "ok", medium: "note", high: "problem", missing: "missing" }[c.badge] || c.badge;
+    return '<span class="badge ' + c.badge + '">' + label + '</span> <span class="hint">' + esc(c.text) + "</span>";
+  }
+
+  function sourceCard(r) {
+    var m = r.metadata, ena = "https://www.ebi.ac.uk/ena/browser/view/";
+    var dc = dateCheck(m.collection_date), cc = coordCheck(m);
+    function row(k, v) { return "<dt>" + esc(k) + "</dt><dd>" + v + "</dd>"; }
+    return UI.card('<div class="card-head"><div><div class="hint">Where this sample comes from</div>' +
+      '<h2 class="adj-h2">Source and metadata</h2></div></div>' +
+      '<dl class="adj-dl">' +
+        row("Dataset", '<a target="_blank" rel="noopener" href="' + ena + encodeURIComponent(m.bioproject) + '">' + esc(m.bioproject) + "</a> &middot; " + esc(m.dataset_title)) +
+        row("Run / sample", '<a target="_blank" rel="noopener" href="' + ena + encodeURIComponent(r.sample_id) + '">' + esc(r.sample_id) + "</a>" +
+            (m.biosample ? ' &middot; <a target="_blank" rel="noopener" href="' + ena + encodeURIComponent(m.biosample) + '">' + esc(m.biosample) + "</a>" : "") +
+            " &middot; alias " + esc(m.alias || "-")) +
+        row("Original file", '<span class="mono">' + esc(r.source_file || "-") + "</span> &middot; md5 <span class=\"mono\">" + esc(m.md5 || "-") + "</span>") +
+        row("Marker / assay", esc(/12S|COI|16S/.exec(m.dataset_title || "") ? m.dataset_title : "see dataset record")) +
+        row("Reference", esc(refVersion())) +
+        row("Collected", esc(m.collection_date || "n/a") + " " + checkBadge(dc)) +
+        row("Place / pin", esc(m.location || "n/a") + (m.latitude !== null && m.latitude !== undefined ? " (" + Number(m.latitude).toFixed(4) + ", " + Number(m.longitude).toFixed(4) + ")" : "") +
+            " " + checkBadge(cc)) +
+      "</dl>" +
+      '<p class="hint">These checks read only this record\'s own fields. Cross-record checks (duplicate IDs, boundary, species spelling) are in the <b>Data guard</b> tab.</p>');
   }
 
   function expectedBlock(r) {
@@ -333,14 +407,16 @@
     var q = r.unknown_queue || [];
     if (!q.length) return '<p class="hint">Nothing needs review.</p>';
     var rows = q.slice(0, 12);
-    return '<p class="hint">' + UI.num(q.length) + " sequences are not confirmed. Each shows its closest match and a " +
-      "confidence that is capped at 0.60, so none can pass as confirmed. Status: <b>needs review</b>.</p>" +
-      '<div class="table-wrap"><table class="data"><thead><tr><th>Reads</th><th>Closest match</th><th>Identity</th><th>Confidence</th><th>Why unknown</th><th></th></tr></thead><tbody>' +
+    return '<p class="hint">' + UI.num(q.length) + " sequences are not confirmed. Each shows its closest reference match, the " +
+      "<b>percent identity</b> (a measured similarity, not a probability) and a heuristic match score capped at 0.60, so none can pass as confirmed.</p>" +
+      '<div class="adj-note">Reference used: <b>' + esc(refVersion()) + "</b>. Aligned coverage is <b>not provided</b> " +
+      "by the analysis (identity is measured over the whole read, so a short overlap lowers it instead of being hidden). " + scoreNote() + "</div>" +
+      '<div class="table-wrap"><table class="data"><thead><tr><th>Reads</th><th>Closest match</th><th>Identity</th><th>Match score</th><th>Review state</th><th>Why unknown</th><th></th></tr></thead><tbody>' +
       rows.map(function (u) {
         var blast = "https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&QUERY=" + encodeURIComponent(u.sequence);
         return "<tr><td>" + UI.num(u.reads) + "</td><td><i>" + esc(u.candidates && u.candidates.length > 1 ? u.candidates.join(" / ") : u.closest_match) +
           "</i></td><td>" + pct(u.identity) + "</td><td>" + u.confidence.toFixed(2) +
-          "</td><td>" + esc(u.reason) + '</td><td><a target="_blank" rel="noopener" href="' + blast + '">Check on NCBI</a></td></tr>';
+          '</td><td><span class="badge medium">' + esc(u.status || "needs review") + "</span></td><td>" + esc(u.reason) + '</td><td><a target="_blank" rel="noopener" href="' + blast + '">Check on NCBI</a></td></tr>';
       }).join("") + "</tbody></table></div>" +
       (q.length > rows.length ? '<p class="hint">Showing the 12 most abundant of ' + UI.num(q.length) + ".</p>" : "");
   }

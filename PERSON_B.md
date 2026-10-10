@@ -13,7 +13,7 @@ This file is updated and pushed after every phase.
 |---|---|---|
 | 0 | Confirm repo/remote, baseline tests, CI | **done** |
 | B1 | UI audit: what already passes | **done** |
-| B2 | Challenge review states | pending |
+| B2 | Challenge review states | **done** |
 | B3 | Map, alert and seasons | pending |
 | B4 | One-page officer report | pending |
 | B5 | UI regression + demo path | pending |
@@ -107,6 +107,25 @@ Evidence = code read + the running app (`python -m bioradar.webapp --port 8099`)
 
 Until A provides them, B derives what it can in the browser (denominator = sum of listed species reads; the reference
 version comes from the existing `/api/adjudicate/provenance`) and states "coverage: not provided" instead of inventing it.
+
+---
+
+## Phase B2: challenge review states (done)
+
+Only `bioradar/webapp_static/adjudicate.js` and `adjudicate.css` changed. No backend file, no contract field, no new route.
+
+| Workpack item | Change |
+|---|---|
+| Five species with read-share **denominator** | every species / group row now reads `reads / denominator = share` (e.g. `26,463 / 72,986 = 36.3%`). A note states the formula, what is **excluded** from the denominator (dropped reads; reads of sequences too different to name) and the sample total, and that a share is a proportion of DNA reads, not animals or biomass |
+| Identity vs confidence | UI no longer says "confidence". Identity (a measured similarity) is shown on its own; the heuristic is labelled **match score** with a plain definition (falls 4 points per 1% identity lost, halved if a different species is close, capped 0.99 / 0.60, "not a calibrated probability") |
+| Unknown review queue | columns: reads, closest match, identity, match score, **review state** (`needs review`), reason, NCBI link. Above it: **reference version** (from `/api/adjudicate/provenance`) and the statement that aligned **coverage is not provided** by the analysis |
+| Metadata findings | new **Source and metadata** card per sample: BioProject / run / BioSample links, alias, original file + md5, marker, reference version, collection date, place/pin, with per-record checks (date not in the future + precision; coordinates in range + low-precision note). Cross-record checks stay in the Data guard tab |
+| Source/sample selector, kept/dropped/unknown totals, per-sequence reasons | already passing (B1); unchanged |
+
+Checked in the running app on the mock (`A1`), the invasive-species sample and the poor sample: denominators sum correctly
+(26,463 / 72,986 = 36.26%), no console errors.
+
+Still open for B2: `coverage` and `score_type` from Person A (see contract requests); until then the UI says "not provided".
 
 ## Open questions for the maintainer / Person A
 
