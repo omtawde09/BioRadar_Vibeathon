@@ -370,3 +370,15 @@ def test_matches_report_aligned_coverage(tmp_path):
     fasta.write_text(">r1" + chr(10) + seq + chr(10) + ">r2" + chr(10) + seq + chr(10), encoding="utf-8")
     r = adjudicate_file(fasta, {"sample_id": "t"}, ref, T)
     assert all("coverage" in k for k in r["kept"])
+
+
+def test_spelling_audit_event_keeps_original_and_canonical_labels_and_its_basis():
+    seq = "ACGT" * 40
+    merges = guard.spelling_variants({"Genus idella": seq, "Genus idellus": seq})
+    out = guard.run_guard([], {"name": "b", "properties": {}, "polygons": []},
+                          today=date(2026, 1, 1), spelling_merges=merges)
+    ev = [d for d in out["decisions"] if d["rule"] == "double_spelling"]
+    assert len(ev) == 1 and {ev[0]["original_label"], ev[0]["canonical_label"]} == {
+        "Genus idella", "Genus idellus"}
+    assert ev[0]["original_label"] != ev[0]["canonical_label"]
+    assert "no external synonym authority" in ev[0]["basis"]

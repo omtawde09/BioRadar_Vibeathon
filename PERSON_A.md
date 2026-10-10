@@ -63,7 +63,7 @@ Test hygiene finding: running the whole suite rewrites tracked files
 | F4 | `.gitignore` listed tracked files | C1, C7 | fixed |
 | F5 | Manifest had MD5 only | C1 | fixed: `data/challenge/manifest.csv` has MD5 + SHA-256 + marker + reference version, 38/38 verified |
 | F6 | Global invasive list with no native-range rule | C7 | fixed (see F12); `native_in` lists UNVERIFIED |
-| F7 | Spelling guard has no cited synonym source and no original/canonical pair | C6d | **open** |
+| F7 | Spelling guard has no cited synonym source and no original/canonical pair | C6d | partly fixed: audit event now carries `original_label`, `canonical_label` and `basis`; a cited synonym authority is still **open** |
 | F8 | Mixed-sample species and shares have no source species table | C2 | **open**: needs the paper's table |
 | F9 | Seasons are Aug vs Nov (summer/winter), not monsoon vs summer | C8 | **open**, disclosed |
 | F10 | PDF could overflow one page | C9 | closed by Person B (B4 guard + 43 tests) |
@@ -85,12 +85,12 @@ Test hygiene finding: running the whole suite rewrites tracked files
 | C6a | **real-source pass** | 24 duplicate-ID merges on 5,119 PRJEB108476 records | |
 | C6b | **real-source pass (caveat)** | 4,707 outside the boundary, 367 without GPS | Boundary is a Portuguese OSM polygon but the records span 5 countries, so 92% fail the rule and only 3 records stay in the clean store. Valid rule demo, weak ecological meaning |
 | C6c | **real-source pass** | 18 real future-dated records rejected (today = 2026-10-10) | |
-| C6d | **partial** | 2 spelling merges (grass carp idella/idellus) from name similarity + sequence agreement; post-check measured | No cited synonym authority; original/canonical pair not in the audit event (F7) |
+| C6d | **partial** | 2 spelling merges (grass carp idella/idellus) from name similarity + sequence agreement; audit event keeps original and canonical label plus its basis; post-check measured | No cited synonym authority was consulted (stated in the event's `basis`) |
 | C7 | **real-source pass** | SRR37521672 (Indonesia, -3.405272, 114.789995): HIGH *Oreochromis niloticus* and HIGH *Clarias gariepinus* with source links and action; Pearl River: CRITICAL *Micropterus salmoides* | List is a GISD starter set; `native_in` for 2 species unverified; real triggers are in Indonesia/China, not India |
 | C8 | **real-source pass (as summer vs winter)** | 4 sites with both seasons, e.g. HongQimen summer 58 vs winter 56 species, 7 summer-only, 5 winter-only; "not detected", never "absent" | Aug vs Nov, not monsoon vs summer; all four sites share one 1-degree pin |
 | C9 | **pass (Person B)** | One-page PDF with overflow guard, 43 report tests | Not yet printed from a browser by Person A |
 | C10 | **not yet checked by Person A** | | Phase 4 browser smoke test |
-| C11 | **in progress** | 71 passed on adjudicate + report suites; full suite and clean-start rehearsal pending | `ci/check_integration.sh` needs Docker (not run) |
+| C11 | **partial** | Full suite `python -m pytest tests/ -q` with real data present: **248 passed, 0 failed, 0 skipped** (baseline was 2 failed / 190 passed / 3 skipped) | Clean-start rehearsal and `ci/check_integration.sh` (needs Docker) not run |
 
 ## Phase log
 
@@ -99,7 +99,8 @@ Test hygiene finding: running the whole suite rewrites tracked files
 | 0 | R0 decision, clone, baseline, audit | done |
 | 1 | F1-F4 fixes + tests | done, pushed `7181c06` |
 | 2a | Native-range policy, `fetch reads`, SHA-256 manifest tool | done, pushed `fb5981d` |
-| 2b | Merge Person B B0-B4; real-data reproduction; F12-F14; coverage; design share check; evidence board | done (this commit) |
+| 2b | Merge Person B B0-B4; real-data reproduction; F12-F14; coverage; design share check; evidence board | done, pushed `012ce96` |
+| 3a | F7 audit labels; full-suite run (248 passed); parallel research/review agents launched | done (this commit) |
 | 3 | F7 cited synonym audit; C2 species table; C8 monsoon source | needs sources (open questions) |
 | 4 | Browser smoke test of the Review view, clean-start rehearsal, full suite, final table | planned |
 

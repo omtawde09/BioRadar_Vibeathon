@@ -221,6 +221,12 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
     for s in spelling:
         decisions.append({"run_accession": "", "sample_alias": "", "rule": "double_spelling",
                           "rule_label": RULES["double_spelling"], "action": "merge",
+                          # The source label is never overwritten: both labels are kept in the
+                          # audit event, and the basis says what the merge rests on.
+                          "original_label": s["merge"], "canonical_label": s["keep"],
+                          "basis": "name similarity within the genus + sequence identity "
+                                   "{:.1%}; no external synonym authority was consulted".format(
+                                       s.get("sequence_identity", 0.0)),
                           "reason": "'{}' merged into '{}': {}".format(
                               s["merge"], s["keep"], s["reason"])})
 
