@@ -11,6 +11,8 @@
     GET  /api/adjudicate/provenance            dataset manifest + reference version
     GET  /api/adjudicate/report/<id>.pdf       one-page officer report, generated now
     GET  /api/adjudicate/site-report/<place>.pdf   one-page report for a place, both seasons
+    GET  /api/adjudicate/relatives/<id>        relative-finder hypotheses for the top unknowns
+    POST /api/adjudicate/relatives/query       {"sequence": "...", "observations": {...}}
 """
 
 from __future__ import annotations
@@ -64,6 +66,12 @@ def get(path: str) -> Response:
         manifest = json.loads(runner.MANIFEST.read_text(encoding="utf-8"))
         return _json(200, {"reference": ref, "manifest": manifest})
 
+    if len(parts) == 2 and parts[0] == "relatives" and _ID.match(parts[1]):
+        from bioradar.relatives.service import sample_hypotheses
+        try:
+            return _json(200, sample_hypotheses(parts[1]))
+        except KeyError:
+            return _json(404, {"error": "unknown sample"})
     if len(parts) == 2 and parts[0] == "sample" and _ID.match(parts[1]):
         try:
             return _json(200, runner.run_sample(parts[1]))
@@ -109,6 +117,15 @@ def get(path: str) -> Response:
 
 def post(path: str, body: Dict[str, Any]) -> Response:
     parts = path[len("/api/adjudicate"):].strip("/").split("/")
+    if parts == ["relatives", "query"]:
+        seq = str(body.get("sequence", "")).strip().upper()
+        if not (20 <= len(seq) <= 5000) or set(seq) - set("ACGTNRYKMSWBDHV"):
+            return _json(400, {"error": "sequence must be 20-5000 IUPAC nucleotide letters"})
+        obs = body.get("observations") or {}
+        if not isinstance(obs, dict):
+            return _json(400, {"error": "observations must be an object"})
+        from bioradar.relatives.model import finder
+        return _json(200, finder().speculate(seq, obs))
     if len(parts) == 3 and parts[0] == "sample" and parts[2] == "run" and _ID.match(parts[1]):
         try:
             return _json(200, runner.run_sample(parts[1], force=True))

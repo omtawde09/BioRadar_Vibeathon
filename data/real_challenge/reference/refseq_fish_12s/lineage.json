@@ -1,0 +1,14 @@
+{
+  "source": "NCBI Taxonomy via E-utilities (esummary nuccore -> taxid; efetch taxonomy -> LineageEx)",
+  "retrieved_at": "2026-10-10T10:01:03+00:00",
+  "reference_entries": 3799,
+  "entries_without_taxid": 0,
+  "entries_without_family": 26,
+  "ranks": [
+    "class",
+    "order",
+    "family",
+    "genus"
+  ],
+  "note": "Classification from NCBI Taxonomy, not a phylogeny inferred by BioRadar."
+}
