@@ -5,6 +5,7 @@
     "HIGH": "Species has a full IUCN Global Invasive Species Database (GISD) profile documenting harmful invasions. Alert the officer; confirm with a field survey.",
     "WATCH": "The sequence cannot be told apart from a listed invasive species and is NOT confirmed. Shown as a possible detection only; send for review or retake before any action."
   },
+  "native_range_note": "UNVERIFIED. `native_in` country lists were entered from general taxonomic knowledge and have NOT been checked against the GISD species pages (web tools were unavailable when they were added). Verify each entry before a judge demo; an alert for a species that is native at the sample country is policy-controlled in alerts.native_policy.",
   "gisd_note": "GISD = Global Invasive Species Database, IUCN SSC Invasive Species Specialist Group, https://www.iucngisd.org",
   "species": [
     {"name": "Oreochromis niloticus", "common": "Nile tilapia", "level": "HIGH",
@@ -13,7 +14,7 @@
      "sources": ["https://www.iucngisd.org/gisd/species.php?sc=131", "https://www.iucngisd.org/gisd/100_worst.php"]},
     {"name": "Clarias gariepinus", "common": "North African catfish", "level": "HIGH",
      "sources": ["https://www.iucngisd.org/gisd/species.php?sc=1900"]},
-    {"name": "Clarias batrachus", "common": "Walking catfish", "level": "CRITICAL",
+    {"name": "Clarias batrachus", "common": "Walking catfish", "level": "CRITICAL", "native_in": ["Indonesia", "Thailand", "Malaysia", "Viet Nam", "India", "Sri Lanka"],
      "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
     {"name": "Pterygoplichthys pardalis", "common": "Amazon sailfin catfish", "level": "HIGH",
      "sources": ["https://www.iucngisd.org/gisd/speciesname/Pterygoplichthys+pardalis", "https://www.iucngisd.org/gisd/pdf.php?sc=1658"]},
@@ -27,7 +28,7 @@
      "sources": ["https://www.iucngisd.org/gisd/species.php?sc=126", "https://www.iucngisd.org/gisd/100_worst.php"]},
     {"name": "Gambusia holbrooki", "common": "Eastern mosquitofish", "level": "HIGH",
      "sources": ["https://www.iucngisd.org/gisd/species.php?sc=617"]},
-    {"name": "Cyprinus carpio", "common": "Common carp", "level": "CRITICAL",
+    {"name": "Cyprinus carpio", "common": "Common carp", "level": "CRITICAL", "native_in": ["China", "Russia", "Kazakhstan", "Iran"],
      "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
     {"name": "Micropterus salmoides", "common": "Largemouth bass", "level": "CRITICAL",
      "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},

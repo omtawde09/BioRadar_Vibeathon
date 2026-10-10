@@ -281,3 +281,37 @@ def test_post_check_measures_unmerged_spellings_instead_of_assuming_zero():
     # no vocabulary supplied -> "not checked" (None), never a silent pass
     unknown = guard.post_check([], boundary, today, ids=[], spelling=[])
     assert unknown["unmerged_double_spellings"] is None
+
+
+def _carp_result(country):
+    return {"sample_id": "S", "metadata": {"label": "L", "latitude": 1.0, "longitude": 2.0,
+                                           "biosample_attributes": {"geo_loc_name": country + ":X"}},
+            "species": [{"species": "Cyprinus carpio", "kind": "species", "status": "detected",
+                         "reads": 500, "share": 0.4, "confidence": 0.9, "best_identity": 1.0}]}
+
+
+def test_listed_fish_native_at_the_sample_country_raises_no_alert_but_is_recorded():
+    native = _carp_result("China")
+    assert alerts.evaluate(native) == []
+    listed = alerts.native_listed(native)
+    assert [x["species"] for x in listed] == ["Cyprinus carpio"] and "native in China" in listed[0]["note"]
+
+
+def test_same_fish_outside_its_native_range_still_alerts_and_unknown_country_never_hides_it():
+    away = alerts.evaluate(_carp_result("Brazil"))
+    assert [e["species"] for e in away] == ["Cyprinus carpio"] and away[0]["level"] == "CRITICAL"
+    unknown = _carp_result("")
+    unknown["metadata"]["biosample_attributes"] = {}
+    assert [e["species"] for e in alerts.evaluate(unknown)] == ["Cyprinus carpio"]
+
+
+def test_challenge_manifest_has_one_row_per_file_and_never_hides_a_gap():
+    from bioradar.adjudicate import challenge_manifest as cm
+    rows = cm.build_rows()
+    assert rows and set(rows[0]) == set(cm.COLUMNS)
+    assert len({r["original_filename"] for r in rows}) == len(rows)
+    for r in rows:
+        assert r["source_url"].startswith("https://") and r["md5_archive"] and r["reference_version"]
+        assert r["verified"] == "yes" or r["verified"].startswith(("MISSING", "MISMATCH"))
+        if r["verified"] == "yes":
+            assert len(r["sha256_local"]) == 64 and r["md5_local"] == r["md5_archive"]

@@ -37,6 +37,56 @@ def load_list(path: Path = INVASIVE_FILE) -> Dict[str, Any]:
     return doc
 
 
+def sample_country(meta: Dict[str, Any]) -> str:
+    """Country the sample was collected in, from the submitter's `geo_loc_name`
+    ('China:HongQimen'). Empty string when the record does not say."""
+    attrs = meta.get("biosample_attributes") or {}
+    return str(attrs.get("geo_loc_name", "")).split(":")[0].strip()
+
+
+def native_here(hit: Dict[str, Any], meta: Dict[str, Any]) -> bool:
+    """True when the listed species is documented as native in the sample's country.
+    Unknown country or no `native_in` data means False: the alert is never hidden by
+    missing information."""
+    country = sample_country(meta).lower()
+    return bool(country) and country in {c.lower() for c in hit.get("native_in", [])}
+
+
+def native_policy(hit: Dict[str, Any], meta: Dict[str, Any]) -> Optional[str]:
+    """What to do when a globally-listed invasive fish is detected where it is NATIVE.
+
+    Return None to suppress the alert, "" to raise it exactly as before, or a short
+    sentence to raise it with that sentence shown to the officer as `native_range_note`.
+
+    Policy: suppress. Calling a fish "invasive" in the country it is native to is a false
+    alarm that sends a field team to the wrong place. It is not hidden: `native_listed`
+    records it in the sample result, and eDNA alone cannot tell a native population from a
+    translocated one, so the note says so.
+    """
+    return None
+
+
+def native_listed(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None
+                  ) -> List[Dict[str, Any]]:
+    """Detected species that are on the invasive list but native at the sample country.
+    These raise no alert; they are listed so the suppression is visible and auditable."""
+    invasive = invasive or load_list()
+    meta = result.get("metadata", {})
+    out = []
+    for row in result.get("species", []):
+        if row["kind"] != "species" or row["status"] != "detected":
+            continue
+        hit = invasive["by_name"].get(row["species"].lower())
+        if hit and native_here(hit, meta):
+            out.append({"species": hit["name"], "common_name": hit["common"],
+                        "country": sample_country(meta), "reads": row["reads"],
+                        "share": row["share"],
+                        "note": "On the global invasive list but native in {}: no alert raised. "
+                                "eDNA cannot separate a native population from a translocated "
+                                "one.".format(sample_country(meta))})
+    return out
+
+
 def evaluate(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None,
              started: Optional[float] = None) -> List[Dict[str, Any]]:
     """Alert events for one adjudicated sample. `started` is a time.time() for latency."""
@@ -50,7 +100,15 @@ def evaluate(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None,
         if row["kind"] == "species":
             hit = by_name.get(row["species"].lower())
             if hit and row["status"] == "detected":
-                events.append(_event(result, hit, hit["level"], "confirmed", row, pin, started))
+                note = ""
+                if native_here(hit, meta):
+                    note = native_policy(hit, meta)
+                    if note is None:
+                        continue
+                event = _event(result, hit, hit["level"], "confirmed", row, pin, started)
+                if note:
+                    event["native_range_note"] = note
+                events.append(event)
         else:
             listed = [by_name[m.lower()] for m in row["members"] if m.lower() in by_name]
             if listed:

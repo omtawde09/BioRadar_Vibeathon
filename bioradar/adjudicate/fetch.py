@@ -3,6 +3,7 @@
 Nothing here creates or edits a sequence. Every file comes from a public archive
 and is checked against the archive's own md5 before it is trusted.
 
+    python -m bioradar.adjudicate.fetch reads        # reads listed in the committed manifest (md5-verified)
     python -m bioradar.adjudicate.fetch samples      # PRJNA1059782 R1 reads + manifest
     python -m bioradar.adjudicate.fetch reference    # RefSeq fish mitogenomes + human 12S
     python -m bioradar.adjudicate.fetch all
@@ -183,6 +184,29 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
     return target
 
 
+def fetch_reads_from_manifest(manifest: Path = None) -> int:
+    """Download exactly the files the COMMITTED manifest lists, verified against the md5s it
+    records. Unlike `fetch_samples` this makes no metadata query and rewrites no manifest, so
+    a clean checkout reproduces the same bytes the manifest was written against."""
+    manifest = Path(manifest) if manifest else DATA_DIR / "manifest.json"
+    doc = json.loads(manifest.read_text(encoding="utf-8"))
+    failures = 0
+    for ds in doc["datasets"]:
+        for run in ds["runs"]:
+            for f in run["files"]:
+                name = f["file"].split("/", 1)[-1]
+                try:
+                    status = download_verified(f["source_url"], RAW_DIR / name, f["md5"])
+                except Exception as exc:  # report every failure, do not stop at the first
+                    failures += 1
+                    status = "FAILED ({})".format(exc)
+                print("  {:<11} {:<28} {:>6.1f} MB".format(
+                    status.split(" ")[0], name, f["bytes"] / 1e6), flush=True)
+                if status.startswith("FAILED"):
+                    print("      " + status, flush=True)
+    return failures
+
+
 # --------------------------------------------------------------------------
 # Reference
 # --------------------------------------------------------------------------
@@ -324,8 +348,13 @@ def fetch_records() -> Path:
 
 def main(argv: List[str] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("what", choices=["samples", "reference", "records", "boundary", "all"])
+    parser.add_argument("what", choices=["samples", "reads", "reference", "records", "boundary", "all"])
     args = parser.parse_args(argv)
+    if args.what == "reads":
+        print("Reads (from the committed manifest, md5-verified):")
+        bad = fetch_reads_from_manifest()
+        print("done, {} failure(s)".format(bad))
+        return 1 if bad else 0
     if args.what in ("samples", "all"):
         print("Samples:")
         print("  manifest ->", fetch_samples())

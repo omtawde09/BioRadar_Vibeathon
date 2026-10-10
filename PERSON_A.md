@@ -52,7 +52,7 @@ guard, alerts, season comparison and a stdlib PDF report. Findings, in order of 
 | F3 | Two stale registry tests failing on `main` and on the branch | C11 | **fixed in Phase 1** |
 | F4 | `.gitignore` listed `manifest.json` and `invasive_species.json` although both are committed on purpose | C1, C7 | **fixed in Phase 1** |
 | F5 | Manifest has MD5 only (what ENA supplies); workpack wants SHA-256 plus marker and reference version per row | C1 | open, Phase 2 |
-| F6 | Invasive list is global with no native-range rule: *Cyprinus carpio* (native to China) and *Clarias batrachus* (native to SE Asia) are CRITICAL, so a native fish could raise an "invasive" alarm | C7 | open, Phase 3 (needs a policy decision) |
+| F6 | Invasive list is global with no native-range rule: *Cyprinus carpio* (native to China) and *Clarias batrachus* (native to SE Asia) are CRITICAL, so a native fish could raise an "invasive" alarm | C7 | **fixed in Phase 2a**: alert suppressed where the species is native at the sample country and recorded in `native_listed`; `native_in` lists are UNVERIFIED (web tools unavailable), verify before the demo |
 | F7 | Spelling guard works on reference-list names by similarity plus sequence agreement; there is no cited synonym source and no original-vs-canonical label pair in the audit event | C6d | open, Phase 3 |
 | F8 | Mixed-sample species and shares have **no** source-supported ground truth (only a "15 fish" count) | C2 | open, needs a source table (decision pending) |
 | F9 | Seasons are summer (Aug) vs winter (Nov) in the Pearl River Delta; the challenge asks monsoon vs summer | C8 | open, disclosed gap, source search needed |
@@ -84,7 +84,8 @@ guard, alerts, season comparison and a stdlib PDF report. Findings, in order of 
 |---|---|---|
 | 0 | R0 decision, clone, baseline, audit, this file | done |
 | 1 | Honesty/correctness fixes F1-F4 + tests | done |
-| 2 | Real-data reproduction + SHA-256 manifest (needs about 238 MB download approval) | blocked on approval |
+| 2a | Native-range alert policy (F6), manifest-driven md5-verified `fetch reads`, SHA-256 `challenge_manifest` tool | done (code) |
+| 2b | Real-data reproduction: `runner all`, verify claims, write `data/challenge/manifest.csv` | in progress (download approved, 38 files / ~238 MB) |
 | 3 | F6 native-range alerts, F7 synonym audit, C2/C8 source work | planned |
 | 4 | Browser smoke test, clean-start rehearsal, final evidence table | planned |
 
@@ -101,3 +102,10 @@ guard, alerts, season comparison and a stdlib PDF report. Findings, in order of 
 ### Handoffs to Person B (not edited by Person A)
 1. Rename UI labels "confidence"/"conf" to "match score" and show `score_note` (F11).
 2. Make the PDF writer stop or shrink before the footer line, and add an overflow test (F10).
+
+### Phase 2a - changes
+* `alerts.py`: `sample_country`, `native_here`, `native_policy` (suppress), `native_listed`; `runner.py` stores `native_listed` on every result.
+* `data/real_challenge/invasive_species.json`: `native_in` for two species, flagged UNVERIFIED in `native_range_note`.
+* `fetch.py`: `fetch reads` downloads exactly the files in the committed manifest, md5-verified, without re-querying ENA or rewriting the manifest.
+* `challenge_manifest.py`: writes `data/challenge/manifest.csv` (source URL, accessions, original filename, date/site/coords as deposited, marker, reference version, MD5 + SHA-256, verified flag).
+* `tests/test_adjudicate.py`: +3 tests (native suppression, non-native still alerts, manifest never hides a gap).

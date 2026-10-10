@@ -129,6 +129,7 @@ def run_sample(sample_id: str, force: bool = False, log_alerts: bool = True) -> 
     for event in events:
         event["analysis_seconds"] = result["analysis_seconds"]
     result["alerts"] = events
+    result["native_listed"] = alerts.native_listed(result)
     result["cache_key"] = key
     result["from_cache"] = False
     result["source_file"] = Path(row["file"]).name  # provenance only; never used by the engine
