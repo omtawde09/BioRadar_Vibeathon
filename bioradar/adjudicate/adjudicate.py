@@ -109,7 +109,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         margin = best.identity - (runner.identity if runner else 0.0)
         base = {"seq_id": _sid(d.seq), "sequence": d.seq, "reads": d.count,
                 "closest_match": best.species, "closest_accession": best.accession,
-                "identity": best.identity, "score_type": SCORE_TYPE,
+                "identity": best.identity, "coverage": best.coverage,
+                "score_type": SCORE_TYPE,
                 "reference_version": ref.version,
                 "runner_up": runner.species if runner else "",
                 "runner_up_identity": runner.identity if runner else 0.0}

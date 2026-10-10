@@ -227,9 +227,9 @@ def fetch_reads_from_manifest(manifest: Path = None) -> int:
     for ds in doc["datasets"]:
         for run in ds["runs"]:
             for f in run["files"]:
-                name = f["file"].split("/", 1)[-1]
-                try:
-                    status = download_verified(f["source_url"], RAW_DIR / name, f["md5"])
+                name = Path(f["file"]).name
+                try:  # `file` is relative to data/real_challenge (datasets/<folder>/raw/<name>)
+                    status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
                 except Exception as exc:  # report every failure, do not stop at the first
                     failures += 1
                     status = "FAILED ({})".format(exc)

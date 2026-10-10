@@ -24,6 +24,8 @@ Evidence vocabulary used below (from the workpack):
 
 ## Measured baseline (not copied from docs)
 
+Update 2026-10-10 (Phase 2b): Person B phases B0-B4 (56744af) are merged into this branch (d4e4058). They moved the data layout (datasets/<id>/raw, lists/, reference/refseq_fish_12s), relabelled the UI score as match score, added the one-page overflow guard and runner verify -> COMPLIANCE.md. That closes handoffs F10 and F11.
+
 Command: `python -m pytest tests/ -q` on Windows 11, Python 3.14.3, branch point `381bd11`.
 
 | Run | Result |
@@ -39,73 +41,82 @@ Test hygiene finding: running the whole suite rewrites tracked files
 (`bioradar/ai/models/ias_classifier.joblib`, `data/debates.json`, `data/forecast_cache.json`,
 `data/ecological_anomalies.json`). Do not commit them; restore with `git checkout -- <file>`.
 
-## Audit of Person B's branch (what is really there)
+## Reproduction on this machine (Phase 2b)
 
-The engine in `bioradar/adjudicate/` is a sensible, readable implementation: content-based FASTA/FASTQ
-reading, per-sequence reasons, human-contamination detection, ambiguity "complexes", cached runner,
-guard, alerts, season comparison and a stdlib PDF report. Findings, in order of consequence:
+* Reads: `python -m bioradar.adjudicate.fetch reads` downloaded 38 files (about 238 MB) from
+  `ftp.sra.ebi.ac.uk`, each verified against the archive MD5 and size. **38/38 verified.** A DNS drop
+  interrupted the first pass; the retry skipped cached files by MD5.
+* Pipeline: `python -m bioradar.adjudicate.runner all --force` processed 38 samples in 98-135 s, no crash.
+* `python -m bioradar.adjudicate.runner verify` regenerated `data/real_challenge/COMPLIANCE.md`; it agrees
+  with Person B's table line for line (PASS x9, PARTIAL x1 = mixed shares, GAP x1 = unknowns with known identity).
+* Tests: `tests/test_adjudicate.py` + `tests/test_report_one_page.py` with real data present: **71 passed, 0 skipped**.
+  The three real-file tests now run: Retake + human-contamination reason, unknowns never confident,
+  file name does not decide the answer.
 
-| # | Finding | Criterion | Status |
+## Findings and their state
+
+| # | Finding | Criterion | State |
 |---|---|---|---|
-| F1 | `confidence` is a home-made heuristic (identity x margin) shown as "confidence"; the workpack forbids presenting identity-derived scores as calibrated confidence | C4 | **fixed in Phase 1** (`score_type` + `score_note`; key name kept for UI compatibility) |
-| F2 | `guard.post_check` hard-coded `unmerged_double_spellings = 0`, a "clean" proof that proved nothing | C6d | **fixed in Phase 1** (measured; `None` means not checked) |
-| F3 | Two stale registry tests failing on `main` and on the branch | C11 | **fixed in Phase 1** |
-| F4 | `.gitignore` listed `manifest.json` and `invasive_species.json` although both are committed on purpose | C1, C7 | **fixed in Phase 1** |
-| F5 | Manifest has MD5 only (what ENA supplies); workpack wants SHA-256 plus marker and reference version per row | C1 | open, Phase 2 |
-| F6 | Invasive list is global with no native-range rule: *Cyprinus carpio* (native to China) and *Clarias batrachus* (native to SE Asia) are CRITICAL, so a native fish could raise an "invasive" alarm | C7 | **fixed in Phase 2a**: alert suppressed where the species is native at the sample country and recorded in `native_listed`; `native_in` lists are UNVERIFIED (web tools unavailable), verify before the demo |
-| F7 | Spelling guard works on reference-list names by similarity plus sequence agreement; there is no cited synonym source and no original-vs-canonical label pair in the audit event | C6d | open, Phase 3 |
-| F8 | Mixed-sample species and shares have **no** source-supported ground truth (only a "15 fish" count) | C2 | open, needs a source table (decision pending) |
-| F9 | Seasons are summer (Aug) vs winter (Nov) in the Pearl River Delta; the challenge asks monsoon vs summer | C8 | open, disclosed gap, source search needed |
-| F10 | `report.py` never checks the running y-position against the footer, so long content could overflow the one page (the test only checks `/Count 1`) | C9 | handoff to Person B (report layout) |
-| F11 | UI labels the score "confidence" / "conf" (`adjudicate.js`, around lines 185, 306, 338) | C4 | handoff to Person B (`webapp_static/` is B's) |
+| F1 | `confidence` is a heuristic (identity x margin) presented as confidence | C4 | fixed: `score_type`, `score_note`; UI now says "match score" (Person B, B2) |
+| F2 | `post_check` hard-coded `unmerged_double_spellings = 0` | C6d | fixed: measured, `None` = not checked |
+| F3 | Two stale registry tests | C11 | fixed |
+| F4 | `.gitignore` listed tracked files | C1, C7 | fixed |
+| F5 | Manifest had MD5 only | C1 | fixed: `data/challenge/manifest.csv` has MD5 + SHA-256 + marker + reference version, 38/38 verified |
+| F6 | Global invasive list with no native-range rule | C7 | fixed (see F12); `native_in` lists UNVERIFIED |
+| F7 | Spelling guard has no cited synonym source and no original/canonical pair | C6d | **open** |
+| F8 | Mixed-sample species and shares have no source species table | C2 | **open**: needs the paper's table |
+| F9 | Seasons are Aug vs Nov (summer/winter), not monsoon vs summer | C8 | **open**, disclosed |
+| F10 | PDF could overflow one page | C9 | closed by Person B (B4 guard + 43 tests) |
+| F11 | UI said "confidence" | C4 | closed by Person B (B2) |
+| F12 | Real run: *Cyprinus carpio* raised a "possible invasive" WATCH in 21 of the 25 China samples (native there), and one species could be both confirmed and possible (up to 6 alerts per sample) | C7 | fixed: native suppression also covers unresolved groups; a confirmed species is never repeated as "possible"; 53 alerts total, max 5 per sample; suppressed cases recorded in `native_listed` |
+| F13 | Unknown rows had identity but no aligned coverage (workpack requires it) | C4 | fixed: `coverage` on every match (all 7,925 unknowns in SRR37521672 are >= 0.973) |
+| F14 | Person B's tip failed `test_report_is_a_valid_one_page_pdf` (fixture lacked `reads`) | C11 | fixed (fixture) |
+| F15 | Whole-suite runs rewrite tracked model/cache files | C11 | open, hygiene: `git checkout -- <file>` before committing |
 
-## Challenge status board (C1-C11)
+## Challenge status board (C1-C11), evidence from Person A's own run
 
-| ID | Criterion | Exists in code? | Evidence status today | Next action |
-|---|---|---|---|---|
-| C1 | Real public samples + immutable manifest | Yes (`data/real_challenge/manifest.json`, md5-verified fetch) | claimed, unverified (reads not downloaded here); SHA-256 missing | Phase 2 |
-| C2 | Five species + shares in one mixed sample | Yes (shares + denominator) | **not verified**: no source species table | decision on source |
-| C3 | Poor sample: per-sequence reasons + Retake | Yes (`quality.py`, `adjudicate.py`) | software-test-only; real GSS356 claimed, unverified | Phase 3 run |
-| C4 | Two unknowns: nearest match + uncertainty | Yes (review queue) | software-test-only; real unknowns claimed, unverified | Phase 3 run |
-| C5 | Unseen input, no crash, not filename-driven | Yes (content sniffing) | software-test-only (the filename test needs the real file) | Phase 3 run |
-| C6a | Duplicate sample ID | Yes | software-test-only; 24 merges on PRJEB108476 claimed | verify |
-| C6b | GPS outside boundary | Yes (OSM Litoral Norte polygon) | software-test-only; boundary is Portuguese, records span 5 countries (disclosed) | verify |
-| C6c | Future date | Yes | software-test-only; 18 real future dates claimed | verify |
-| C6d | Spelling / synonym | Partial (heuristic) | software-test-only | Phase 3 |
-| C7 | Invasive alert | Yes (`alerts.py`) | claimed (Indonesia tilapia/catfish); native-range gap F6 | Phase 3 |
-| C8 | Same-site seasons | Yes (`seasons.py`) | claimed summer/winter; not monsoon/summer | source search |
-| C9 | One-page officer report | Yes (stdlib PDF) | software-test-only; overflow not guarded (F10) | handoff to B |
-| C10 | Simple review flow | Yes (Review view) | not browser-tested by Person A yet | Phase 4 |
-| C11 | Clean start + regression tests | Partial | baseline measured above; clean-start rehearsal pending | Phase 4 |
+| ID | Status | Evidence | Honest limits |
+|---|---|---|---|
+| C1 | **real-source pass** | 38 files, MD5 + size match the archive, SHA-256 in `data/challenge/manifest.csv`, reference version recorded | R1 reads only; the archive supplies MD5, so SHA-256 is computed locally |
+| C2 | **partial** | A2 (SRR27401753): 15 species-level calls for "15 fish" = count consistent; 6 unresolved groups, 4 trace; share denominator 75,985 reads (kept + unresolved groups) of 127,829 total | No species table in the archive, so identities and shares are NOT verified. Design check (note "equal concentration"): only 4 of 15 detected species are within 3-fold of 1/15, so shares track the design loosely. The 30-fish mixes report FAIL honestly |
+| C3 | **real-source pass** | GSS356 (SRR33845265): 361 reads, 174 distinct sequences each with a written reason (160 singleton, 65 human reads, 131 unrelated, 3 short, 2 low quality); verdict Retake sample. Two more real Retake samples (SRR33845234, SRR25108818) | FASTQ quality is used only where scores exist |
+| C4 | **real-source pass** | SRR37521672: 7,925 unknown sequences queued with closest match, identity, coverage, score type, reference version and "needs review"; max score 0.60 | Score is heuristic, not calibrated. No ground-truth identity exists for any unknown (3b stays a GAP) |
+| C5 | **real-source pass** | All 38 real inputs processed without a crash; the filename test passes on a real file | |
+| C6a | **real-source pass** | 24 duplicate-ID merges on 5,119 PRJEB108476 records | |
+| C6b | **real-source pass (caveat)** | 4,707 outside the boundary, 367 without GPS | Boundary is a Portuguese OSM polygon but the records span 5 countries, so 92% fail the rule and only 3 records stay in the clean store. Valid rule demo, weak ecological meaning |
+| C6c | **real-source pass** | 18 real future-dated records rejected (today = 2026-10-10) | |
+| C6d | **partial** | 2 spelling merges (grass carp idella/idellus) from name similarity + sequence agreement; post-check measured | No cited synonym authority; original/canonical pair not in the audit event (F7) |
+| C7 | **real-source pass** | SRR37521672 (Indonesia, -3.405272, 114.789995): HIGH *Oreochromis niloticus* and HIGH *Clarias gariepinus* with source links and action; Pearl River: CRITICAL *Micropterus salmoides* | List is a GISD starter set; `native_in` for 2 species unverified; real triggers are in Indonesia/China, not India |
+| C8 | **real-source pass (as summer vs winter)** | 4 sites with both seasons, e.g. HongQimen summer 58 vs winter 56 species, 7 summer-only, 5 winter-only; "not detected", never "absent" | Aug vs Nov, not monsoon vs summer; all four sites share one 1-degree pin |
+| C9 | **pass (Person B)** | One-page PDF with overflow guard, 43 report tests | Not yet printed from a browser by Person A |
+| C10 | **not yet checked by Person A** | | Phase 4 browser smoke test |
+| C11 | **in progress** | 71 passed on adjudicate + report suites; full suite and clean-start rehearsal pending | `ci/check_integration.sh` needs Docker (not run) |
 
 ## Phase log
 
 | Phase | Scope | State |
 |---|---|---|
-| 0 | R0 decision, clone, baseline, audit, this file | done |
-| 1 | Honesty/correctness fixes F1-F4 + tests | done |
-| 2a | Native-range alert policy (F6), manifest-driven md5-verified `fetch reads`, SHA-256 `challenge_manifest` tool | done (code) |
-| 2b | Real-data reproduction: `runner all`, verify claims, write `data/challenge/manifest.csv` | in progress (download approved, 38 files / ~238 MB) |
-| 3 | F6 native-range alerts, F7 synonym audit, C2/C8 source work | planned |
-| 4 | Browser smoke test, clean-start rehearsal, final evidence table | planned |
+| 0 | R0 decision, clone, baseline, audit | done |
+| 1 | F1-F4 fixes + tests | done, pushed `7181c06` |
+| 2a | Native-range policy, `fetch reads`, SHA-256 manifest tool | done, pushed `fb5981d` |
+| 2b | Merge Person B B0-B4; real-data reproduction; F12-F14; coverage; design share check; evidence board | done (this commit) |
+| 3 | F7 cited synonym audit; C2 species table; C8 monsoon source | needs sources (open questions) |
+| 4 | Browser smoke test of the Review view, clean-start rehearsal, full suite, final table | planned |
 
-### Phase 1 - changes
-* `bioradar/adjudicate/adjudicate.py`: `SCORE_TYPE`, `SCORE_NOTE`; every kept/unknown/species row and the
-  result carry `score_type`; kept/unknown rows carry `reference_version`.
-* `bioradar/adjudicate/reference.py`: `Reference.version` read from `reference.json`.
-* `bioradar/adjudicate/alerts.py`: events carry `score_type`.
-* `bioradar/adjudicate/guard.py`: `post_check` measures leftover spelling variants.
-* `tests/test_dataset_registry.py`: tests follow the intentional empty-`datasets` design.
-* `tests/test_adjudicate.py`: +2 tests (score labelling, post-check honesty).
-* `.gitignore`: tracked challenge files are no longer listed as ignored.
+## Open questions for the team
 
-### Handoffs to Person B (not edited by Person A)
-1. Rename UI labels "confidence"/"conf" to "match score" and show `score_note` (F11).
-2. Make the PDF writer stop or shrink before the footer line, and add an overflow test (F10).
+1. **C2 species table.** Chen et al. 2025 (doi:10.1016/j.gecco.2025.e03906) holds the mock-community species
+   list; Person B reported it is behind a CAPTCHA. Someone with browser access could export it into
+   `data/real_challenge/expected_composition.json` (format in `docs/ODYSSEY_CHALLENGE.md`), after which
+   `expected.py` runs the full composition check.
+2. **C8 monsoon vs summer.** Needs a same-site pair with a monsoon and a pre-monsoon sample, ideally Indian and
+   amplicon-based. Chilika (PRJNA691704) is shotgun and tens of GB.
+3. **Native ranges.** Verify `native_in` for *Cyprinus carpio* and *Clarias batrachus* against the GISD pages.
 
-### Phase 2a - changes
-* `alerts.py`: `sample_country`, `native_here`, `native_policy` (suppress), `native_listed`; `runner.py` stores `native_listed` on every result.
-* `data/real_challenge/invasive_species.json`: `native_in` for two species, flagged UNVERIFIED in `native_range_note`.
-* `fetch.py`: `fetch reads` downloads exactly the files in the committed manifest, md5-verified, without re-querying ENA or rewriting the manifest.
-* `challenge_manifest.py`: writes `data/challenge/manifest.csv` (source URL, accessions, original filename, date/site/coords as deposited, marker, reference version, MD5 + SHA-256, verified flag).
-* `tests/test_adjudicate.py`: +3 tests (native suppression, non-native still alerts, manifest never hides a gap).
+## Change log (Person A)
+
+* Phase 1: score labelling, post-check, registry tests, `.gitignore`.
+* Phase 2a: `native_policy` (suppress), `native_listed`, `fetch reads`, `challenge_manifest.py`.
+* Phase 2b: native range also covers unresolved groups; no confirmed+possible duplicates; `coverage` on matches;
+  `design_share_check`; fixture fix; `ENGINE_VERSION` 4 so cached results refresh; `COMPLIANCE.md` regenerated;
+  `data/challenge/manifest.csv`.

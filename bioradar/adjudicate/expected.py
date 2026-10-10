@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from bioradar.adjudicate.thresholds import Thresholds, load
 
@@ -40,11 +40,41 @@ def check(result: Dict[str, Any], expected: Dict[str, Any],
     spec = expected.get(meta.get("alias", "")) or expected.get(result.get("sample_id", ""))
     if spec:
         return _composition_check(result, spec, t)
-    return _count_check(result)
+    return _count_check(result, t)
 
 
-def _count_check(result: Dict[str, Any]) -> Dict[str, Any]:
+def _design_share_check(meta: Dict[str, Any], n_fish: int, species: List[Dict[str, Any]],
+                        t: Thresholds) -> Optional[Dict[str, Any]]:
+    """Share check that the SOURCE supports without a species table: when the submitter's
+    design note says 'equal concentration', each of the N mixed fish should contribute about
+    1/N of the DNA. Reports how many detected species are within the fold tolerance of 1/N.
+    It does not say WHICH species they are (the archive does not), and amplification bias
+    means a spread around 1/N is expected, so this is a plausibility check, not a pass."""
+    note = (meta.get("design_note") or "").lower()
+    if "equal concentration" not in note or n_fish <= 0:
+        return None
+    each = 1.0 / n_fish
+    lo, hi = each / t.share_tolerance_factor, each * t.share_tolerance_factor
+    inside = [r for r in species if lo <= r["share"] <= hi]
+    return {
+        "design_note": meta.get("design_note", ""),
+        "expected_share_each": round(each, 4),
+        "tolerance_fold": t.share_tolerance_factor,
+        "tolerance_range": [round(lo, 4), round(hi, 4)],
+        "detected_species": len(species),
+        "within_tolerance": len(inside),
+        "outside_tolerance": len(species) - len(inside),
+        "limits": "Based on the submitter's design note ('{}') and BioSample samp_size = {}. "
+                  "Species identities are not given by the source, so this cannot confirm that "
+                  "the right species were found; the paper's species table would be needed. "
+                  "Read share is not biomass or abundance.".format(meta.get("design_note", ""),
+                                                                    n_fish),
+    }
+
+
+def _count_check(result: Dict[str, Any], t: Optional[Thresholds] = None) -> Dict[str, Any]:
     """Source-supported count only: the BioSample says how many fish were mixed."""
+    t = t or load()
     meta = result["metadata"]
     attrs = meta.get("biosample_attributes", {}) or {}
     m = re.match(r"^\s*(\d+)\s*fish", attrs.get("samp_size", ""))
@@ -56,6 +86,7 @@ def _count_check(result: Dict[str, Any]) -> Dict[str, Any]:
     found = len(species)
     ok = found >= want
     return {
+        "design_share_check": _design_share_check(meta, want, species, t),
         "available": True, "mode": "count_only",
         "source": "BioSample {} deposited by the submitter: samp_size = '{}', design = '{}'".format(
             meta.get("biosample", ""), attrs.get("samp_size", ""), meta.get("design_note", "")),

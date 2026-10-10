@@ -191,7 +191,7 @@ def test_report_is_a_valid_one_page_pdf():
               "metadata": {"label": "L (with) parens", "alias": "L", "collection_date": "2020-01",
                            "bioproject": "PRJ", "dataset_title": "T", "latitude": 1.0, "longitude": 2.0},
               "species": [{"species": "A b", "kind": "species", "status": "detected",
-                           "share": 0.5, "confidence": 0.9}]}
+                           "reads": 50, "share": 0.5, "confidence": 0.9}]}
     pdf = report.build_pdf(result)
     assert pdf.startswith(b"%PDF-1.4") and pdf.rstrip().endswith(b"%%EOF") and b"/Count 1" in pdf
 
@@ -315,3 +315,58 @@ def test_challenge_manifest_has_one_row_per_file_and_never_hides_a_gap():
         assert r["verified"] == "yes" or r["verified"].startswith(("MISSING", "MISMATCH"))
         if r["verified"] == "yes":
             assert len(r["sha256_local"]) == 64 and r["md5_local"] == r["md5_archive"]
+
+
+def test_native_fish_inside_an_unresolved_group_raises_no_possible_alert():
+    r = _carp_result("China")
+    r["species"] = [{"species": "Cyprinus carpio / Carassius auratus", "kind": "complex",
+                     "members": ["Cyprinus carpio", "Carassius auratus"], "status": "unresolved",
+                     "reads": 300, "share": 0.2, "confidence": 0.5, "best_identity": 0.99}]
+    assert alerts.evaluate(r) == []
+    assert [x["species"] for x in alerts.native_listed(r)] == ["Cyprinus carpio"]
+    assert alerts.native_listed(r)[0]["basis"] == "possible"
+
+
+def test_species_already_confirmed_is_not_repeated_as_possible():
+    r = {"sample_id": "S", "metadata": {"label": "L", "biosample_attributes": {"geo_loc_name": "Indonesia:X"}},
+         "species": [
+             {"species": "Oreochromis niloticus / Oreochromis aureus", "kind": "complex",
+              "members": ["Oreochromis niloticus", "Oreochromis aureus"], "status": "unresolved",
+              "reads": 900, "share": 0.3, "confidence": 0.5, "best_identity": 0.99},
+             {"species": "Oreochromis niloticus", "kind": "species", "status": "detected",
+              "reads": 400, "share": 0.1, "confidence": 0.9, "best_identity": 1.0}]}
+    ev = alerts.evaluate(r)
+    assert [(e["species"], e["kind"]) for e in ev] == [("Oreochromis niloticus", "confirmed")]
+
+
+def test_design_share_check_uses_only_what_the_source_states():
+    base = {"role": "mixed", "design_note": "equal concentration gradient",
+            "biosample_attributes": {"samp_size": "15 fish"}}
+    species = [{"species": "A b", "kind": "species", "status": "detected", "share": 0.07},
+               {"species": "C d", "kind": "species", "status": "detected", "share": 0.50},
+               {"species": "E f", "kind": "species", "status": "detected", "share": 0.001}]
+    r = {"metadata": base, "species": species}
+    chk = expected.check(r, {})["design_share_check"]
+    assert chk["expected_share_each"] == round(1 / 15, 4)
+    assert (chk["within_tolerance"], chk["outside_tolerance"]) == (1, 2)
+    assert "species table would be needed" in chk["limits"]
+    # a gradient design (unequal on purpose) must not get an equal-share expectation
+    base2 = dict(base, design_note="abundances spanning four orders of magnitude")
+    assert expected.check({"metadata": base2, "species": species}, {})["design_share_check"] is None
+
+
+def test_matches_report_aligned_coverage(tmp_path):
+    from bioradar.adjudicate.adjudicate import adjudicate_file
+    from bioradar.adjudicate.reference import Reference
+    ref = Reference.load()
+    _, species, seq = _unique_reference_entry(ref)
+    full = ref.search(seq, T.identity_species)[0]
+    assert full.species == species and full.identity == 1.0 and full.coverage == 1.0
+    # a query with 30 extra non-reference bases hanging off the end is only partly alignable:
+    # coverage must say so instead of leaving it folded silently into identity
+    part = ref.search(seq + "ACGTTGCAAGCTTGCAAGCTTGACGTCCAG", T.identity_species)
+    assert part and part[0].coverage < 1.0 and part[0].identity <= part[0].coverage
+    fasta = tmp_path / "q.fa"
+    fasta.write_text(">r1" + chr(10) + seq + chr(10) + ">r2" + chr(10) + seq + chr(10), encoding="utf-8")
+    r = adjudicate_file(fasta, {"sample_id": "t"}, ref, T)
+    assert all("coverage" in k for k in r["kept"])

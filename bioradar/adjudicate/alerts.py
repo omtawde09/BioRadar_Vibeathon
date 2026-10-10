@@ -68,52 +68,81 @@ def native_policy(hit: Dict[str, Any], meta: Dict[str, Any]) -> Optional[str]:
 
 def native_listed(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None
                   ) -> List[Dict[str, Any]]:
-    """Detected species that are on the invasive list but native at the sample country.
-    These raise no alert; they are listed so the suppression is visible and auditable."""
+    """Listed invasive species seen in this sample that are native at the sample country.
+    These raise no alert; they are recorded so the suppression is visible and auditable.
+    A species the sample also CONFIRMS elsewhere is reported once, as confirmed."""
     invasive = invasive or load_list()
     meta = result.get("metadata", {})
-    out = []
+    country = sample_country(meta)
+    out: Dict[str, Dict[str, Any]] = {}
     for row in result.get("species", []):
-        if row["kind"] != "species" or row["status"] != "detected":
-            continue
-        hit = invasive["by_name"].get(row["species"].lower())
-        if hit and native_here(hit, meta):
-            out.append({"species": hit["name"], "common_name": hit["common"],
-                        "country": sample_country(meta), "reads": row["reads"],
-                        "share": row["share"],
-                        "note": "On the global invasive list but native in {}: no alert raised. "
-                                "eDNA cannot separate a native population from a translocated "
-                                "one.".format(sample_country(meta))})
-    return out
+        if row["kind"] == "species":
+            if row["status"] != "detected":
+                continue
+            names, how = [row["species"]], "detected"
+        else:
+            names, how = list(row["members"]), "cannot be told apart from"
+        for name in names:
+            hit = invasive["by_name"].get(name.lower())
+            if hit and native_here(hit, meta) and hit["name"] not in out:
+                out[hit["name"]] = {
+                    "species": hit["name"], "common_name": hit["common"], "country": country,
+                    "reads": row["reads"], "share": row["share"],
+                    "basis": "confirmed" if row["kind"] == "species" else "possible",
+                    "note": "On the global invasive list but native in {}: no alert raised. "
+                            "eDNA cannot separate a native population from a translocated "
+                            "one.".format(country)}
+    return list(out.values())
 
 
 def evaluate(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None,
              started: Optional[float] = None) -> List[Dict[str, Any]]:
-    """Alert events for one adjudicated sample. `started` is a time.time() for latency."""
+    """Alert events for one adjudicated sample. `started` is a time.time() for latency.
+
+    * confirmed: a species-level call (>= min_detection_reads) that is on the list;
+    * possible : a sequence group that cannot be told apart from a listed species.
+    Rules that keep the officer's queue honest: a species that is native at the sample's
+    country raises nothing (see native_policy); a species already confirmed is not repeated
+    as 'possible'; one 'possible' event per listed species, from the group with most reads.
+    """
     invasive = invasive or load_list()
     by_name = invasive["by_name"]
     meta = result.get("metadata", {})
     pin = {"latitude": meta.get("latitude"), "longitude": meta.get("longitude"),
            "precision_note": meta.get("coordinate_note", "")}
     events: List[Dict[str, Any]] = []
-    for row in result.get("species", []):
-        if row["kind"] == "species":
-            hit = by_name.get(row["species"].lower())
-            if hit and row["status"] == "detected":
-                note = ""
-                if native_here(hit, meta):
-                    note = native_policy(hit, meta)
-                    if note is None:
-                        continue
-                event = _event(result, hit, hit["level"], "confirmed", row, pin, started)
-                if note:
-                    event["native_range_note"] = note
-                events.append(event)
-        else:
-            listed = [by_name[m.lower()] for m in row["members"] if m.lower() in by_name]
-            if listed:
-                events.append(_event(result, listed[0], "WATCH", "possible", row, pin, started,
-                                     members=row["members"]))
+    confirmed: set = set()
+    rows = result.get("species", [])
+
+    for row in rows:
+        if row["kind"] != "species" or row["status"] != "detected":
+            continue
+        hit = by_name.get(row["species"].lower())
+        if not hit:
+            continue
+        note = ""
+        if native_here(hit, meta):
+            note = native_policy(hit, meta)
+            if note is None:
+                continue
+        event = _event(result, hit, hit["level"], "confirmed", row, pin, started)
+        if note:
+            event["native_range_note"] = note
+        events.append(event)
+        confirmed.add(hit["name"])
+
+    seen_possible: set = set()
+    for row in sorted((r for r in rows if r["kind"] != "species"), key=lambda r: -r["reads"]):
+        for member in row["members"]:
+            hit = by_name.get(member.lower())
+            if not hit or hit["name"] in confirmed or hit["name"] in seen_possible:
+                continue
+            if native_here(hit, meta) and native_policy(hit, meta) is None:
+                continue
+            seen_possible.add(hit["name"])
+            events.append(_event(result, hit, "WATCH", "possible", row, pin, started,
+                                 members=row["members"]))
+
     order = {"CRITICAL": 0, "HIGH": 1, "WATCH": 2}
     events.sort(key=lambda e: (order[e["level"]], -e["reads"]))
     return events

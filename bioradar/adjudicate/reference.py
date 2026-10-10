@@ -38,8 +38,9 @@ POSTING_CAP = 150  # k-mers shared by more references than this carry no signal
 class Match(NamedTuple):
     species: str
     accession: str
-    identity: float
+    identity: float  # matching bases / query length (an overhang counts against it)
     strand: str
+    coverage: float = 1.0  # aligned query bases / query length at the best diagonal
 
 
 def _hamming(a: str, b: str) -> int:
@@ -281,7 +282,7 @@ class Reference:
         """
         cands = self._candidates(seq, "+") + self._candidates(revcomp(seq), "-")
         cands.sort(key=lambda c: -c[2])
-        scored: Dict[str, Tuple[float, str, str, int, str]] = {}
+        scored: Dict[str, Tuple[float, str, str, int, str, float]] = {}
         for idx, diag, votes, strand in cands[:10]:
             if votes < 3:
                 continue
@@ -291,15 +292,16 @@ class Reference:
             hi = min(len(query), len(ref) - diag)
             same = sum(1 for i in range(lo, hi) if query[i] == ref[i + diag])
             identity = same / len(query)
+            coverage = max(0, hi - lo) / len(query)
             prior = scored.get(species)
             if prior is None or identity > prior[0]:
-                scored[species] = (identity, acc, strand, diag, species)
+                scored[species] = (identity, acc, strand, diag, species, coverage)
         ranked = sorted(scored.values(), key=lambda v: -v[0])
         refined = []
-        for rank, (identity, acc, strand, diag, species) in enumerate(ranked):
+        for rank, (identity, acc, strand, diag, species, coverage) in enumerate(ranked):
             if rank < 2 and identity < species_threshold:
                 query = seq if strand == "+" else revcomp(seq)
                 ref = next(e[2] for e in self.entries if e[0] == acc)
                 identity = max(identity, _banded_identity(query, ref, diag))
-            refined.append(Match(species, acc, round(identity, 4), strand))
+            refined.append(Match(species, acc, round(identity, 4), strand, round(coverage, 4)))
         return sorted(refined, key=lambda m: -m.identity)
