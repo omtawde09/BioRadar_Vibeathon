@@ -222,6 +222,7 @@ class Reference:
                 self.index[seq[pos:pos + K]].append((idx, pos))
         self.species_count = len({s for _, s, _ in entries})
         self.spelling_merges: List[Dict[str, Any]] = []
+        self.version = ""  # e.g. "NCBI RefSeq, retrieved 2026-10-10..." from reference.json
 
     @classmethod
     def load(cls, fasta: Optional[Path] = None) -> "Reference":
@@ -247,12 +248,18 @@ class Reference:
         entries = [(a, canonical.get(sp, sp), q) for a, sp, q in entries]
         ref = cls(entries)
         ref.spelling_merges = variants  # reported by the data guard
+        meta = fasta.with_name("reference.json")
+        if meta.is_file():
+            ref.version = json.loads(meta.read_text(encoding="utf-8")).get(
+                "reference_database_version", "")
         return ref
 
     def exclude_species(self, names) -> "Reference":
         """A copy without the named species (used to show a documented reference gap)."""
         names = {n.lower() for n in names}
-        return Reference([e for e in self.entries if e[1].lower() not in names])
+        copy = Reference([e for e in self.entries if e[1].lower() not in names])
+        copy.version = self.version
+        return copy
 
     def _candidates(self, seq: str, strand: str, limit: int = 6) -> List[Tuple[int, int, int, str]]:
         votes: Counter = Counter()

@@ -91,24 +91,33 @@ def test_a_corrupt_overlay_does_not_hide_everything(isolated):
 # --------------------------------------------------------------------------
 
 
-def test_the_repository_ships_the_demo_dataset():
-    """A fresh clone must have something to run.
+def _shipped_demo_entry():
+    """The bundled demo, wherever the maintainers have parked it.
 
-    If this fails, data/datasets.json was emptied -- almost certainly by
-    pressing Remove in the UI and committing the result. Restore it from git
-    history rather than retyping it.
+    data/datasets.json ships `datasets: []` on purpose (the app opens with an
+    empty "Your datasets" list) and keeps the SIMULATED demo under `_examples`
+    so it can be moved back in one edit. Both places count.
     """
     payload = json.loads(webapp.DATASETS_FILE.read_text(encoding="utf-8"))
-    ids = [d["id"] for d in payload.get("datasets", [])]
-    assert "demo-survey" in ids, (
-        "data/datasets.json no longer lists demo-survey, so a fresh clone opens "
-        "with an empty dataset list and the README's first-run instructions fail"
+    pool = list(payload.get("datasets", [])) + list(payload.get("_examples", []))
+    return next((d for d in pool if d.get("id") == "demo-survey"), None)
+
+
+def test_the_repository_still_carries_the_demo_dataset_definition():
+    """The demo may be hidden from the default list, but must not be lost.
+
+    If this fails, data/datasets.json lost its `_examples` entry -- almost
+    certainly a UI Remove that was committed. Restore it from git history.
+    """
+    assert _shipped_demo_entry() is not None, (
+        "data/datasets.json lists demo-survey neither under `datasets` nor under "
+        "`_examples`, so the bundled demo can no longer be re-enabled"
     )
 
 
 def test_the_shipped_demo_entry_points_at_files_that_exist():
-    payload = json.loads(webapp.DATASETS_FILE.read_text(encoding="utf-8"))
-    entry = next(d for d in payload["datasets"] if d["id"] == "demo-survey")
+    entry = _shipped_demo_entry()
+    assert entry is not None
 
     fastq_dir = webapp.REPO_ROOT / entry["fastq_dir"]
     assert fastq_dir.is_dir(), "{d} is missing".format(d=entry["fastq_dir"])

@@ -81,6 +81,7 @@ def _event(result, hit, level, kind, row, pin, started, members=None) -> Dict[st
         "reads": row["reads"],
         "share": row["share"],
         "confidence": row["confidence"],
+        "score_type": row.get("score_type", "heuristic_identity_x_margin"),
         "best_identity": row["best_identity"],
         "pin": pin,
         "candidates": members or [name],

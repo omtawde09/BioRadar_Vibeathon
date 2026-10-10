@@ -246,27 +246,38 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
         "rules_not_exercised_by_this_data": not_present,
         "merged_runs": merged_runs,
         "spelling_merges": spelling,
-        "post_check": post_check(clean, boundary, today, ids_clean, spelling),
+        "post_check": post_check(clean, boundary, today, ids_clean, spelling,
+                                 vocabulary=species_sequences, counts=species_counts),
     }
 
 
 def post_check(clean: List[Dict[str, str]], boundary: Dict[str, Any], today: date,
-               ids: Optional[List[str]] = None, spelling: Optional[List[Dict[str, Any]]] = None
-               ) -> Dict[str, Any]:
-    """Re-read the clean store and prove no unintended bad record got through."""
+               ids: Optional[List[str]] = None, spelling: Optional[List[Dict[str, Any]]] = None,
+               vocabulary: Optional[Dict[str, str]] = None,
+               counts: Optional[Dict[str, int]] = None) -> Dict[str, Any]:
+    """Re-read the clean store and prove no unintended bad record got through.
+
+    `unmerged_double_spellings` is measured, not assumed: the species vocabulary
+    that is left after the merges is scanned again with the same rule. It is None
+    ("not checked") when no vocabulary was supplied -- never a silent 0."""
     ids = ids if ids is not None else [r["sample_alias"] for r in clean]
     dup_ids = len(ids) - len(set(ids))
     outside = sum(1 for r in clean if not r.get("lat") or not r.get("lon")
                   or not in_boundary(float(r["lon"]), float(r["lat"]), boundary))
     future = sum(1 for r in clean
                  if (parse_date(r.get("collection_date", "")) or (date.min, ""))[0] > today)
+    unmerged: Optional[int] = None
+    if vocabulary:
+        merged_away = {m["merge"] for m in (spelling or [])}
+        left = {n: q for n, q in vocabulary.items() if n not in merged_away}
+        unmerged = len(spelling_variants(left, counts))
     return {
         "records_checked": len(clean),
         "duplicate_sample_ids": dup_ids,
         "outside_boundary": outside,
         "future_dated": future,
-        "unmerged_double_spellings": 0 if spelling is not None else None,
-        "clean": dup_ids == 0 and outside == 0 and future == 0,
+        "unmerged_double_spellings": unmerged,
+        "clean": dup_ids == 0 and outside == 0 and future == 0 and not unmerged,
     }
 
 

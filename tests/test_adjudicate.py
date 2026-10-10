@@ -232,3 +232,52 @@ def test_file_name_does_not_decide_the_answer(tmp_path):
     a = adjudicate_file(REAL_POOR, {"sample_id": "a"}, ref, T)
     b = adjudicate_file(disguised, {"sample_id": "b"}, ref, T)
     assert a["verdict"] == b["verdict"] and a["summary"] == b["summary"]
+
+
+# -- Person A hardening: the number is labelled for what it is --------------------------------
+# Fixtures below are software-test-only: a reference amplicon written to a temp FASTA. They
+# prove the safeguards work; they are NOT evidence that any real sample contains the case.
+
+def _unique_reference_entry(ref):
+    for acc, species, seq in ref.entries:
+        if species == "Homo sapiens":
+            continue
+        hits = ref.search(seq, T.identity_species)
+        runner_up = [m for m in hits[1:] if m.species != species]
+        if hits and hits[0].species == species and (
+                not runner_up or hits[0].identity - runner_up[0].identity >= 2 * T.min_species_margin):
+            return acc, species, seq
+    raise AssertionError("no unambiguous reference entry found")
+
+
+def test_every_score_is_labelled_uncalibrated_with_reference_version(tmp_path):
+    from bioradar.adjudicate.adjudicate import SCORE_TYPE, adjudicate_file
+    from bioradar.adjudicate.reference import Reference
+    ref = Reference.load()
+    _, species, seq = _unique_reference_entry(ref)
+    fasta = tmp_path / "q.fa"
+    fasta.write_text(">r1\n{0}\n>r2\n{0}\n>r3\n{0}\n".format(seq), encoding="utf-8")
+    r = adjudicate_file(fasta, {"sample_id": "t"}, ref, T)
+    assert r["score_type"] == SCORE_TYPE and "NOT a calibrated" in r["score_note"]
+    assert r["species"] and all(row["score_type"] == SCORE_TYPE for row in r["species"])
+    assert r["species"][0]["species"] == species
+    assert all(k["score_type"] == SCORE_TYPE and k["reference_version"] == ref.version
+               for k in r["kept"])
+    assert ref.version, "reference_database_version must flow from reference.json"
+
+
+def test_post_check_measures_unmerged_spellings_instead_of_assuming_zero():
+    boundary = {"name": "b", "properties": {}, "polygons": [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]]}
+    seq = "ACGT" * 40
+    vocab = {"Genus idella": seq, "Genus idellus": seq}
+    today = date(2026, 1, 1)
+    # spelling pair present in the vocabulary and NOT merged -> must be reported, not clean
+    bad = guard.post_check([], boundary, today, ids=[], spelling=[], vocabulary=vocab)
+    assert bad["unmerged_double_spellings"] == 1 and bad["clean"] is False
+    # same pair after the merge decision -> measured zero
+    merged = guard.spelling_variants(vocab)
+    ok = guard.post_check([], boundary, today, ids=[], spelling=merged, vocabulary=vocab)
+    assert ok["unmerged_double_spellings"] == 0 and ok["clean"] is True
+    # no vocabulary supplied -> "not checked" (None), never a silent pass
+    unknown = guard.post_check([], boundary, today, ids=[], spelling=[])
+    assert unknown["unmerged_double_spellings"] is None

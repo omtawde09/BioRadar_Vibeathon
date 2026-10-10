@@ -25,6 +25,15 @@ from bioradar.adjudicate.thresholds import Thresholds, load
 
 HUMAN = "Homo sapiens"
 
+# `confidence` below is a heuristic ranking score, not a calibrated probability: nobody
+# has measured how often a 0.90 is right. The key keeps its name so the stored results
+# and the UI stay compatible; every result carries this type + note so no consumer has
+# to guess what the number means.
+SCORE_TYPE = "heuristic_identity_x_margin"
+SCORE_NOTE = ("Match score = identity-to-reference scaled by the margin over the next-best "
+              "species (see adjudicate.confidence). It ranks matches; it is NOT a calibrated "
+              "probability that the call is correct. Unknowns are capped and are never confirmed.")
+
 
 def _clamp(x: float, lo: float = 0.0, hi: float = 1.0) -> float:
     return max(lo, min(hi, x))
@@ -100,7 +109,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         margin = best.identity - (runner.identity if runner else 0.0)
         base = {"seq_id": _sid(d.seq), "sequence": d.seq, "reads": d.count,
                 "closest_match": best.species, "closest_accession": best.accession,
-                "identity": best.identity,
+                "identity": best.identity, "score_type": SCORE_TYPE,
+                "reference_version": ref.version,
                 "runner_up": runner.species if runner else "",
                 "runner_up_identity": runner.identity if runner else 0.0}
 
@@ -184,6 +194,7 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
             "share": round(n / identified, 4) if identified else 0.0,
             "best_identity": best_item["identity"],
             "confidence": round(sum(i["confidence"] * i["reads"] for i in g["items"]) / n, 3),
+            "score_type": SCORE_TYPE,
             "reference_accession": best_item["closest_accession"],
             "status": (("detected" if n >= t.min_detection_reads else "trace")
                        if kind == "species" else "unresolved"),
@@ -217,6 +228,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         "metadata": sample,
         "input_format": fmt,
         "quality_scores_available": fmt == "fastq",
+        "score_type": SCORE_TYPE,
+        "score_note": SCORE_NOTE,
         "reads_total": total_reads,
         "distinct_sequences": len(distinct),
         "summary": {
