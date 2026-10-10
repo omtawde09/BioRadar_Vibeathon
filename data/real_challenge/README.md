@@ -27,9 +27,10 @@ real_challenge/
 Commands (from the repo root):
 
 ```bash
-python -m bioradar.adjudicate.runner fetch    # download reads + reference, md5-verified
+python -m bioradar.adjudicate.runner fetch    # download the reads listed in manifest.json, md5-verified (retries; safe to re-run)
 python -m bioradar.adjudicate.runner all      # process every sample
 python -m bioradar.adjudicate.runner verify   # check every condition of the brief -> COMPLIANCE.md
 ```
 
-Reads are R1 only. Raw reads and caches are gitignored (about 290 MB) and re-fetched from the archives on demand.
+Reads are R1 only. Raw reads (227 MB) and results are gitignored and rebuilt by the commands above. The built reference, the
+records snapshot and the boundary are committed, so `fetch` does not re-download them; `fetch reference` / `--refresh` rebuild from NCBI.

@@ -256,6 +256,37 @@ and China, not India; unknown identities have no ground truth.
 | Season samples are summer/winter, not monsoon/summer | data | stated on every screen |
 | `test_dataset_registry` x2 fail | pre-existing | maintainer |
 
+### Clean-start rehearsal (workpack minute 170-180): it found real bugs
+
+Method: fresh `git clone` of the **pushed** branch into an empty folder, then only the documented commands, nothing copied
+from the working copy.
+
+| Attempt | Result |
+|---|---|
+| 1 (code at `98f1c4a`) | **FAILED.** `fetch` died on `HTTP 504 Gateway Timeout` from one of the snapshot services; the later steps then ran on a half-fetched tree and **34 report tests failed** in that clone. The folder was overwritten by a later attempt, so the test failures were **not root-caused**; the fetch failure was |
+| 2 (code at `cd8f2ef`) | **PASSED** end to end |
+
+Attempt 2 (all numbers from the log): clone 10 s -> `runner fetch` exit 0 (reads verified; at that commit it also downloaded
+the 68 MB mitogenome cache, about 5 min) -> `runner all` **38 samples in 195 s** -> `runner verify` identical PASS/PARTIAL/GAP table
+to the working copy -> **85 tests passed** -> total about **14.6 min**.
+
+Bugs the rehearsal exposed, all fixed and tested (`tests/test_fetch_resilience.py`, 7 tests):
+
+| Bug | Fix |
+|---|---|
+| One 5xx aborted `fetch`; later steps ran on missing files; exit code hid the failure | retries with growing pauses on 5xx / timeout (4xx is not retried); an Overpass mirror fallback; each step reports `FAILED` and `fetch` exits 1 with "re-run the same command" |
+| `fetch` re-queried ENA and **rewrote the committed manifest** (new retrieval date, new file) | clean start downloads **exactly the files in the committed manifest**, md5-verified; `--refresh` is the only way to re-query |
+| `fetch all` overwrote the committed **records snapshot and boundary** with live data (ENA changes over time) | snapshots are fetched only if missing (or `--refresh`) |
+| `fetch_reference` appended on every run (duplicate records) | skip when the cache matches the query, else rewrite via a temp file |
+| ~5 min NCBI download although the built reference is already committed | skipped unless `fetch reference` or `--refresh` |
+| `verify` embedded a changing PDF byte count, dirtying a clean checkout | stable wording |
+
+After these fixes a warm `fetch` takes **0.9 s** and leaves `git status` clean; a cold clean start is clone + reads
+(about 3 min on this connection) + `runner all` (about 3 min).
+
+Remaining risk: the attempt-1 test-failure cluster is unexplained. It happened only in the half-fetched state and the
+complete rehearsal is green, but it was not reproduced or diagnosed.
+
 ## Open questions for the maintainer / Person A
 
 1. Which repository is canonical (`BioRadar_Vibeathon` vs `BioRadar`)?

@@ -65,6 +65,12 @@ def test_all_does_not_refetch_committed_snapshots_or_rewrite_the_manifest(monkey
     assert fetch.main(["all"]) == 0
 
 
+def test_all_skips_the_mitogenome_download_when_the_reference_is_committed(monkeypatch):
+    monkeypatch.setattr(fetch, "fetch_from_manifest", lambda: "ok")
+    monkeypatch.setattr(fetch, "fetch_reference", lambda: (_ for _ in ()).throw(AssertionError("must not run")))
+    assert fetch.main(["all"]) == 0  # the repo ships reference/refseq_fish_12s/reference.fasta
+
+
 def test_a_failing_step_is_reported_and_the_exit_code_is_nonzero(monkeypatch, capsys):
     monkeypatch.setattr(fetch, "fetch_from_manifest", lambda: "ok")
 
@@ -72,7 +78,7 @@ def test_a_failing_step_is_reported_and_the_exit_code_is_nonzero(monkeypatch, ca
         raise RuntimeError("NCBI unavailable")
 
     monkeypatch.setattr(fetch, "fetch_reference", boom)
-    assert fetch.main(["all"]) == 1
+    assert fetch.main(["reference"]) == 1
     out = capsys.readouterr().out
     assert "FAILED: NCBI unavailable" in out and "Re-run the same command" in out
 

@@ -432,8 +432,12 @@ def main(argv: List[str] = None) -> int:
             steps.append(("Samples (from the committed manifest, md5-verified)", fetch_from_manifest))
         else:
             steps.append(("Samples (querying ENA, rewriting the manifest)", fetch_samples))
-    if args.what in ("reference", "all"):
+    committed_reference = DATA_DIR / "reference" / "refseq_fish_12s" / "reference.fasta"
+    if args.what == "reference" or (args.what == "all" and (args.refresh or not committed_reference.is_file())):
         steps.append(("Reference (RefSeq fish mitogenomes + human)", fetch_reference))
+    elif args.what == "all":
+        print("Reference: the built reference is committed ({}); mitogenome download skipped "
+              "(`fetch reference` or --refresh rebuilds it)".format(committed_reference.name))
     for name, func, target in (("records", fetch_records, records_file), ("boundary", fetch_boundary, boundary_file)):
         if args.what == name or (args.what == "all" and not target.is_file()) or (args.what == "all" and args.refresh):
             steps.append(("Snapshot: " + name, func))
