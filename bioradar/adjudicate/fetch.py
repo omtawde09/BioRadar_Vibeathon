@@ -3,7 +3,6 @@
 Nothing here creates or edits a sequence. Every file comes from a public archive
 and is checked against the archive's own md5 before it is trusted.
 
-    python -m bioradar.adjudicate.fetch reads        # reads listed in the committed manifest (md5-verified)
     python -m bioradar.adjudicate.fetch samples      # PRJNA1059782 R1 reads + manifest
     python -m bioradar.adjudicate.fetch reference    # RefSeq fish mitogenomes + human 12S
     python -m bioradar.adjudicate.fetch all
@@ -44,9 +43,33 @@ FIELDS = (
 )
 
 
+RETRIES = 4
+
+
+def _retry(call, what: str):
+    """Run `call()`; retry on timeouts and 5xx with growing pauses. 4xx is a real error, not retried."""
+    import urllib.error
+    last = None
+    for attempt in range(RETRIES):
+        try:
+            return call()
+        except urllib.error.HTTPError as exc:
+            if exc.code < 500:
+                raise
+            last = exc
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as exc:
+            last = exc
+        wait = 3 * (attempt + 1)
+        print("  {} failed ({}); retry {}/{} in {}s".format(what, last, attempt + 1, RETRIES - 1, wait), flush=True)
+        time.sleep(wait)
+    raise RuntimeError("{} failed after {} attempts: {}".format(what, RETRIES, last))
+
+
 def _get(url: str, timeout: int = 120) -> bytes:
-    with _urlopen(url, timeout=timeout) as response:
-        return response.read()
+    def once() -> bytes:
+        with _urlopen(url, timeout=timeout) as response:
+            return response.read()
+    return _retry(once, url.split("?")[0])
 
 
 # --------------------------------------------------------------------------
@@ -85,12 +108,16 @@ def download_verified(url: str, destination: Path, md5: str) -> str:
     if destination.is_file() and _md5(destination) == md5:
         return "cached"
     tmp = destination.with_suffix(destination.suffix + ".part")
-    with _urlopen(url, timeout=300) as response, tmp.open("wb") as out:
-        for chunk in iter(lambda: response.read(1 << 20), b""):
-            out.write(chunk)
-    if _md5(tmp) != md5:
-        tmp.unlink()
-        raise RuntimeError("md5 mismatch for {} -- download corrupted".format(url))
+
+    def once() -> None:
+        with _urlopen(url, timeout=300) as response, tmp.open("wb") as out:
+            for chunk in iter(lambda: response.read(1 << 20), b""):
+                out.write(chunk)
+        if _md5(tmp) != md5:
+            tmp.unlink()
+            raise OSError("md5 mismatch for {} -- download corrupted".format(url))
+
+    _retry(once, destination.name)
     tmp.replace(destination)
     return "downloaded"
 
@@ -137,6 +164,25 @@ DATASETS = [
         "used_for": "real field water blank, low yield",
     },
 ]
+
+
+def fetch_from_manifest() -> Path:
+    """Download exactly the files the committed manifest lists, verifying each md5.
+
+    This is the clean-start path: it never re-queries ENA, so it cannot change the committed
+    manifest, and it needs no network service except the file server itself."""
+    manifest = DATA_DIR / "manifest.json"
+    doc = json.loads(manifest.read_text(encoding="utf-8"))
+    total = fresh = 0
+    for ds in doc["datasets"]:
+        for run in ds["runs"]:
+            for f in run["files"]:
+                status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
+                total += 1
+                fresh += status == "downloaded"
+                print("  {:<11} {}".format(status, f["file"].rsplit("/", 1)[-1]), flush=True)
+    print("  {} files verified against the manifest ({} downloaded)".format(total, fresh), flush=True)
+    return manifest
 
 
 def _write_dataset_folder(entry: Dict[str, Any]) -> None:
@@ -217,29 +263,6 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
     return target
 
 
-def fetch_reads_from_manifest(manifest: Path = None) -> int:
-    """Download exactly the files the COMMITTED manifest lists, verified against the md5s it
-    records. Unlike `fetch_samples` this makes no metadata query and rewrites no manifest, so
-    a clean checkout reproduces the same bytes the manifest was written against."""
-    manifest = Path(manifest) if manifest else DATA_DIR / "manifest.json"
-    doc = json.loads(manifest.read_text(encoding="utf-8"))
-    failures = 0
-    for ds in doc["datasets"]:
-        for run in ds["runs"]:
-            for f in run["files"]:
-                name = Path(f["file"]).name
-                try:  # `file` is relative to data/real_challenge (datasets/<folder>/raw/<name>)
-                    status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
-                except Exception as exc:  # report every failure, do not stop at the first
-                    failures += 1
-                    status = "FAILED ({})".format(exc)
-                print("  {:<11} {:<28} {:>6.1f} MB".format(
-                    status.split(" ")[0], name, f["bytes"] / 1e6), flush=True)
-                if status.startswith("FAILED"):
-                    print("      " + status, flush=True)
-    return failures
-
-
 # --------------------------------------------------------------------------
 # Reference
 # --------------------------------------------------------------------------
@@ -269,11 +292,16 @@ def fetch_reference() -> Path:
     ids = _esearch(REFSEQ_QUERY)
     print("  RefSeq Actinopteri mitogenomes: {}".format(len(ids)), flush=True)
     target = CACHE_DIR / "refseq_fish_mito.fasta"
-    done = set()
-    if target.is_file():
-        done = {line[1:].split()[0] for line in target.read_text().splitlines()
-                if line.startswith(">")}
-    with target.open("a", encoding="utf-8") as out:
+    meta_file = CACHE_DIR / "refseq_fetch.json"
+    if target.is_file() and meta_file.is_file() and (CACHE_DIR / "human_mito.fasta").is_file():
+        have = sum(1 for line in target.read_text(encoding="utf-8").splitlines() if line.startswith(">"))
+        recorded = json.loads(meta_file.read_text(encoding="utf-8")).get("records_requested")
+        if recorded == len(ids) and have == len(ids):
+            print("  cached: {} records already match the current NCBI query".format(have), flush=True)
+            return target  # keep the recorded retrieval date: the reference version must not drift
+    # Rewrite from scratch through a temp file. Never append: re-running used to duplicate every record.
+    tmp = target.with_suffix(".fasta.part")
+    with tmp.open("w", encoding="utf-8") as out:
         for start in range(0, len(ids), BATCH):
             batch = ids[start:start + BATCH]
             try:
@@ -285,6 +313,7 @@ def fetch_reference() -> Path:
             out.write(text if text.endswith("\n") else text + "\n")
             print("  fetched {}/{}".format(min(start + BATCH, len(ids)), len(ids)), flush=True)
             time.sleep(0.4)  # NCBI allows 3 requests/s without a key
+    tmp.replace(target)
     human = _efetch_fasta(_esearch("{}[Accession]".format(HUMAN_MITO)))
     (CACHE_DIR / "human_mito.fasta").write_text(human, encoding="utf-8")
     meta = {
@@ -304,6 +333,7 @@ def fetch_reference() -> Path:
 
 BOUNDARY_RELATION = 6803599  # "Litoral Norte" protected area, northern Portugal
 OVERPASS = "https://overpass-api.de/api/interpreter"
+OVERPASS_MIRRORS = [OVERPASS, "https://overpass.kumi.systems/api/interpreter"]
 
 
 def _stitch(ways: List[List[tuple]]) -> List[List[tuple]]:
@@ -336,10 +366,18 @@ def fetch_boundary(relation: int = BOUNDARY_RELATION) -> Path:
     import urllib.request
     body = urllib.parse.urlencode({"data": "[out:json][timeout:90];relation({});out geom;".format(
         relation)}).encode()
-    req = urllib.request.Request(OVERPASS, data=body,
-                                 headers={"User-Agent": "BioRadar-hackathon/1.0 (eDNA research)"})
-    with _urlopen_request(req) as response:
-        doc = json.loads(response.read())
+    last = None
+    for endpoint in OVERPASS_MIRRORS:
+        req = urllib.request.Request(endpoint, data=body,
+                                     headers={"User-Agent": "BioRadar-hackathon/1.0 (eDNA research)"})
+        try:
+            doc = json.loads(_retry(lambda: _urlopen_request(req).read(), endpoint))
+            break
+        except Exception as exc:  # try the next mirror
+            last = exc
+            print("  boundary mirror {} unavailable: {}".format(endpoint, exc), flush=True)
+    else:
+        raise RuntimeError("no Overpass mirror answered: {}".format(last))
     rel = doc["elements"][0]
     ways = [[(p["lon"], p["lat"]) for p in m["geometry"]] for m in rel["members"]
             if m["type"] == "way" and m.get("role") in ("outer", "") and m.get("geometry")]
@@ -382,22 +420,40 @@ def fetch_records() -> Path:
 def main(argv: List[str] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     parser.add_argument("what", choices=["samples", "reads", "reference", "records", "boundary", "all"])
+    parser.add_argument("--refresh", action="store_true",
+                        help="re-query the archives and rewrite the committed manifest/snapshots")
     args = parser.parse_args(argv)
-    if args.what == "reads":
-        print("Reads (from the committed manifest, md5-verified):")
-        bad = fetch_reads_from_manifest()
-        print("done, {} failure(s)".format(bad))
-        return 1 if bad else 0
-    if args.what in ("samples", "all"):
-        print("Samples:")
-        print("  manifest ->", fetch_samples())
-    if args.what in ("records", "all"):
-        print("Records:", fetch_records())
-    if args.what in ("boundary", "all"):
-        print("Boundary:", fetch_boundary())
-    if args.what in ("reference", "all"):
-        print("Reference:")
-        print("  ->", fetch_reference())
+    records_file = DATASETS_DIR / RECORDS_FOLDER / "records" / "PRJEB108476_runs.tsv"
+    boundary_file = DATA_DIR / "boundary" / "litoral_norte.geojson"
+    manifest = DATA_DIR / "manifest.json"
+    steps = []
+    if args.what in ("samples", "reads", "all"):
+        if args.what == "reads" or (manifest.is_file() and not args.refresh):
+            steps.append(("Samples (from the committed manifest, md5-verified)", fetch_from_manifest))
+        else:
+            steps.append(("Samples (querying ENA, rewriting the manifest)", fetch_samples))
+    committed_reference = DATA_DIR / "reference" / "refseq_fish_12s" / "reference.fasta"
+    if args.what == "reference" or (args.what == "all" and (args.refresh or not committed_reference.is_file())):
+        steps.append(("Reference (RefSeq fish mitogenomes + human)", fetch_reference))
+    elif args.what == "all":
+        print("Reference: the built reference is committed ({}); mitogenome download skipped "
+              "(`fetch reference` or --refresh rebuilds it)".format(committed_reference.name))
+    for name, func, target in (("records", fetch_records, records_file), ("boundary", fetch_boundary, boundary_file)):
+        if args.what == name or (args.what == "all" and not target.is_file()) or (args.what == "all" and args.refresh):
+            steps.append(("Snapshot: " + name, func))
+        elif args.what == "all":
+            print("Snapshot: {} present ({}); not re-fetched (use --refresh)".format(name, target.name))
+    failed = []
+    for title, func in steps:
+        print(title + ":", flush=True)
+        try:
+            print("  ->", func())
+        except Exception as exc:  # report the step, keep going so one flaky service does not hide the rest
+            print("  FAILED: {}".format(exc), flush=True)
+            failed.append(title)
+    if failed:
+        print("\nFetch incomplete. Failed: {}. Re-run the same command; finished files are kept.".format("; ".join(failed)))
+        return 1
     return 0
 
 

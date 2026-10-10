@@ -151,7 +151,7 @@ def scenarios() -> List[Row]:
 
     pdf = report.build_pdf(_result(sel["invasive"]["sample_id"]))
     rows.append(("7. One-page PDF", "PASS" if pdf.startswith(b"%PDF") and b"/Count 1" in pdf else "GAP",
-                 "{} bytes, single page, generated on demand".format(len(pdf)), sel["report"]["condition"]))
+                 "single page, generated on demand", sel["report"]["condition"]))
     return rows
 
 

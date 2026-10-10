@@ -1,0 +1,58 @@
+/* Charts on the pipeline Results page. Tokens only; flat data marks (no shadows on charts). */
+
+.vz { display: flex; flex-direction: column; gap: var(--space-4); }
+.vz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); }
+.vz-card h2 { margin: 0 0 var(--space-3); font-size: var(--text-base, 1rem); }
+.vz-hint { margin: calc(-1 * var(--space-2)) 0 var(--space-3); }
+
+/* donut */
+.vz-donut-wrap { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+.vz-donut { width: 160px; height: 160px; flex: 0 0 auto; }
+.vz-donut-num { font-size: 26px; font-weight: 700; fill: var(--text-primary); }
+.vz-donut-lbl { font-size: 11px; fill: var(--text-secondary); }
+.vz-legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; flex: 1 1 140px; min-width: 0; }
+.vz-legend li { display: grid; grid-template-columns: 12px 1fr auto; gap: 8px; align-items: center; font-size: var(--text-sm); }
+.vz-leg-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vz-leg-val { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.vz-swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.vz-swatch.named { background: var(--alert-healthy); }
+.vz-swatch.none { background: var(--alert-neutral); }
+
+/* bars */
+.vz-bars { display: flex; flex-direction: column; gap: 9px; }
+.vz-row { display: grid; grid-template-columns: minmax(120px, 46%) 1fr auto; gap: var(--space-3); align-items: center; }
+.vz-name { font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vz-track { height: 14px; background: var(--surface-pressed); border-radius: 7px; overflow: hidden; }
+.vz-fill { height: 100%; border-radius: 7px; min-width: 2px; }
+.vz-stack { display: flex; height: 100%; border-radius: 7px; overflow: hidden; min-width: 2px; }
+.vz-seg.named { background: var(--alert-healthy); }
+.vz-seg.none { background: var(--alert-neutral); }
+.vz-val { font-size: var(--text-sm); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.vz-val small { color: var(--text-secondary); font-size: var(--text-xs); }
+.vz-key { display: flex; gap: var(--space-4); margin-bottom: var(--space-3); font-size: var(--text-xs); color: var(--text-secondary); }
+.vz-key span { display: inline-flex; align-items: center; gap: 6px; }
+
+/* histogram */
+.vz-hist { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-3); align-items: end; height: 190px; }
+.vz-col { display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; min-width: 0; }
+.vz-colval { font-weight: 700; font-variant-numeric: tabular-nums; }
+.vz-colbar { flex: 1; width: 100%; display: flex; align-items: flex-end; background: var(--surface-pressed); border-radius: 8px; overflow: hidden; }
+.vz-colbar span { display: block; width: 100%; min-height: 2px; border-radius: 8px 8px 0 0; }
+.vz-collbl { font-size: var(--text-xs); color: var(--text-secondary); text-align: center; }
+
+/* collapsed text blocks: a one-line summary instead of a wall of cards */
+details.vz-fold { border-radius: var(--radius-lg); background: var(--surface-raised); box-shadow: var(--neu-raised-sm); }
+details.vz-fold > summary { cursor: pointer; padding: var(--space-4); display: flex; gap: var(--space-3); align-items: center; flex-wrap: wrap; list-style: none; font-weight: 600; }
+details.vz-fold > summary::-webkit-details-marker { display: none; }
+details.vz-fold > summary::before { content: "▸"; color: var(--text-secondary); transition: transform .15s; }
+details.vz-fold[open] > summary::before { transform: rotate(90deg); }
+details.vz-fold > summary .hint { font-weight: 400; }
+details.vz-fold > .vz-fold-body { padding: 0 var(--space-4) var(--space-4); }
+details.vz-fold > summary:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { details.vz-fold > summary::before { transition: none; } }
+
+@media (max-width: 720px) {
+  .vz-row { grid-template-columns: 1fr auto; }
+  .vz-row .vz-track { grid-column: 1 / -1; order: 3; }
+  .vz-hist { height: 160px; }
+}

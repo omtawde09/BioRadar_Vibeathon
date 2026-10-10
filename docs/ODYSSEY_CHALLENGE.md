@@ -1,6 +1,6 @@
 # Odyssey challenge: from a real sample to an honest answer
 
-Branch: `challenge/odyssey-adjudication`. The QIIME2 / DADA2 / BLAST pipeline is
+Lives on `main` (the former `challenge/odyssey-adjudication` branch was merged and deleted). The QIIME2 / DADA2 / BLAST pipeline is
 **untouched**. Everything here is new code under `bioradar/adjudicate/` plus one view
 (**Review**) in the existing web app. No QIIME2, DADA2 or BLAST is run, no model is trained.
 
