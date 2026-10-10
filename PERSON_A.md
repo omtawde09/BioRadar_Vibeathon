@@ -150,3 +150,27 @@ API: `GET /api/adjudicate/relatives/<sample_id>` (top 10 unknowns, cached) and
 `POST /api/adjudicate/relatives/query` with `{"sequence": "...", "observations": {"habitat": "freshwater", "karyotype_2n": 48}}`.
 Every response carries `status: hypothesis - needs expert review; never a confirmed identification`.
 UI panel: handoff to Person B (`webapp_static/` is B's).
+
+## Phase 6 - parallel verification (research + UI agents) and fixes
+
+Merged `main` (Person B: B5 Hindi/a11y, clean-start fetch from the committed manifest, Results
+charts, checklist) as `2195154`. Person B's `fetch_from_manifest` replaces Person A's duplicate
+`fetch_reads_from_manifest`; `fetch reads` stays as an alias. Full suite after the merge:
+**292 passed, 0 failed**.
+
+Invasive list verified against IUCN GISD + FishBase (research agent, 2026-10-10): all 15 levels
+correct (8 CRITICAL are on the "100 worst" list, 7 HIGH are not). Native ranges corrected:
+*Clarias batrachus* Sri Lanka removed (GISD: alien), GISD native countries added; *Cyprinus
+carpio* Iran removed (sources conflict), Black/Caspian/Aral/Danube countries added. Species-page
+source links added. The `native_range_note` now cites the check instead of saying UNVERIFIED.
+
+| # | Finding (from the UI smoke test) | Owner | State |
+|---|---|---|---|
+| F16 | WATCH "possible invasive" fired on 2-6 reads, under the 10-read trace rule the page itself states | A | fixed: WATCH needs `min_detection_reads`; alerts 53 -> 36, none under 10 reads |
+| F17 | Data guard totals: 3 + 5,092 + 26 = 5,121 vs 5,119 records (2 vocabulary merges counted as record merges) | A | fixed in data: `records_rejected`, `records_merged` (24), `vocabulary_merges` (2); UI should use them (handoff) |
+| F18 | Alert banner shows no source link although the API carries GISD URLs | B | handoff |
+| F19 | Banner shows only the first alert (Irigation point 3 has 2 HIGH) | B | handoff |
+| F20 | Banner disappears after an EN/Hindi switch; banner sticks across tabs | B | handoff (observed before B5 merge; re-check) |
+| F21 | Identity column (92.3%) and reason text (92.2%) round differently | B | handoff |
+| F22 | 375 px: brand clipped, section buttons touch the edge, picker truncates the verdict | B | handoff |
+| F23 | *Takifugu ocellatus* shown as a species row and inside the Takifugu complex | A | open (reads are not double counted; label only) |

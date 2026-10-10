@@ -232,3 +232,29 @@ def test_file_name_does_not_decide_the_answer(tmp_path):
     a = adjudicate_file(REAL_POOR, {"sample_id": "a"}, ref, T)
     b = adjudicate_file(disguised, {"sample_id": "b"}, ref, T)
     assert a["verdict"] == b["verdict"] and a["summary"] == b["summary"]
+
+
+def test_possible_invasive_needs_the_same_read_floor_as_a_detection():
+    """A WATCH alert from 2 stray reads would contradict the page's own 'trace' rule."""
+    r = {"sample_id": "S", "metadata": {"label": "L", "biosample_attributes": {"geo_loc_name": "Brazil:X"}},
+         "species": [{"species": "Micropterus salmoides / Micropterus dolomieu", "kind": "complex",
+                      "members": ["Micropterus salmoides", "Micropterus dolomieu"], "status": "unresolved",
+                      "reads": T.min_detection_reads - 1, "share": 0.001, "confidence": 0.5, "best_identity": 0.99}]}
+    assert alerts.evaluate(r) == []
+    r["species"][0]["reads"] = T.min_detection_reads
+    assert [e["kind"] for e in alerts.evaluate(r)] == ["possible"]
+
+
+def test_guard_record_totals_add_up_and_spelling_merges_are_counted_apart():
+    boundary = {"name": "b", "properties": {}, "polygons": [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]]}
+    rows = [{"run_accession": "R%d" % i, "sample_alias": a, "sample_accession": s, "collection_date": d,
+             "lat": la, "lon": lo, "scientific_name": "x"}
+            for i, (a, s, d, la, lo) in enumerate([("A", "S1", "2020-01-01", "0.5", "0.5"),
+                                                   ("A", "S1", "2020-01-01", "0.5", "0.5"),   # re-run -> merge
+                                                   ("B", "S2", "2999-01-01", "0.5", "0.5"),   # future
+                                                   ("C", "S3", "2020-01-01", "5", "5")])]      # outside
+    seq = "ACGT" * 40
+    out = guard.run_guard(rows, boundary, today=date(2026, 1, 1),
+                          spelling_merges=guard.spelling_variants({"Genus idella": seq, "Genus idellus": seq}))
+    assert out["clean_count"] + out["records_rejected"] + out["records_merged"] == out["records_in"] == 4
+    assert out["vocabulary_merges"] == 1

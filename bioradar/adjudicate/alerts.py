@@ -132,7 +132,10 @@ def evaluate(result: Dict[str, Any], invasive: Optional[Dict[str, Any]] = None,
         confirmed.add(hit["name"])
 
     seen_possible: set = set()
-    for row in sorted((r for r in rows if r["kind"] != "species"), key=lambda r: -r["reads"]):
+    from bioradar.adjudicate.thresholds import load as _load_thresholds
+    min_reads = _load_thresholds().min_detection_reads  # a few stray reads are trace, never an alert
+    for row in sorted((r for r in rows if r["kind"] != "species" and r["reads"] >= min_reads),
+                      key=lambda r: -r["reads"]):
         for member in row["members"]:
             hit = by_name.get(member.lower())
             if not hit or hit["name"] in confirmed or hit["name"] in seen_possible:

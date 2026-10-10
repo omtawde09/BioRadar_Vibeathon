@@ -28,7 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = REPO_ROOT / "data" / "real_challenge"
 RESULTS_DIR = DATA_DIR / "results"
 MANIFEST = DATA_DIR / "manifest.json"
-ENGINE_VERSION = "4"  # 2: alert rules (native range, no duplicate possible/confirmed); 3: design share check; 4: aligned coverage
+ENGINE_VERSION = "5"  # 2 alerts; 3 design check; 4 coverage; 5 WATCH needs >= min_detection_reads
 MAX_DROPPED_SHOWN = 400  # the full list is in the CSV; the JSON keeps the top by reads
 
 # Why each real sample was chosen. Anything not listed here is an ordinary field sample.

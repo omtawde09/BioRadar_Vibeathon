@@ -245,6 +245,11 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
         "boundary": {"name": boundary["name"], "source": boundary["properties"].get("source", ""),
                      "osm_relation": boundary["properties"].get("osm_relation", "")},
         "records_in": len(records),
+        # record-level totals add up to records_in; spelling merges act on the species
+        # vocabulary, not on records, so they are counted separately
+        "records_rejected": len(rejected),
+        "records_merged": len(merged_away),
+        "vocabulary_merges": len(spelling),
         "clean": clean,
         "clean_count": len(clean),
         "decisions": decisions,
