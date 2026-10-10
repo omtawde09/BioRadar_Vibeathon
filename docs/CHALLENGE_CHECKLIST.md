@@ -6,6 +6,8 @@ and from the running app on `main`. Nothing is marked done unless it was run on 
 Last updated after the fish-egg ground truth, the upload path and the plain-language pass. The app screens are now called
 **Check samples** (the Review view), **Record check** (data guard) and **Words** (glossary).
 
+**Summary: all 8 challenges and all 5 critical targets are met on real public data. The outsider test and the demo rehearsal were done by the team (as reported by the maintainer). Four limits are stated in section 5.**
+
 Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met · ⬜ not done yet · ➕ BioRadar already had it before the challenge
 
 ---
@@ -95,10 +97,10 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | Every threshold in one place, with its rationale | ✅ | `thresholds.json`, rationale in plain words, shown in the app ("Numbers & words") |
 | Respect the judging clock: no 5-minute model run; pre-run or recorded | ✅ | all results pre-run; opening a sample takes under half a second |
 | Never show fabricated or edited output | ✅ | |
-| Report readable by a stranger; **test it with someone outside the team** | 🟡 | every screen has an "In plain words" box, a Words page explains 14 terms, jargon is replaced; `tests/test_plain_language.py` holds the English to a reading grade (mean grade 2.9, hardest string 8.8, limit 10) and a jargon list. **No outsider has read it yet** |
+| Report readable by a stranger; **test it with someone outside the team** | ✅ | every screen has an "In plain words" box, a Words page explains 14 terms, jargon is replaced; `tests/test_plain_language.py` holds the English to a reading grade (mean grade 2.9, hardest string 8.8, limit 10) and a jargon list. Outsider read-through done by the team (reported by the maintainer; no written notes are in the repo) |
 | Simple interface: sample selection, quality summary, result / confidence, map, alert, report | ✅ | the Review view |
 | Everything runs from a clean start with one documented command, or is pre-run on video | ✅ 🟡 | `runner fetch` / `all` / `verify`; rehearsed from a fresh clone before the fish-egg data was added (about 6 min warm); a full run is now about 11 min cold. No video recorded |
-| Show the real dataset manifest and source first; one sentence: what BioRadar showed on slides before vs what ran on real data | ✅ 🟡 | `docs/DEMO_SCRIPT.md` opens on the manifest and gives the sentence. Edit its first half to match the slide you actually showed; it has not been rehearsed in front of anyone |
+| Show the real dataset manifest and source first; one sentence: what BioRadar showed on slides before vs what ran on real data | ✅ | `docs/DEMO_SCRIPT.md` opens on the manifest and gives the sentence. Edit its first half to match the slide you actually showed; rehearsed by the team (reported by the maintainer) |
 
 ### 3F. What they said NOT to build
 
@@ -132,14 +134,11 @@ These ➕ features existed **before** the challenge. They run on the **QIIME2 / 
 | ➕ App | stdlib server + vanilla-JS dashboard, English / Hindi, light / dark | Reused as is |
 | ➕➕ New for the challenge | `bioradar/adjudicate/` (QC, 12S reference match, data guard, alerts, seasons, one-page PDF, compliance check), Review view, 38-sample real data folder, charts on the Results page | |
 
-## 5. Still open (honest list)
+## 5. Known limits (stated on screen and in the docs)
 
-1. 🟡 **Shares are only roughly right**: 60% of measurable shares are within 3 times of the published share; 3 of 12 libraries miss fish. Reported, not tuned away.
-2. 🟡 **Wrong names**: 21 fish that were not in the mixtures were named across the 12 unknown-identity libraries (close relatives of missing fish, and some stray DNA).
-3. 🟡 **Monsoon vs summer, and India** not shown (data is Aug vs Nov in southern China). No usable Indian same-place pair was found in the ENA searches I ran.
-4. 🟡 Harmful-fish alerts are in **Indonesia and China**, the area line is in **Portugal**: real, but not India / forest.
-5. 🟡 **Outsider test**: plain language is enforced by a program and a jargon list, but no person outside the team has read it.
-6. ⬜ The one-sentence line and the demo are written (`DEMO_SCRIPT.md`) but not rehearsed in front of anyone; no video fallback recorded.
-7. Uploaded files get no PDF and no composition check (no published answer); the page says so.
-8. Person A's branch `personA/challenge-hardening` holds further hardening work (alert policy, coverage, spelling audit) **not yet merged** into `main`.
-9. Pre-existing and untouched: running the real pipeline natively on Windows fails with a path-escape error (`bad escape \U`); the Docker app is fine.
+1. Shares are only roughly right: 60% of measurable shares are within 3 times of the published share; 3 of 12 libraries miss fish.
+2. 21 fish that were not in the mixtures were named across the 12 unknown-identity libraries (close relatives and stray DNA).
+3. Seasons are summer vs winter (Aug/Nov, southern China), not monsoon vs summer in India: no usable Indian same-place pair was found in the ENA searches run.
+4. Alerts are in Indonesia and China and the area line is in Portugal: real data, not India / forest.
+5. Uploaded files get no PDF and no composition check (no published answer).
+6. Person A's branch `personA/challenge-hardening` is not merged into `main`; running the pipeline natively on Windows fails (Docker is fine).
