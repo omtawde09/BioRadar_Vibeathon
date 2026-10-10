@@ -12,7 +12,7 @@ This file is updated and pushed after every phase.
 | Phase | Scope (workpack) | Status |
 |---|---|---|
 | 0 | Confirm repo/remote, baseline tests, CI | **done** |
-| B1 | UI audit: what already passes | pending |
+| B1 | UI audit: what already passes | **done** |
 | B2 | Challenge review states | pending |
 | B3 | Map, alert and seasons | pending |
 | B4 | One-page officer report | pending |
@@ -53,12 +53,60 @@ Failures that exist **before** any Person B change (none are in files this branc
 | no external asset at page load | `index.html` loads Google Fonts (`fonts.googleapis.com`) | B owns `index.html`: **needs a decision** (see Open questions) |
 | no hardcoded hex outside token block | `app.css` has 11 stray colours | B owns `app.css`: pre-existing |
 
-Side effect to remember: running the tests rewrites two tracked files (`bioradar/ai/models/ias_classifier.joblib`,
-`data/ecological_anomalies.json`). Restore them with `git checkout --` before committing.
+Side effect to remember: running the tests / CI rewrites tracked files (`bioradar/ai/models/ias_classifier.joblib`,
+`data/ecological_anomalies.json`, `data/debates.json`, `data/forecast_cache.json`). Restore them with `git checkout --`
+before committing.
 
 **Also committed in this phase:** the data reorganisation done earlier (per-dataset folders, `selection.json`,
 `COMPLIANCE.md`, `runner verify`). That is Person A's territory (data/manifest) and is recorded here only because it was
 uncommitted on this branch.
+
+---
+
+## Phase B1: UI audit (done)
+
+Rule applied: audit what exists, mark what already passes, rebuild nothing.
+Evidence = code read + the running app (`python -m bioradar.webapp --port 8099`) in the browser pane.
+
+### Existing app (before this branch), against the challenge
+
+| Area | What exists | Meets the challenge? |
+|---|---|---|
+| Map time slider (`mapkit.js` `timeline()`) | Slider over collection dates; **cumulative** filter `collected_at <= date` for clustered/heat markers | **No** for C8. It is a date filter, not a same-site two-season comparison (no per-season counts, no new / not-detected lists). Not rebuilt; the season view is separate (see below). |
+| Alerts view (`app.js` `alertCard`) | Watchlist alerts per pipeline **run**: species, severity badge, reads, sites, verify button | Partly. No map pin on the card, no rule/source link, no explicit "no trigger" state. Runs only; not the challenge samples. |
+| Results / site panel (`openSiteDetail`) | KPIs, top taxa bars for a pipeline-run site | Partly. No report button, no source/uncertainty block. |
+| Report (`exports.printable_report`) | Self-contained print HTML: KPIs, sites table, **full species inventory**, phylum table, provenance | **No** for C9. Multi-section run report; no risk level, no officer action, no per-sample uncertainty, can exceed one page. Left alone (it still serves pipeline runs). |
+| i18n (`i18n.js`) | Flat English/Hindi object, `t(key)` | Yes for the existing views. |
+| Design system | Tokens, 5 shadow tokens, `prefers-reduced-motion` rule, light/dark | Yes. |
+
+### The Review view added earlier on this branch (`adjudicate.js/.css`), against Person B's items
+
+| Item | State | Evidence / gap |
+|---|---|---|
+| B2 source/sample selector | **pass** | grouped picker over 38 real samples, "why chosen", source link |
+| B2 kept / dropped / unknown totals | **pass** | stacked bar + 3 tiles (reads and distinct sequences) |
+| B2 per-sequence reasons | **pass** | reason histogram + examples table + full CSV |
+| B2 five species with read-share **denominator** | **gap** | shows share % only: no read counts, no denominator, no "excluded rows" statement |
+| B2 identity / confidence / coverage labels | **gap** | calls a heuristic score "confidence" (workpack: do not unless calibrated); no coverage; no reference version in the unknown table |
+| B2 metadata findings | **partial** | data-guard is its own tab; the selected sample's own source/metadata (IDs, date precision, coordinate precision, md5) is one text line |
+| B2 review queue | **pass** | status "needs review", NCBI link |
+| B3 same-site seasons | **pass (verify)** | summer vs winter counts, new / not-detected lists, "does not prove absence". Needs a browser test per site (B3) |
+| B3 alert + pin | **partial** | banner + log exist; **no explicit no-trigger state** for samples without an alert |
+| B4 one-page report | **partial** | server-side one-page PDF exists; verified on 1 sample only; no button on the season/site page |
+| B5 language | **gap** | Review view is English only: heading and nav label stay English when Hindi is selected |
+| B5 keyboard / a11y | **gap** | no `aria-live` region for results; focus ring not confirmed |
+| B5 tokens | **gap** | `adjudicate.css` hard-codes two hex colours; map marker colours hard-coded in JS |
+
+### Contract requests to Person A (nothing to be edited by B)
+
+| Needed by | Field | Why |
+|---|---|---|
+| B2 | `unknown_queue[].score_type` (`"identity"`), `coverage` (aligned bases / read length) | workpack section 6: do not present identity as confidence; show coverage |
+| B2 | `species[].reads` already present; `reads_total` and the share denominator (`identified reads`) as an explicit field | to print the denominator without recomputing in the UI |
+| B2 | `reference_version` in each sample result | shown beside the unknown table |
+
+Until A provides them, B derives what it can in the browser (denominator = sum of listed species reads; the reference
+version comes from the existing `/api/adjudicate/provenance`) and states "coverage: not provided" instead of inventing it.
 
 ## Open questions for the maintainer / Person A
 
