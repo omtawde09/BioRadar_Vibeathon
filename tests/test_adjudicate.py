@@ -258,3 +258,207 @@ def test_guard_record_totals_add_up_and_spelling_merges_are_counted_apart():
                           spelling_merges=guard.spelling_variants({"Genus idella": seq, "Genus idellus": seq}))
     assert out["clean_count"] + out["records_rejected"] + out["records_merged"] == out["records_in"] == 4
     assert out["vocabulary_merges"] == 1
+
+
+# -- restored Person A tests (dropped by the 2195154 merge resolution) ------------------
+
+def _unique_reference_entry(ref):
+    for acc, species, seq in ref.entries:
+        if species == "Homo sapiens":
+            continue
+        hits = ref.search(seq, T.identity_species)
+        runner_up = [m for m in hits[1:] if m.species != species]
+        if hits and hits[0].species == species and (
+                not runner_up or hits[0].identity - runner_up[0].identity >= 2 * T.min_species_margin):
+            return acc, species, seq
+    raise AssertionError("no unambiguous reference entry found")
+
+
+def test_every_score_is_labelled_uncalibrated_with_reference_version(tmp_path):
+    from bioradar.adjudicate.adjudicate import SCORE_TYPE, adjudicate_file
+    from bioradar.adjudicate.reference import Reference
+    ref = Reference.load()
+    _, species, seq = _unique_reference_entry(ref)
+    fasta = tmp_path / "q.fa"
+    fasta.write_text(">r1\n{0}\n>r2\n{0}\n>r3\n{0}\n".format(seq), encoding="utf-8")
+    r = adjudicate_file(fasta, {"sample_id": "t"}, ref, T)
+    assert r["score_type"] == SCORE_TYPE and "NOT a calibrated" in r["score_note"]
+    assert r["species"] and all(row["score_type"] == SCORE_TYPE for row in r["species"])
+    assert r["species"][0]["species"] == species
+    assert all(k["score_type"] == SCORE_TYPE and k["reference_version"] == ref.version
+               for k in r["kept"])
+    assert ref.version, "reference_database_version must flow from reference.json"
+
+
+def test_post_check_measures_unmerged_spellings_instead_of_assuming_zero():
+    boundary = {"name": "b", "properties": {}, "polygons": [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]]}
+    seq = "ACGT" * 40
+    vocab = {"Genus idella": seq, "Genus idellus": seq}
+    today = date(2026, 1, 1)
+    # spelling pair present in the vocabulary and NOT merged -> must be reported, not clean
+    bad = guard.post_check([], boundary, today, ids=[], spelling=[], vocabulary=vocab)
+    assert bad["unmerged_double_spellings"] == 1 and bad["clean"] is False
+    # same pair after the merge decision -> measured zero
+    merged = guard.spelling_variants(vocab)
+    ok = guard.post_check([], boundary, today, ids=[], spelling=merged, vocabulary=vocab)
+    assert ok["unmerged_double_spellings"] == 0 and ok["clean"] is True
+    # no vocabulary supplied -> "not checked" (None), never a silent pass
+    unknown = guard.post_check([], boundary, today, ids=[], spelling=[])
+    assert unknown["unmerged_double_spellings"] is None
+
+
+def _carp_result(country):
+    return {"sample_id": "S", "metadata": {"label": "L", "latitude": 1.0, "longitude": 2.0,
+                                           "biosample_attributes": {"geo_loc_name": country + ":X"}},
+            "species": [{"species": "Cyprinus carpio", "kind": "species", "status": "detected",
+                         "reads": 500, "share": 0.4, "confidence": 0.9, "best_identity": 1.0}]}
+
+
+def test_listed_fish_native_at_the_sample_country_raises_no_alert_but_is_recorded():
+    native = _carp_result("China")
+    assert alerts.evaluate(native) == []
+    listed = alerts.native_listed(native)
+    assert [x["species"] for x in listed] == ["Cyprinus carpio"] and "native in China" in listed[0]["note"]
+
+
+def test_same_fish_outside_its_native_range_still_alerts_and_unknown_country_never_hides_it():
+    away = alerts.evaluate(_carp_result("Brazil"))
+    assert [e["species"] for e in away] == ["Cyprinus carpio"] and away[0]["level"] == "CRITICAL"
+    unknown = _carp_result("")
+    unknown["metadata"]["biosample_attributes"] = {}
+    assert [e["species"] for e in alerts.evaluate(unknown)] == ["Cyprinus carpio"]
+
+
+def test_challenge_manifest_has_one_row_per_file_and_never_hides_a_gap():
+    from bioradar.adjudicate import challenge_manifest as cm
+    rows = cm.build_rows()
+    assert rows and set(rows[0]) == set(cm.COLUMNS)
+    assert len({r["original_filename"] for r in rows}) == len(rows)
+    for r in rows:
+        assert r["source_url"].startswith("https://") and r["md5_archive"] and r["reference_version"]
+        assert r["verified"] == "yes" or r["verified"].startswith(("MISSING", "MISMATCH", "REJECTED"))
+        if r["verified"] == "yes":
+            assert len(r["sha256_local"]) == 64 and r["md5_local"] == r["md5_archive"]
+
+
+def test_native_fish_inside_an_unresolved_group_raises_no_possible_alert():
+    r = _carp_result("China")
+    r["species"] = [{"species": "Cyprinus carpio / Carassius auratus", "kind": "complex",
+                     "members": ["Cyprinus carpio", "Carassius auratus"], "status": "unresolved",
+                     "reads": 300, "share": 0.2, "confidence": 0.5, "best_identity": 0.99}]
+    assert alerts.evaluate(r) == []
+    assert [x["species"] for x in alerts.native_listed(r)] == ["Cyprinus carpio"]
+    assert alerts.native_listed(r)[0]["basis"] == "possible"
+
+
+def test_species_already_confirmed_is_not_repeated_as_possible():
+    r = {"sample_id": "S", "metadata": {"label": "L", "biosample_attributes": {"geo_loc_name": "Indonesia:X"}},
+         "species": [
+             {"species": "Oreochromis niloticus / Oreochromis aureus", "kind": "complex",
+              "members": ["Oreochromis niloticus", "Oreochromis aureus"], "status": "unresolved",
+              "reads": 900, "share": 0.3, "confidence": 0.5, "best_identity": 0.99},
+             {"species": "Oreochromis niloticus", "kind": "species", "status": "detected",
+              "reads": 400, "share": 0.1, "confidence": 0.9, "best_identity": 1.0}]}
+    ev = alerts.evaluate(r)
+    assert [(e["species"], e["kind"]) for e in ev] == [("Oreochromis niloticus", "confirmed")]
+
+
+def test_design_share_check_uses_only_what_the_source_states():
+    base = {"role": "mixed", "design_note": "equal concentration gradient",
+            "biosample_attributes": {"samp_size": "15 fish"}}
+    species = [{"species": "A b", "kind": "species", "status": "detected", "share": 0.07},
+               {"species": "C d", "kind": "species", "status": "detected", "share": 0.50},
+               {"species": "E f", "kind": "species", "status": "detected", "share": 0.001}]
+    r = {"metadata": base, "species": species}
+    chk = expected.check(r, {})["design_share_check"]
+    assert chk["expected_share_each"] == round(1 / 15, 4)
+    assert (chk["within_tolerance"], chk["outside_tolerance"]) == (1, 2)
+    assert "species table would be needed" in chk["limits"]
+    # a gradient design (unequal on purpose) must not get an equal-share expectation
+    base2 = dict(base, design_note="abundances spanning four orders of magnitude")
+    assert expected.check({"metadata": base2, "species": species}, {})["design_share_check"] is None
+
+
+def test_matches_report_aligned_coverage(tmp_path):
+    from bioradar.adjudicate.adjudicate import adjudicate_file
+    from bioradar.adjudicate.reference import Reference
+    ref = Reference.load()
+    _, species, seq = _unique_reference_entry(ref)
+    full = ref.search(seq, T.identity_species)[0]
+    assert full.species == species and full.identity == 1.0 and full.coverage == 1.0
+    # a query with 30 extra non-reference bases hanging off the end is only partly alignable:
+    # coverage must say so instead of leaving it folded silently into identity
+    part = ref.search(seq + "ACGTTGCAAGCTTGCAAGCTTGACGTCCAG", T.identity_species)
+    assert part and part[0].coverage < 1.0 and part[0].identity <= part[0].coverage
+    fasta = tmp_path / "q.fa"
+    fasta.write_text(">r1" + chr(10) + seq + chr(10) + ">r2" + chr(10) + seq + chr(10), encoding="utf-8")
+    r = adjudicate_file(fasta, {"sample_id": "t"}, ref, T)
+    assert all("coverage" in k for k in r["kept"])
+
+
+def test_spelling_audit_event_keeps_original_and_canonical_labels_and_its_basis():
+    seq = "ACGT" * 40
+    merges = guard.spelling_variants({"Genus idella": seq, "Genus idellus": seq})
+    out = guard.run_guard([], {"name": "b", "properties": {}, "polygons": []},
+                          today=date(2026, 1, 1), spelling_merges=merges)
+    ev = [d for d in out["decisions"] if d["rule"] == "double_spelling"]
+    assert len(ev) == 1 and {ev[0]["original_label"], ev[0]["canonical_label"]} == {
+        "Genus idella", "Genus idellus"}
+    assert ev[0]["original_label"] != ev[0]["canonical_label"]
+    assert "no external synonym authority" in ev[0]["basis"]
+
+
+
+# -- review fixes (independent code review, 2026-10-10) ------------------------------------
+
+def test_post_check_follows_merge_chains_and_names_checks_that_did_not_run():
+    boundary = {"name": "b", "properties": {}, "polygons": [[[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]]}
+    seq = "ACGT" * 40
+    vocab = {"Genus idellum": seq, "Genus idellus": seq, "Genus idella": seq}
+    chain = [{"merge": "Genus idellum", "keep": "Genus idellus"}, {"merge": "Genus idellus", "keep": "Genus idella"}]
+    ok = guard.post_check([], boundary, date(2026, 1, 1), ids=[], spelling=chain, vocabulary=vocab)
+    assert ok["unmerged_double_spellings"] == 0 and ok["checks_not_run"] == []
+    half = guard.post_check([], boundary, date(2026, 1, 1), ids=[], spelling=chain[:1], vocabulary=vocab)
+    assert half["unmerged_double_spellings"] >= 1 and half["clean"] is False
+    none = guard.post_check([], boundary, date(2026, 1, 1), ids=[], spelling=[])
+    assert none["unmerged_double_spellings"] is None and none["checks_not_run"]
+
+
+def test_native_listed_prefers_the_confirmed_row_and_respects_the_policy(monkeypatch):
+    r = _carp_result("China")
+    r["species"] = [
+        {"species": "Cyprinus carpio / Carassius auratus", "kind": "complex",
+         "members": ["Cyprinus carpio", "Carassius auratus"], "status": "unresolved",
+         "reads": 900, "share": 0.3, "confidence": 0.5, "best_identity": 0.99},
+        {"species": "Cyprinus carpio", "kind": "species", "status": "detected",
+         "reads": 400, "share": 0.1, "confidence": 0.9, "best_identity": 1.0}]
+    listed = alerts.native_listed(r)
+    assert [(x["species"], x["basis"], x["reads"]) for x in listed] == [("Cyprinus carpio", "confirmed", 400)]
+    # if the policy raised the alert with a note, nothing was suppressed and the note travels
+    monkeypatch.setattr(alerts, "native_policy", lambda hit, meta: "native here; check for translocation")
+    assert alerts.native_listed(r) == []
+    ev = alerts.evaluate(r)
+    assert ev and all(e.get("native_range_note") for e in ev)
+
+
+def test_one_watch_event_per_unresolved_group():
+    r = {"sample_id": "S", "metadata": {"label": "L", "biosample_attributes": {"geo_loc_name": "Brazil:X"}},
+         "species": [{"species": "Pterygoplichthys pardalis / disjunctivus / multiradiatus", "kind": "complex",
+                      "members": ["Pterygoplichthys pardalis", "Pterygoplichthys disjunctivus",
+                                  "Pterygoplichthys multiradiatus"],
+                      "status": "unresolved", "reads": 500, "share": 0.2, "confidence": 0.5,
+                      "best_identity": 0.99}]}
+    ev = alerts.evaluate(r)
+    assert len(ev) == 1 and ev[0]["kind"] == "possible"
+    assert set(ev[0]["listed_candidates"]) == {"Pterygoplichthys pardalis", "Pterygoplichthys disjunctivus",
+                                               "Pterygoplichthys multiradiatus"}
+
+
+def test_unequal_design_note_gets_no_equal_share_expectation():
+    base = {"role": "mixed", "design_note": "unequal concentrations of each fish",
+            "biosample_attributes": {"samp_size": "15 fish"}}
+    species = [{"species": "A b", "kind": "species", "status": "detected", "share": 0.07}]
+    assert expected.check({"metadata": base, "species": species}, {})["design_share_check"] is None
+    base["design_note"] = "equal concentration gradient"
+    chk = expected.check({"metadata": base, "species": species}, {})["design_share_check"]
+    assert chk and "one species per mixed fish" in chk["assumptions"]

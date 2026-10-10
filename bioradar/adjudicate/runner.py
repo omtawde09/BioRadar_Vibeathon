@@ -86,7 +86,9 @@ def sample_table() -> List[Dict[str, Any]]:
 
 
 def _cache_key(row: Dict[str, Any]) -> str:
-    blob = "|".join([row["md5"], ENGINE_VERSION,
+    extra = [hashlib.md5(p.read_bytes()).hexdigest() if p.is_file() else "-"
+             for p in (alerts.INVASIVE_FILE, expected.EXPECTED_FILE)]
+    blob = "|".join([row["md5"], ENGINE_VERSION] + extra + [
                      hashlib.md5(THRESHOLDS_FILE.read_bytes()).hexdigest(),
                      (REF_DIR / "reference.json").read_text(encoding="utf-8")])
     return hashlib.md5(blob.encode()).hexdigest()

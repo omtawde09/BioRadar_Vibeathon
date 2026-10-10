@@ -224,9 +224,11 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
                           # The source label is never overwritten: both labels are kept in the
                           # audit event, and the basis says what the merge rests on.
                           "original_label": s["merge"], "canonical_label": s["keep"],
-                          "basis": "name similarity within the genus + sequence identity "
-                                   "{:.1%}; no external synonym authority was consulted".format(
-                                       s.get("sequence_identity", 0.0)),
+                          "basis": "name similarity within the genus + sequence identity {}; no "
+                                   "external synonym authority was consulted".format(
+                                       "{:.1%}".format(s["sequence_identity"])
+                                       if s.get("sequence_identity") is not None
+                                       else "not recorded"),
                           "reason": "'{}' merged into '{}': {}".format(
                               s["merge"], s["keep"], s["reason"])})
 
@@ -279,8 +281,17 @@ def post_check(clean: List[Dict[str, str]], boundary: Dict[str, Any], today: dat
                  if (parse_date(r.get("collection_date", "")) or (date.min, ""))[0] > today)
     unmerged: Optional[int] = None
     if vocabulary:
-        merged_away = {m["merge"] for m in (spelling or [])}
-        left = {n: q for n, q in vocabulary.items() if n not in merged_away}
+        canonical = {m["merge"]: m["keep"] for m in (spelling or [])}
+
+        def final(name: str) -> str:
+            seen = set()
+            while name in canonical and name not in seen:
+                seen.add(name)
+                name = canonical[name]
+            return name
+        left: Dict[str, str] = {}
+        for name, seq in vocabulary.items():
+            left.setdefault(final(name), seq)  # merged vocabulary, one entry per final name
         unmerged = len(spelling_variants(left, counts))
     return {
         "records_checked": len(clean),
@@ -288,6 +299,9 @@ def post_check(clean: List[Dict[str, str]], boundary: Dict[str, Any], today: dat
         "outside_boundary": outside,
         "future_dated": future,
         "unmerged_double_spellings": unmerged,
+        # `clean` covers the checks that ran; a check that could not run is named, never passed
+        "checks_not_run": [] if unmerged is not None else [
+            "double_spelling (no species vocabulary supplied)"],
         "clean": dup_ids == 0 and outside == 0 and future == 0 and not unmerged,
     }
 

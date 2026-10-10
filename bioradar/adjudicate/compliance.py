@@ -124,7 +124,8 @@ def scenarios() -> List[Row]:
     g = json.loads((RESULTS / "guard.json").read_text(encoding="utf-8"))
     missing = g["rules_not_exercised_by_this_data"]
     rows.append(("4. Bad records: ID, GPS, date, spelling",
-                 "PASS" if not missing and g["post_check"]["clean"] else "PARTIAL",
+                 "PASS" if not missing and g["post_check"]["clean"]
+                 and not g["post_check"].get("checks_not_run") else "PARTIAL",
                  "{} real records; per rule {}; post-check clean={}; not in data: {}".format(
                      g["records_in"], {k: v["reject"] + v["merge"] for k, v in g["counts_by_rule"].items()},
                      g["post_check"]["clean"], ", ".join(missing) or "none"),

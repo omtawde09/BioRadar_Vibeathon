@@ -44,11 +44,12 @@ Test hygiene finding: running the whole suite rewrites tracked files
 ## Reproduction on this machine (Phase 2b)
 
 * Reads: `python -m bioradar.adjudicate.fetch reads` downloaded 38 files (about 238 MB) from
-  `ftp.sra.ebi.ac.uk`, each verified against the archive MD5 and size. **38/38 verified.** A DNS drop
+  `ftp.sra.ebi.ac.uk`, each verified against the archive MD5 (sizes are checked by `challenge_manifest`). **38/38 verified.** A DNS drop
   interrupted the first pass; the retry skipped cached files by MD5.
 * Pipeline: `python -m bioradar.adjudicate.runner all --force` processed 38 samples in 98-135 s, no crash.
 * `python -m bioradar.adjudicate.runner verify` regenerated `data/real_challenge/COMPLIANCE.md`; it agrees
-  with Person B's table line for line (PASS x9, PARTIAL x1 = mixed shares, GAP x1 = unknowns with known identity).
+  with Person B's table on every condition (PASS x10, PARTIAL x1 = mixed shares, GAP x1 = unknowns with known
+  identity); only the PDF byte count differed.
 * Tests: `tests/test_adjudicate.py` + `tests/test_report_one_page.py` with real data present: **71 passed, 0 skipped**.
   The three real-file tests now run: Retake + human-contamination reason, unknowns never confident,
   file name does not decide the answer.
@@ -68,8 +69,8 @@ Test hygiene finding: running the whole suite rewrites tracked files
 | F9 | Seasons are Aug vs Nov (summer/winter), not monsoon vs summer | C8 | **open**, disclosed |
 | F10 | PDF could overflow one page | C9 | closed by Person B (B4 guard + 43 tests) |
 | F11 | UI said "confidence" | C4 | closed by Person B (B2) |
-| F12 | Real run: *Cyprinus carpio* raised a "possible invasive" WATCH in 21 of the 25 China samples (native there), and one species could be both confirmed and possible (up to 6 alerts per sample) | C7 | fixed: native suppression also covers unresolved groups; a confirmed species is never repeated as "possible"; 53 alerts total, max 5 per sample; suppressed cases recorded in `native_listed` |
-| F13 | Unknown rows had identity but no aligned coverage (workpack requires it) | C4 | fixed: `coverage` on every match (all 7,925 unknowns in SRR37521672 are >= 0.973) |
+| F12 | Real run: *Cyprinus carpio* raised a "possible invasive" WATCH in all 21 Pearl River field samples (native there), and one species could be both confirmed and possible (up to 6 alerts per sample) | C7 | fixed: native suppression also covers unresolved groups; a confirmed species is never repeated as "possible"; 53 alerts total, max 5 per sample; suppressed cases recorded in `native_listed` |
+| F13 | Unknown rows had identity but no aligned coverage (workpack requires it) | C4 | fixed in data: `coverage` = share of the query overlapping the reference at the best ungapped diagonal (an overlap, not a gapped alignment span; all 7,925 unknowns in SRR37521672 >= 0.973). UI still says coverage is not provided: handoff to Person B |
 | F14 | Person B's tip failed `test_report_is_a_valid_one_page_pdf` (fixture lacked `reads`) | C11 | fixed (fixture) |
 | F15 | Whole-suite runs rewrite tracked model/cache files | C11 | open, hygiene: `git checkout -- <file>` before committing |
 
@@ -79,13 +80,13 @@ Test hygiene finding: running the whole suite rewrites tracked files
 |---|---|---|---|
 | C1 | **real-source pass** | 38 files, MD5 + size match the archive, SHA-256 in `data/challenge/manifest.csv`, reference version recorded | R1 reads only; the archive supplies MD5, so SHA-256 is computed locally |
 | C2 | **partial** | A2 (SRR27401753): 15 species-level calls for "15 fish" = count consistent; 6 unresolved groups, 4 trace; share denominator 75,985 reads (kept + unresolved groups) of 127,829 total | No species table in the archive, so identities and shares are NOT verified. Design check (note "equal concentration"): only 4 of 15 detected species are within 3-fold of 1/15, so shares track the design loosely. The 30-fish mixes report FAIL honestly |
-| C3 | **real-source pass** | GSS356 (SRR33845265): 361 reads, 174 distinct sequences each with a written reason (160 singleton, 65 human reads, 131 unrelated, 3 short, 2 low quality); verdict Retake sample. Two more real Retake samples (SRR33845234, SRR25108818) | FASTQ quality is used only where scores exist |
+| C3 | **real-source pass** | GSS356 (SRR33845265): 361 reads, 174 distinct sequences each with a written reason (reads: 160 singleton, 65 human, 131 unrelated, 3 short, 2 low quality); verdict Retake sample. Two more real Retake samples (SRR33845234, SRR25108818) | FASTQ quality is used only where scores exist |
 | C4 | **real-source pass** | SRR37521672: 7,925 unknown sequences queued with closest match, identity, coverage, score type, reference version and "needs review"; max score 0.60 | Score is heuristic, not calibrated. No ground-truth identity exists for any unknown (3b stays a GAP) |
 | C5 | **real-source pass** | All 38 real inputs processed without a crash; the filename test passes on a real file | |
 | C6a | **real-source pass** | 24 duplicate-ID merges on 5,119 PRJEB108476 records | |
 | C6b | **real-source pass (caveat)** | 4,707 outside the boundary, 367 without GPS | Boundary is a Portuguese OSM polygon but the records span 5 countries, so 92% fail the rule and only 3 records stay in the clean store. Valid rule demo, weak ecological meaning |
 | C6c | **real-source pass** | 18 real future-dated records rejected (today = 2026-10-10) | |
-| C6d | **partial** | 2 spelling merges (grass carp idella/idellus) from name similarity + sequence agreement; audit event keeps original and canonical label plus its basis; post-check measured | No cited synonym authority was consulted (stated in the event's `basis`) |
+| C6d | **partial** | 2 merges in the RefSeq reference vocabulary, not in the 5,119 records (*Ctenopharyngodon idellus* -> *idella*, *Megalobrama skolokovii* -> *skolkovii*) from name similarity + sequence agreement; audit event keeps original and canonical label plus its basis; post-check measured on the merged vocabulary | No cited synonym authority was consulted (stated in the event's `basis`) |
 | C7 | **real-source pass** | SRR37521672 (Indonesia, -3.405272, 114.789995): HIGH *Oreochromis niloticus* and HIGH *Clarias gariepinus* with source links and action; Pearl River: CRITICAL *Micropterus salmoides* | List is a GISD starter set; `native_in` for 2 species unverified; real triggers are in Indonesia/China, not India |
 | C8 | **real-source pass (as summer vs winter)** | 4 sites with both seasons, e.g. HongQimen summer 58 vs winter 56 species, 7 summer-only, 5 winter-only; "not detected", never "absent" | Aug vs Nov, not monsoon vs summer; all four sites share one 1-degree pin |
 | C9 | **pass (Person B)** | One-page PDF with overflow guard, 43 report tests | Not yet printed from a browser by Person A |
@@ -174,3 +175,22 @@ source links added. The `native_range_note` now cites the check instead of sayin
 | F21 | Identity column (92.3%) and reason text (92.2%) round differently | B | handoff |
 | F22 | 375 px: brand clipped, section buttons touch the edge, picker truncates the verdict | B | handoff |
 | F23 | *Takifugu ocellatus* shown as a species row and inside the Takifugu complex | A | open (reads are not double counted; label only) |
+
+## Phase 7 - independent code review fixes
+
+An independent review of Person A's commits found 15 issues; all of Person A's are fixed:
+
+| Severity | Finding | Fix |
+|---|---|---|
+| HIGH | A tampered manifest `file` value (`../..`, absolute path) or non-https `source_url` could write anywhere | `fetch._safe_destination`, https-only sources, `.part` removed on failure (parallel agent) |
+| MEDIUM | Spelling merges followed one step only; `post_check` could report a chain as clean | merges followed to the final spelling in `Reference.load` and `post_check` |
+| MEDIUM | `clean` stayed True when the spelling check did not run | `checks_not_run` named; compliance shows PARTIAL when it is non-empty |
+| MEDIUM | `native_listed` preferred an unresolved group over a confirmed row, ignored `native_policy`; WATCH events never got the native note | fixed, tested |
+| MEDIUM | One WATCH event per listed group member (8 duplicate events) | one event per unresolved group, `listed_candidates` names them |
+| MEDIUM | Cache key ignored `invasive_species.json` / `expected_composition.json` | both hashed into the key |
+| MEDIUM | No native range for rainbow and brown trout, so Canada/UK detections would raise a false CRITICAL | `native_in` from FishBase |
+| LOW | `coverage` defaulted to 1.0 and its meaning was overstated | default None, documented as ungapped overlap |
+| LOW | "unequal concentration" matched the equal-share rule | regex, assumptions stated |
+| LOW | spelling `basis` printed 0.0% when identity missing | "not recorded" |
+| LOW | Assay column hard-coded MiFish-U for every row | `assay_as_deposited` + inferred marker with its basis (parallel agent) |
+| PROCESS | The 2195154 merge resolution took `--theirs` for `tests/test_adjudicate.py` and silently dropped 12 Person A tests/helpers | restored; lesson: never resolve a test file with `--theirs` |

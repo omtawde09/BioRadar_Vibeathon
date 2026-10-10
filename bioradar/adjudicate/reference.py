@@ -40,7 +40,8 @@ class Match(NamedTuple):
     accession: str
     identity: float  # matching bases / query length (an overhang counts against it)
     strand: str
-    coverage: float = 1.0  # aligned query bases / query length at the best diagonal
+    coverage: Optional[float] = None  # share of the query overlapping the reference at the best
+    #                                   ungapped diagonal (an overlap, not a gapped alignment span)
 
 
 def _hamming(a: str, b: str) -> int:
@@ -246,7 +247,14 @@ class Reference:
             counts[species] += 1
         variants = guard.spelling_variants(seqs, counts)
         canonical = {v["merge"]: v["keep"] for v in variants}
-        entries = [(a, canonical.get(sp, sp), q) for a, sp, q in entries]
+
+        def final(name: str) -> str:  # follow chains A -> B -> C to the last spelling
+            seen = set()
+            while name in canonical and name not in seen:
+                seen.add(name)
+                name = canonical[name]
+            return name
+        entries = [(a, final(sp), q) for a, sp, q in entries]
         ref = cls(entries)
         ref.spelling_merges = variants  # reported by the data guard
         meta = fasta.with_name("reference.json")

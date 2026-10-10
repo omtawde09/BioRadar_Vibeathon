@@ -5,7 +5,7 @@
   "HIGH": "Species has a full IUCN Global Invasive Species Database (GISD) profile documenting harmful invasions. Alert the officer; confirm with a field survey.",
   "WATCH": "The sequence cannot be told apart from a listed invasive species and is NOT confirmed. Shown as a possible detection only; send for review or retake before any action."
  },
- "native_range_note": "native_in lists were checked on 2026-10-10 against the GISD species pages (native range) and FishBase country tables; disagreements were resolved conservatively, i.e. a country is only listed when both agree or the species is clearly native there, because a listed country SUPPRESSES the alert. Cyprinus carpio: Iran left out (GISD lists only alien records; Iranian checklists say native only in the Caspian basin). Clarias batrachus: Sri Lanka left out (GISD: alien); FishBase restricts the true native range to Java, so mainland records may be a look-alike (C. aff. batrachus) - listing those countries avoids false alerts on a native fish.",
+ "native_range_note": "native_in lists were checked on 2026-10-10 against the GISD species pages (native range) and FishBase country tables; disagreements were resolved conservatively, i.e. a country is only listed when both agree or the species is clearly native there, because a listed country SUPPRESSES the alert. Cyprinus carpio: Iran left out (GISD lists only alien records; Iranian checklists say native only in the Caspian basin). Clarias batrachus: Sri Lanka left out (GISD: alien); FishBase restricts the true native range to Java, so mainland records may be a look-alike (C. aff. batrachus) - listing those countries avoids false alerts on a native fish. Oncorhynchus mykiss (Pacific slope of North America + Kamchatka) and Salmo trutta (Atlantic, North, Baltic and White Sea basins) follow FishBase.",
  "gisd_note": "GISD = Global Invasive Species Database, IUCN SSC Invasive Species Specialist Group, https://www.iucngisd.org",
  "species": [
   {
@@ -162,7 +162,14 @@
    "level": "CRITICAL",
    "sources": [
     "https://www.iucngisd.org/gisd/100_worst.php",
-    "https://www.iucngisd.org/gisd/species.php?sc=103"
+    "https://www.iucngisd.org/gisd/species.php?sc=103",
+    "https://www.fishbase.se/summary/Oncorhynchus-mykiss.html"
+   ],
+   "native_in": [
+    "United States",
+    "USA",
+    "Canada",
+    "Russia"
    ]
   },
   {
@@ -171,7 +178,24 @@
    "level": "CRITICAL",
    "sources": [
     "https://www.iucngisd.org/gisd/100_worst.php",
-    "https://www.iucngisd.org/gisd/species.php?sc=78"
+    "https://www.iucngisd.org/gisd/species.php?sc=78",
+    "https://www.fishbase.se/summary/Salmo-trutta.html"
+   ],
+   "native_in": [
+    "United Kingdom",
+    "UK",
+    "Ireland",
+    "Iceland",
+    "Norway",
+    "Sweden",
+    "Finland",
+    "Denmark",
+    "Germany",
+    "Poland",
+    "France",
+    "Spain",
+    "Portugal",
+    "Russia"
    ]
   }
  ]

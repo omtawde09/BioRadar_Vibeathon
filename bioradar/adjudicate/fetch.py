@@ -21,8 +21,8 @@ import sys
 import time
 import urllib.parse
 from datetime import datetime, timezone
-from pathlib import Path
-from typing import Any, Dict, List
+from pathlib import Path, PurePosixPath, PureWindowsPath
+from typing import Any, Dict, List, Optional
 
 from bioradar.fetch_data import _urlopen  # TLS context that works behind AV proxies
 
@@ -73,6 +73,60 @@ def _get(url: str, timeout: int = 120) -> bytes:
 
 
 # --------------------------------------------------------------------------
+# Path and URL safety for values read from the committed manifest
+# --------------------------------------------------------------------------
+
+
+def safe_join(base: Path, rel: str) -> Path:
+    """`base / rel`, refusing anything that could land outside `base`.
+
+    The manifest is a committed file, so a tampered copy must not be able to steer a download
+    (or a read) to an arbitrary place: absolute paths, drive letters / UNC prefixes and any `..`
+    part are rejected outright, and the resolved result must still sit inside `base`."""
+    if not isinstance(rel, str) or not rel.strip():
+        raise ValueError("unsafe path in manifest: {!r} (empty or not a string)".format(rel))
+    if "\x00" in rel:
+        raise ValueError("unsafe path in manifest: {!r} (contains a NUL byte)".format(rel))
+    win = PureWindowsPath(rel)
+    if rel.startswith(("/", "\\")) or PurePosixPath(rel).is_absolute() or win.drive or win.root:
+        raise ValueError("unsafe path in manifest: {!r} (absolute paths and drive letters are not "
+                         "allowed; paths must be relative to {})".format(rel, base))
+    if any(part == ".." for part in rel.replace("\\", "/").split("/")):
+        raise ValueError("unsafe path in manifest: {!r} ('..' is not allowed)".format(rel))
+    root = Path(base).resolve()
+    path = (root / rel).resolve()
+    try:
+        path.relative_to(root)
+    except ValueError:
+        raise ValueError("unsafe path in manifest: {!r} resolves to {}, outside {}".format(
+            rel, path, root)) from None
+    if path == root:
+        raise ValueError("unsafe path in manifest: {!r} names the data folder itself, not a file".format(rel))
+    return path
+
+
+def _safe_destination(rel: str) -> Path:
+    """Where a manifest `file` value may be written: always inside DATA_DIR (see `safe_join`)."""
+    return safe_join(DATA_DIR, rel)
+
+
+def _require_https(url: str) -> str:
+    """Only fetch over HTTPS from a named host (no file://, ftp://, plain http://)."""
+    if not isinstance(url, str) or url[:8].lower() != "https://" or not urllib.parse.urlsplit(url).netloc:
+        raise ValueError("refusing source_url {!r}: only https:// URLs from the public archive are "
+                         "downloaded".format(url))
+    return url
+
+
+def _discard(path: Path) -> None:
+    """Best-effort removal of a temporary file; never hides the error that triggered it."""
+    try:
+        path.unlink()
+    except OSError:
+        pass
+
+
+# --------------------------------------------------------------------------
 # Samples
 # --------------------------------------------------------------------------
 
@@ -102,23 +156,40 @@ def biosample_attributes(accession: str) -> Dict[str, str]:
     return {k: v for k, v in pairs if k in keep}
 
 
-def download_verified(url: str, destination: Path, md5: str) -> str:
-    """Fetch `url` unless an md5-matching copy is already there. Returns status."""
+def download_verified(url: str, destination: Path, md5: str,
+                      expected_bytes: Optional[int] = None) -> str:
+    """Fetch `url` unless an md5-matching copy is already there. Returns status.
+
+    The download goes to `<destination>.part` and only replaces `destination` once its md5 (and,
+    when the caller knows it, its size `expected_bytes`) match. If anything fails part-way the
+    `.part` file is removed, so an aborted run never leaves a stray file behind."""
+    _require_https(url)
+    size = None if expected_bytes is None else int(expected_bytes)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    if destination.is_file() and _md5(destination) == md5:
+    if (destination.is_file() and (size is None or destination.stat().st_size == size)
+            and _md5(destination) == md5):
         return "cached"
     tmp = destination.with_suffix(destination.suffix + ".part")
 
     def once() -> None:
-        with _urlopen(url, timeout=300) as response, tmp.open("wb") as out:
-            for chunk in iter(lambda: response.read(1 << 20), b""):
-                out.write(chunk)
-        if _md5(tmp) != md5:
-            tmp.unlink()
-            raise OSError("md5 mismatch for {} -- download corrupted".format(url))
+        try:
+            with _urlopen(url, timeout=300) as response, tmp.open("wb") as out:
+                for chunk in iter(lambda: response.read(1 << 20), b""):
+                    out.write(chunk)
+            if size is not None and tmp.stat().st_size != size:
+                raise OSError("size mismatch for {}: got {} bytes, archive lists {} -- download "
+                              "truncated or corrupted".format(url, tmp.stat().st_size, size))
+            if _md5(tmp) != md5:
+                raise OSError("md5 mismatch for {} -- download corrupted".format(url))
+        except BaseException:
+            _discard(tmp)
+            raise
 
-    _retry(once, destination.name)
-    tmp.replace(destination)
+    try:
+        _retry(once, destination.name)
+        tmp.replace(destination)
+    finally:
+        _discard(tmp)  # no-op after a successful replace; removes the leftover on any failure
     return "downloaded"
 
 
@@ -170,17 +241,27 @@ def fetch_from_manifest() -> Path:
     """Download exactly the files the committed manifest lists, verifying each md5.
 
     This is the clean-start path: it never re-queries ENA, so it cannot change the committed
-    manifest, and it needs no network service except the file server itself."""
+    manifest, and it needs no network service except the file server itself.
+
+    Every entry is checked before anything is downloaded: a `file` that would land outside
+    DATA_DIR or a `source_url` that is not https:// makes the whole step refuse (ValueError), so
+    a tampered manifest writes nothing at all."""
     manifest = DATA_DIR / "manifest.json"
     doc = json.loads(manifest.read_text(encoding="utf-8"))
-    total = fresh = 0
+    plan = []
     for ds in doc["datasets"]:
         for run in ds["runs"]:
             for f in run["files"]:
-                status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
-                total += 1
-                fresh += status == "downloaded"
-                print("  {:<11} {}".format(status, f["file"].rsplit("/", 1)[-1]), flush=True)
+                destination = _safe_destination(f["file"])
+                _require_https(f["source_url"])
+                plan.append((f, destination))
+    total = fresh = 0
+    for f, destination in plan:
+        status = download_verified(f["source_url"], destination, f["md5"],
+                                   expected_bytes=f.get("bytes"))
+        total += 1
+        fresh += status == "downloaded"
+        print("  {:<11} {}".format(status, destination.name), flush=True)
     print("  {} files verified against the manifest ({} downloaded)".format(total, fresh), flush=True)
     return manifest
 
@@ -227,8 +308,10 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
                 if str(index) not in mates:
                     continue
                 name = url.rsplit("/", 1)[-1]
-                raw_dir = DATASETS_DIR / ds["folder"] / "raw"
-                status = download_verified("https://" + url, raw_dir / name, md5)
+                # the name comes from the archive's reply: never let it escape the dataset folder
+                destination = safe_join(DATASETS_DIR, "{}/raw/{}".format(ds["folder"], name))
+                status = download_verified("https://" + url, destination, md5,
+                                           expected_bytes=int(size) if size else None)
                 print("  {:<11} {:<30} {:>6.1f} MB".format(status, name, int(size) / 1e6),
                       flush=True)
                 files.append({"file": "datasets/{}/raw/{}".format(ds["folder"], name), "mate": index, "md5": md5,

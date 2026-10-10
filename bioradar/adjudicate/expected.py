@@ -51,7 +51,7 @@ def _design_share_check(meta: Dict[str, Any], n_fish: int, species: List[Dict[st
     It does not say WHICH species they are (the archive does not), and amplification bias
     means a spread around 1/N is expected, so this is a plausibility check, not a pass."""
     note = (meta.get("design_note") or "").lower()
-    if "equal concentration" not in note or n_fish <= 0:
+    if not re.search(r"(?<!un)\bequal concentrations?\b", note) or n_fish <= 0:
         return None
     each = 1.0 / n_fish
     lo, hi = each / t.share_tolerance_factor, each * t.share_tolerance_factor
@@ -64,6 +64,9 @@ def _design_share_check(meta: Dict[str, Any], n_fish: int, species: List[Dict[st
         "detected_species": len(species),
         "within_tolerance": len(inside),
         "outside_tolerance": len(species) - len(inside),
+        "assumptions": "one species per mixed fish (samp_size counts fish) and equal DNA per "
+                       "fish; the full design note is '{}', and 'gradient' in it is "
+                       "ambiguous".format(meta.get("design_note", "")),
         "limits": "Based on the submitter's design note ('{}') and BioSample samp_size = {}. "
                   "Species identities are not given by the source, so this cannot confirm that "
                   "the right species were found; the paper's species table would be needed. "
