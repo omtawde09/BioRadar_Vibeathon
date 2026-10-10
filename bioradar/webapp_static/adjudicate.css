@@ -66,3 +66,6 @@
 .adj-dl dd { margin: 0; overflow-wrap: anywhere; }
 .adj-denominator { margin-top: var(--space-3); }
 @media (max-width: 720px) { .adj-dl { grid-template-columns: 1fr; gap: 2px; } .adj-dl dd { margin-bottom: var(--space-2); } }
+
+.adj-banner.none { background: var(--surface-pressed); color: var(--text-primary); box-shadow: none; border: 1px solid var(--border-hairline); }
+.adj-banner.none .adj-banner-level { background: var(--accent-soft); color: var(--text-secondary); }

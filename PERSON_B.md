@@ -14,7 +14,7 @@ This file is updated and pushed after every phase.
 | 0 | Confirm repo/remote, baseline tests, CI | **done** |
 | B1 | UI audit: what already passes | **done** |
 | B2 | Challenge review states | **done** |
-| B3 | Map, alert and seasons | pending |
+| B3 | Map, alert and seasons | **done** |
 | B4 | One-page officer report | pending |
 | B5 | UI regression + demo path | pending |
 
@@ -126,6 +126,42 @@ Checked in the running app on the mock (`A1`), the invasive-species sample and t
 (26,463 / 72,986 = 36.26%), no console errors.
 
 Still open for B2: `coverage` and `score_type` from Person A (see contract requests); until then the UI says "not provided".
+
+---
+
+## Phase B3: map, alert and seasons (done)
+
+Files changed: `webapp_static/adjudicate.js`, `adjudicate.css` only.
+
+**Same-site seasonal comparison, tested against the data (not just looked at).** In the browser, for each of the 4 sites
+and both slider positions, the four numbers on screen were compared with `/api/adjudicate/seasons`:
+
+| Site | Summer (2019-08) | Winter (2019-11) | Replicates | Screen = data? |
+|---|---|---|---|---|
+| HongQimen | 58 species | 56 | 3 + 2 | yes (both positions) |
+| Humen | 20 | 46 | 3 + 3 | yes |
+| Jiaomen | 20 | 20 | 3 + 3 | yes |
+| Jitimen | 43 | 44 | 2 + 2 | yes |
+
+8 of 8 views matched (detected in each season, newly detected, not detected here). Every sample in a pair has the same
+location name, and no text says "absent": the page states "does not prove the animal is absent".
+The season rule (Aug = summer, Nov = winter) is shown on the page from `thresholds.json`; the brief's "monsoon vs summer"
+is **not** claimed.
+
+| Gap found in B1 | Fix |
+|---|---|
+| No explicit no-trigger state | A neutral banner **NO TRIGGER** ("rule: species-level call of a listed invasive fish, at least 10 reads; not seen; does not prove the water is free of them") and **NOT CHECKED** for a retake sample. A red/orange alert banner is still shown only for a real qualifying detection |
+| Alert pins not on a map | New **Alert map** on the Alerts tab: one marker per distinct pin, colour = most severe alert, popup lists the alerts. 3 distinct pins (the Pearl River sites share one pin because the archive gave 1-degree coordinates, stated under the map) |
+| Seasonal lists did not flag invasive species | species confirmed in an alert are badged `invasive-listed` in the new/not-detected/all lists |
+| Unfair comparisons not warned | **New finding**: Humen shows 20 species in summer vs 46 in winter, but all 3 summer samples are "Usable with caution". The seasons card now prints each season's verdicts and named reads, and warns when a verdict is not "Usable" or depth differs 2-fold or more: fewer species may reflect the data, not the water |
+
+Not rebuilt: `mapkit.js` and its cumulative date slider (B1 finding: it is a date filter, not a same-site comparison).
+
+**Environment incident (no work lost).** GitHub Desktop switched the checkout `challenge/odyssey-adjudication -> main ->
+WithoutFilter -> back` during this phase and stashed the untracked data (downloaded reads, results). Everything committed
+was safe on the branch; the ignored data was restored from `stash@{0}` with `git restore --source`. The stash was **not**
+popped or edited. To avoid repeats: do not switch branches in this checkout while a phase is running, and re-run
+`runner fetch` / `runner all` if the ignored data ever disappears.
 
 ## Open questions for the maintainer / Person A
 

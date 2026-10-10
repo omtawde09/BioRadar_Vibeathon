@@ -93,7 +93,9 @@
     if (!root()) return;
     if (S.tab === "sample") renderSampleTab();
     else if (S.tab === "guard") loadThen("guard", "/api/adjudicate/guard", renderGuard);
-    else if (S.tab === "seasons") loadThen("seasons", "/api/adjudicate/seasons", renderSeasons);
+    else if (S.tab === "seasons") loadThen("seasons", "/api/adjudicate/seasons", function (d) {
+      ensureAlerts().then(function () { renderSeasons(d); });
+    });
     else if (S.tab === "alerts") loadThen("alerts", "/api/adjudicate/alerts", renderAlerts, true);
     else loadWhy();
   }
@@ -181,6 +183,17 @@
       .catch(function () { return null; });
   }
 
+  function invasiveSet() {
+    var set = {};
+    ((S.alerts && S.alerts.alerts) || []).forEach(function (a) { if (a.kind === "confirmed") set[a.species] = a.level; });
+    return set;
+  }
+
+  function ensureAlerts() {
+    if (S.alerts) return Promise.resolve(S.alerts);
+    return api("/api/adjudicate/alerts").then(function (d) { S.alerts = d; return d; }).catch(function () { return null; });
+  }
+
   function refVersion() {
     return S.provenance ? S.provenance.reference.reference_database_version : "not loaded";
   }
@@ -189,7 +202,18 @@
     var b = document.getElementById("adjBanner");
     if (!b) return;
     var ev = (r.alerts || [])[0];
-    if (!ev) { b.innerHTML = ""; return; }
+    if (!ev) {
+      var poor = r.verdict === "Retake sample";
+      b.innerHTML = '<div class="adj-banner none" role="status"><div class="adj-banner-level">' +
+        (poor ? "NOT CHECKED" : "NO TRIGGER") + '</div><div class="adj-banner-main"><b>' +
+        (poor ? "Invasive-species rule not evaluated: this sample is a retake."
+              : "No listed invasive fish crossed the danger rule in this sample.") + "</b>" +
+        '<div class="adj-banner-act">' + (poor
+          ? "Too little usable DNA to say anything about invasive fish here."
+          : "Rule: a species-level call of a listed invasive fish with at least 10 reads. Not seen here; that does not prove the water is free of them.") +
+        "</div></div></div>";
+      return;
+    }
     b.innerHTML = '<div class="adj-banner ' + LEVEL_CLASS[ev.level] + '" role="alert">' +
       '<div class="adj-banner-level">' + esc(ev.level) + "</div>" +
       '<div class="adj-banner-main"><b>' + esc(ev.headline) + "</b>" +
@@ -510,6 +534,7 @@
         esc(doc.not_absent_note) + "</p>" +
         '<p class="hint">Season rule (set in thresholds.json): ' + esc(JSON.stringify(doc.season_rule.value)) + ". " +
         esc(doc.season_rule.why) + "</p>" +
+        seasonQuality(site) +
         '<div id="adjSeasonMap" class="adj-map short"></div>' +
         (site.coordinate_note ? '<p class="hint">Note: ' + esc(site.coordinate_note) + ".</p>" : "")) +
       UI.card('<div class="adj-two"><div><h3 class="adj-h3">Newly detected in ' + cur + "</h3>" + list(fresh, cur, true) + "</div>" +
@@ -530,10 +555,38 @@
     }
   }
 
+  /* A same-site comparison is only fair if both seasons were read about equally well.
+     Verdicts and usable reads come from the pre-run results; nothing is recomputed. */
+  function seasonQuality(site) {
+    var byId = {};
+    ((S.index && S.index.samples) || []).forEach(function (x) { byId[x.sample_id] = x; });
+    function agg(season) {
+      var ids = site[season].sample_ids || [], kept = 0, verdicts = {};
+      ids.forEach(function (id) {
+        var x = byId[id]; if (!x) return;
+        kept += x.summary.kept.reads;
+        verdicts[x.verdict] = (verdicts[x.verdict] || 0) + 1;
+      });
+      return { kept: kept, verdicts: verdicts, n: ids.length };
+    }
+    var a = agg("summer"), b = agg("winter");
+    function text(g) { return Object.keys(g.verdicts).map(function (k) { return g.verdicts[k] + " " + k; }).join(", ") || "n/a"; }
+    var uneven = a.kept && b.kept ? Math.max(a.kept, b.kept) / Math.min(a.kept, b.kept) : 0;
+    var notClean = Object.keys(a.verdicts).concat(Object.keys(b.verdicts)).some(function (k) { return k !== "Usable"; });
+    if (!notClean && uneven < 2) return "";
+    return '<div class="adj-note"><b>Read this comparison with care.</b> Summer samples: ' + esc(text(a)) + " (" + UI.num(a.kept) +
+      " reads named). Winter samples: " + esc(text(b)) + " (" + UI.num(b.kept) + " reads named)." +
+      (uneven >= 2 ? " Sequencing depth differs about " + uneven.toFixed(1) + "-fold." : "") +
+      " A season with poorer reads can show fewer species because of the data, not because of the water.</div>";
+  }
+
   function list(rows, season, showReads) {
     if (!rows.length) return '<p class="hint">None.</p>';
+    var listed = invasiveSet();
     return '<ul class="adj-list">' + rows.map(function (r) {
-      return "<li><i>" + esc(r.species) + "</i> <span class=\"hint\">" + UI.num(r[season + "_reads"]) + " reads, " +
+      return "<li><i>" + esc(r.species) + "</i>" +
+        (listed[r.species] ? ' <span class="badge invasive" title="Listed invasive fish; confirmed in an alert elsewhere in this project">invasive-listed</span>' : "") +
+        " <span class=\"hint\">" + UI.num(r[season + "_reads"]) + " reads, " +
         r[season + "_replicates"] + " replicate(s)</span></li>"; }).join("") + "</ul>";
   }
 
@@ -541,7 +594,18 @@
 
   function renderAlerts(d) {
     var rows = d.alerts;
-    root().innerHTML = UI.card('<div class="card-head"><div><div class="hint">Dashboard banner + this log. No SMS or e-mail is sent.</div>' +
+    S.alerts = d;
+    var pins = {};
+    rows.forEach(function (a) {
+      if (!a.pin || a.pin.latitude === null || a.pin.latitude === undefined) return;
+      var key = a.pin.latitude + "," + a.pin.longitude;
+      (pins[key] = pins[key] || { lat: a.pin.latitude, lon: a.pin.longitude, items: [] }).items.push(a);
+    });
+    var pinList = Object.keys(pins).map(function (k) { return pins[k]; });
+    root().innerHTML = (pinList.length ? UI.card('<div class="card-head"><div><div class="hint">One marker per distinct pin; colour = most severe alert there</div>' +
+      '<h2 class="adj-h2">Alert map</h2></div></div><div id="adjAlertMap" class="adj-map"></div>' +
+      '<p class="hint">' + pinList.length + " pins. Samples whose source gave only a coarse coordinate share one pin.</p>") : "") +
+      UI.card('<div class="card-head"><div><div class="hint">Dashboard banner + this log. No SMS or e-mail is sent.</div>' +
       '<h2 class="adj-h2">Alert log</h2></div></div>' +
       (rows.length ? '<div class="table-wrap"><table class="data"><thead><tr><th>Level</th><th>Alert</th><th>Pin</th><th>Sample</th><th>Reads</th><th>Analysis took</th><th>Alert after result</th></tr></thead><tbody>' +
         rows.map(function (a) {
@@ -553,6 +617,31 @@
         "separately and is not hidden in that figure. Results are pre-run, so opening a sample shows its alert immediately. " +
         "Samples that triggered nothing are not listed: the rule was active but the source sample did not contain a listed invasive fish.</p>"
         : UI.state("empty", "No alerts yet", "No processed real sample crossed the danger rule. The rule is active; nothing is invented.")));
+    drawAlertMap(pinList);
+  }
+
+  function drawAlertMap(pinList) {
+    var el = document.getElementById("adjAlertMap");
+    if (!el || !window.L) return;
+    if (S.alertMap) { S.alertMap.remove(); S.alertMap = null; }
+    var m = L.map(el);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap" }).addTo(m);
+    var rank = { CRITICAL: 0, HIGH: 1, WATCH: 2 }, colour = { CRITICAL: "#d5405f", HIGH: "#e0912f", WATCH: "#c9a400" };
+    var bounds = [];
+    pinList.forEach(function (p) {
+      var worst = p.items.slice().sort(function (a, b) { return rank[a.level] - rank[b.level]; })[0];
+      var seen = {}, lines = [];
+      p.items.forEach(function (a) {
+        var k = a.level + a.species;
+        if (!seen[k] && lines.length < 6) { seen[k] = 1; lines.push(esc(a.level) + ": " + esc(a.headline)); }
+      });
+      L.circleMarker([p.lat, p.lon], { radius: 10, color: "#fff", weight: 2, fillColor: colour[worst.level], fillOpacity: 1 })
+        .addTo(m).bindPopup("<b>" + p.lat.toFixed(4) + ", " + p.lon.toFixed(4) + "</b><br>" + lines.join("<br>"));
+      bounds.push([p.lat, p.lon]);
+    });
+    if (bounds.length === 1) m.setView(bounds[0], 8); else m.fitBounds(bounds, { padding: [30, 30], maxZoom: 9 });
+    S.alertMap = m;
+    setTimeout(function () { m.invalidateSize(); }, 200);
   }
 
   /* ── numbers & sources ──────────────────────────────────────────────── */
