@@ -1,6 +1,6 @@
 {
   "GOA-MANDOVI": {
-    "timestamp_epoch": 1791613662.4661427,
+    "timestamp_epoch": 1791631619.9482298,
     "data": {
       "sample_id": "GOA-MANDOVI",
       "status": "SUCCESS",
@@ -8,7 +8,7 @@
       "forecast_days": 7,
       "overall_trend": "declining",
       "historical_rounds_used": 3,
-      "last_updated": "2026-10-10 06:27:42 UTC",
+      "last_updated": "2026-10-10 11:26:59 UTC",
       "daily_forecasts": [
         {
           "day_number": 1,
