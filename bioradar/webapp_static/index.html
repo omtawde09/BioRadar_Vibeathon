@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="BioRadar — eDNA biodiversity intelligence for Indian waters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/leaflet.css">
+<link rel="stylesheet" href="/static/home.css">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body data-lang="en">
+
+<a class="skip-link" href="#workspace">Skip to main content</a>
+
+<!-- The shell is empty markup. Everything inside it is rendered from the
+     feature registry, which is what makes adding a feature a one-line change
+     rather than an edit to this file. -->
+
+<header class="appbar">
+  <div class="brand" data-view="home" style="cursor:pointer" role="button" tabindex="0">
+    <span class="brand-mark">
+      <svg viewBox="0 0 24 24" class="logo brand-dna" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m10 16 1.5 1.5"/><path d="m14 8-1.5-1.5"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m16.5 10.5 1 1"/><path d="m17 6-2.891-2.891"/><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="m20 9 .891.891"/><path d="M3.109 14.109 4 15"/><path d="m6.5 12.5 1 1"/><path d="m7 18 2.891 2.891"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/>
+      </svg>
+    </span>
+    <div>
+      <div class="brand-line">
+        <div class="brand-name">BioRadar</div>
+        <span class="brand-tag">eDNA</span>
+      </div>
+      <div class="brand-sub">Biodiversity Intelligence for Indian Waters</div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <nav class="appbar-nav" id="appbarNav" role="tablist" aria-label="Desktop Navigation"></nav>
+  <div class="appbar-actions" id="appbarActions"></div>
+</header>
+
+<div class="shell">
+  <nav class="sidebar" id="sidebar" role="tablist" aria-label="Sections"></nav>
+
+  <main class="workspace" id="workspace">
+    <!-- The banner lives outside the view host because the view host is
+         rewritten wholesale when the registry renders. -->
+    <div class="offline-banner hidden" id="offlineBanner" role="status"></div>
+    <div id="viewHost" class="stack" style="gap:24px"></div>
+  </main>
+
+  <aside class="detail-panel" id="detailPanel" aria-label="Details"></aside>
+</div>
+
+<nav class="tabbar" id="tabbar" role="tablist" aria-label="Sections"></nav>
+
+<div class="backdrop" id="backdrop"></div>
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<script src="/static/leaflet.js"></script>
+<script src="/static/registry.js"></script>
+<script src="/static/i18n.js"></script>
+<script src="/static/ui.js"></script>
+<script src="/static/charts.js"></script>
+<script src="/static/mapkit.js"></script>
+<script src="/static/home-bundle.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

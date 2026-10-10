@@ -1,0 +1,382 @@
+[
+  {
+    "sample_id": "BR-GOA-MANDOVI-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 655
+      },
+      {
+        "name": "Clarias gariepinus",
+        "reads": 5
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 92
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 605
+      },
+      {
+        "name": "Gambusia holbrooki",
+        "reads": 1863
+      },
+      {
+        "name": "Oreochromis mossambicus",
+        "reads": 8
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1045
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 186
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-GOA-MANDOVI-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 249
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 70
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 534
+      },
+      {
+        "name": "Gambusia holbrooki",
+        "reads": 3539
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1538
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 175
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-KER-VEMBANAD-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 620
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 91
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 406
+      },
+      {
+        "name": "Oreochromis mossambicus",
+        "reads": 1909
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1426
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 86
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-KER-VEMBANAD-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 477
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 55
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 374
+      },
+      {
+        "name": "Gambusia holbrooki",
+        "reads": 20
+      },
+      {
+        "name": "Oreochromis mossambicus",
+        "reads": 3627
+      },
+      {
+        "name": "Pterygoplichthys pardalis",
+        "reads": 24
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1513
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 134
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-AP-KOLLERU-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 340
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 205
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 405
+      },
+      {
+        "name": "Lepidochelys olivacea",
+        "reads": 26
+      },
+      {
+        "name": "Pterygoplichthys pardalis",
+        "reads": 727
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1019
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 155
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-AP-KOLLERU-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 514
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 209
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 652
+      },
+      {
+        "name": "Gambusia holbrooki",
+        "reads": 8
+      },
+      {
+        "name": "Pterygoplichthys pardalis",
+        "reads": 1381
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1737
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 195
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-LD-KAVARATTI-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 586
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 151
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 626
+      },
+      {
+        "name": "Lepidochelys olivacea",
+        "reads": 21
+      },
+      {
+        "name": "Pterygoplichthys pardalis",
+        "reads": 25
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1148
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 54
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-LD-KAVARATTI-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 289
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 121
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 312
+      },
+      {
+        "name": "Gambusia holbrooki",
+        "reads": 26
+      },
+      {
+        "name": "Lepidochelys olivacea",
+        "reads": 28
+      },
+      {
+        "name": "Pterygoplichthys pardalis",
+        "reads": 11
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1533
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 58
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-TN-MANNAR-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 610
+      },
+      {
+        "name": "Cyprinus carpio",
+        "reads": 14
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 174
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 584
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1060
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 82
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-TN-MANNAR-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 533
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 204
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 424
+      },
+      {
+        "name": "Lepidochelys olivacea",
+        "reads": 28
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 903
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 57
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-AN-PORTBLAIR-R01",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 563
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 112
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 297
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1362
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 81
+      }
+    ]
+  },
+  {
+    "sample_id": "BR-AN-PORTBLAIR-R02",
+    "species": [
+      {
+        "name": "Acanthurus mata",
+        "reads": 494
+      },
+      {
+        "name": "Chelonia mydas",
+        "reads": 33
+      },
+      {
+        "name": "Epinephelus areolatus",
+        "reads": 154
+      },
+      {
+        "name": "Epinephelus coioides",
+        "reads": 260
+      },
+      {
+        "name": "Rastrelliger kanagurta",
+        "reads": 1578
+      },
+      {
+        "name": "Turbinella pyrum",
+        "reads": 64
+      }
+    ]
+  }
+]

@@ -1,0 +1,45 @@
+{
+  "asv-test-123": {
+    "asv_id": "asv-test-123",
+    "asv_sequence_length": 53,
+    "inferred_taxonomy": "k__Eukaryota; p__Chordata; f__Cyprinidae; g__Tor; s__Tor putitora",
+    "scientific_name": "Tor putitora",
+    "inferred_rank": "species",
+    "confidence": 1.0,
+    "top_similarity": 1.0,
+    "nearest_neighbors": [
+      {
+        "species": "Tor putitora",
+        "genus": "Tor",
+        "family": "Cyprinidae",
+        "cosine_similarity": 1.0
+      },
+      {
+        "species": "Clarias gariepinus",
+        "genus": "Clarias",
+        "family": "Clariidae",
+        "cosine_similarity": 0.9966
+      },
+      {
+        "species": "Labeo rohita",
+        "genus": "Labeo",
+        "family": "Cyprinidae",
+        "cosine_similarity": 0.9938
+      },
+      {
+        "species": "Perna viridis",
+        "genus": "Perna",
+        "family": "Mytilidae",
+        "cosine_similarity": 0.959
+      },
+      {
+        "species": "Oreochromis niloticus",
+        "genus": "Oreochromis",
+        "family": "Cichlidae",
+        "cosine_similarity": 0.8434
+      }
+    ],
+    "disclaimer": "This is an AI-inferred taxonomy based on phylogenetic distance. It is NOT a definitive identification. Expert taxonomic review is recommended.",
+    "timestamp_utc": "2026-08-24 17:32:16 UTC"
+  }
+}

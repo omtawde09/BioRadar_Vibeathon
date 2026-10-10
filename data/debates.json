@@ -1,0 +1,992 @@
+{
+  "deb-1787081118": {
+    "debate_id": "deb-1787081118",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-18 19:25:18 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:25:18"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:25:33"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:25:48"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:26:03"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:26:18"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:26:33"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787082536": {
+    "debate_id": "deb-1787082536",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-18 19:48:56 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:48:56"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:49:11"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:49:26"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:49:41"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:49:56"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "19:50:11"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787090208": {
+    "debate_id": "deb-1787090208",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-18 21:56:48 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:56:48"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:57:03"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:57:18"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:57:33"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:57:48"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "21:58:03"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787115163": {
+    "debate_id": "deb-1787115163",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-19 04:52:43 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:52:43"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:52:58"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:13"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:28"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:43"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:58"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787115221": {
+    "debate_id": "deb-1787115221",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-19 04:53:41 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:41"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:56"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:11"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:26"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:41"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:56"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787139100": {
+    "debate_id": "deb-1787139100",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-19 11:31:40 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:31:40"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:31:55"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:32:10"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:32:25"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:32:40"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "11:32:55"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1787592728": {
+    "debate_id": "deb-1787592728",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-08-24 17:32:08 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:32:08"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:32:23"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:32:38"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:32:53"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:33:08"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "17:33:23"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1790261692": {
+    "debate_id": "deb-1790261692",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-09-24 14:54:52 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:54:52"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:55:07"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:55:22"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:55:37"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:55:52"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "14:56:07"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1791608027": {
+    "debate_id": "deb-1791608027",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-10-10 04:53:47 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:53:47"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:02"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:17"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:32"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:54:47"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "04:55:02"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.0
+    }
+  },
+  "deb-1791613662": {
+    "debate_id": "deb-1791613662",
+    "sample_id": "BR-GOA-001",
+    "topic": "Mandovi Estuary Conservation Strategy",
+    "status": "COMPLETED",
+    "sample_context": "Sample ID: BR-GOA-001. Location: Goa Mandovi Estuary. eDNA Detections: Tor putitora (Endangered), Clarias gariepinus (Invasive), Labeo rohita (Native).",
+    "created_at": "2026-10-10 06:27:42 UTC",
+    "messages": [
+      {
+        "round": 1,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "Based on BioRadar eDNA findings for BR-GOA-001, we must enforce immediate buffer zone protections to preserve native species habitat.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:27:42"
+      },
+      {
+        "round": 2,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "We understand conservation needs, but complete fishing bans will destroy our community's livelihood. We need seasonal zoning instead.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:27:57"
+      },
+      {
+        "round": 3,
+        "agent_key": "conservation_ngo",
+        "speaker_name": "Conservation NGO (Dr. A. Roy - BioProtect)",
+        "role": "Conservation NGO",
+        "icon": "heart",
+        "temperature": 0.7,
+        "message": "BioRadar eDNA confirms IUCN Endangered species presence in BR-GOA-001. We demand zero-tolerance habitat destruction policy.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:28:12"
+      },
+      {
+        "round": 4,
+        "agent_key": "government_regulator",
+        "speaker_name": "Government Regulator (Inspector K. Patel)",
+        "role": "Government Regulator",
+        "icon": "file-text",
+        "temperature": 0.3,
+        "message": "Under Section 36 of the Biological Diversity Act 2002, local authorities are mandated to notify Biodiversity Heritage Sites when rare taxa are flagged.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:28:27"
+      },
+      {
+        "round": 5,
+        "agent_key": "forest_officer",
+        "speaker_name": "Forest Officer (Range Officer V. Sharma)",
+        "role": "Forest Officer",
+        "icon": "shield",
+        "temperature": 0.3,
+        "message": "The data clearly indicates ecosystem degradation risk if invasive species spread unchecked downstream.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:28:42"
+      },
+      {
+        "round": 6,
+        "agent_key": "local_fisherman",
+        "speaker_name": "Local Fisherman (R. Naik - Fisheries Co-op)",
+        "role": "Local Fisherman",
+        "icon": "anchor",
+        "temperature": 0.7,
+        "message": "If regulated gear is permitted during non-breeding periods, economic activity can co-exist with native protection.",
+        "rag_citations": [
+          "BR-GOA-001"
+        ],
+        "timestamp": "06:28:57"
+      }
+    ],
+    "consensus": {
+      "consensus_recommendation": "Establish a 6-month seasonal Biodiversity Conservation Reserve at BR-GOA-001 with community fishing quotas, mandatory invasive species eradication protocols, and legal designation under the Biological Diversity Act.",
+      "dissenting_opinions": [
+        "Local Fisherman Co-op requested complete exemption from seasonal gear bans during peak harvest months.",
+        "Conservation NGO advocated for permanent, non-expiring sanctuary boundaries without commercial access."
+      ],
+      "statutory_compliance_framework": "Biological Diversity Act 2002 (Sec 36) & Wildlife Protection Act 1972 (Schedule I protection)",
+      "participating_agents_count": 4,
+      "total_rounds": 6,
+      "execution_duration_sec": 0.01
+    }
+  }
+}

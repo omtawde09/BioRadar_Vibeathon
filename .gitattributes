@@ -1,0 +1,27 @@
+# Normalise line endings.
+#
+# This matters more than usual here: the shell scripts and the Snakefile are
+# executed inside a Linux container. A file committed with CRLF from Windows
+# fails there with `set: pipefail: invalid option name` -- an error that points
+# nowhere near the real cause. Forcing LF on everything text keeps a Windows
+# checkout and a container run in agreement.
+* text=auto eol=lf
+
+*.sh        text eol=lf
+*.smk       text eol=lf
+*.py        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+Snakefile   text eol=lf
+Dockerfile* text eol=lf
+
+# Binary: never touch these.
+*.gz     binary
+*.zip    binary
+*.qza    binary
+*.qzv    binary
+*.biom   binary
+*.png    binary
+*.jpg    binary
+*.pdf    binary
+*.fasta  -text

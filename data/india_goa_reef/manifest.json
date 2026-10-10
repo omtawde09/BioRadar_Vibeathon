@@ -1,0 +1,89 @@
+{
+  "project": "PRJNA985590",
+  "runs": [
+    {
+      "run_accession": "SRR24986632",
+      "sample_id": "BR-GOA-REEF-INDIA-ST01-01",
+      "site_id": "INDIA-ST01",
+      "latitude": 15.35,
+      "longitude": 73.775,
+      "collection_date": "2022-12-18",
+      "country": "India",
+      "scientific_name": "marine metagenome",
+      "instrument_model": "Illumina MiSeq",
+      "read_count": 517830,
+      "bytes": 106369798,
+      "source": "ena",
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/032/SRR24986632/SRR24986632_1.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST01-01_S1_L001_R1_001.fastq.gz",
+          "md5": "0a3bbcca1dca82f28ce54c93c27eb8b1",
+          "bytes": 44828502
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/032/SRR24986632/SRR24986632_2.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST01-01_S1_L001_R2_001.fastq.gz",
+          "md5": "ad22cc6c22f586378e2f9ac78cece738",
+          "bytes": 61541296
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR24986631",
+      "sample_id": "BR-GOA-REEF-INDIA-ST02-01",
+      "site_id": "INDIA-ST02",
+      "latitude": 15.349,
+      "longitude": 73.764,
+      "collection_date": "2023-01-26",
+      "country": "India",
+      "scientific_name": "marine metagenome",
+      "instrument_model": "Illumina MiSeq",
+      "read_count": 553960,
+      "bytes": 106414542,
+      "source": "ena",
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/031/SRR24986631/SRR24986631_1.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST02-01_S1_L001_R1_001.fastq.gz",
+          "md5": "e350774a3c5f90c29ea00ba5a774d946",
+          "bytes": 49475645
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/031/SRR24986631/SRR24986631_2.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST02-01_S1_L001_R2_001.fastq.gz",
+          "md5": "0312d52e946fcbffe165bf35b76c0e89",
+          "bytes": 56938897
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR24986633",
+      "sample_id": "BR-GOA-REEF-INDIA-ST01-02",
+      "site_id": "INDIA-ST01",
+      "latitude": 15.35,
+      "longitude": 73.783,
+      "collection_date": "2022-12-17",
+      "country": "India",
+      "scientific_name": "marine metagenome",
+      "instrument_model": "Illumina MiSeq",
+      "read_count": 389735,
+      "bytes": 74863681,
+      "source": "ena",
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/033/SRR24986633/SRR24986633_1.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST01-02_S1_L001_R1_001.fastq.gz",
+          "md5": "a49ad28185f0b9ef58a626293d63f455",
+          "bytes": 33547777
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR249/033/SRR24986633/SRR24986633_2.fastq.gz",
+          "target": "BR-GOA-REEF-INDIA-ST01-02_S1_L001_R2_001.fastq.gz",
+          "md5": "b983d67cfb1f88a38bf5caed280250ee",
+          "bytes": 41315904
+        }
+      ]
+    }
+  ]
+}

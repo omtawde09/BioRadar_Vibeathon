@@ -1,0 +1,19 @@
+scientific_name,taxon_id,taxid_verified,kingdom,phylum,class,order,family,genus,species,common_name,india_status,typical_abundance
+Gambusia holbrooki,37273,yes,Eukaryota,Chordata,Actinopteri,Cyprinodontiformes,Poeciliidae,Gambusia,Gambusia holbrooki,Eastern mosquitofish,invasive,high
+Carassius auratus,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Carassius,Carassius auratus,Goldfish,invasive,medium
+Cyprinus carpio,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Cyprinus,Cyprinus carpio,Common carp,invasive,medium
+Oreochromis mossambicus,,no,Eukaryota,Chordata,Actinopteri,Cichliformes,Cichlidae,Oreochromis,Oreochromis mossambicus,Mozambique tilapia,invasive,high
+Clarias gariepinus,,no,Eukaryota,Chordata,Actinopteri,Siluriformes,Clariidae,Clarias,Clarias gariepinus,African sharptooth catfish,invasive,medium
+Pterygoplichthys pardalis,,no,Eukaryota,Chordata,Actinopteri,Siluriformes,Loricariidae,Pterygoplichthys,Pterygoplichthys pardalis,Amazon sailfin catfish,invasive,medium
+Hypophthalmichthys molitrix,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Xenocyprididae,Hypophthalmichthys,Hypophthalmichthys molitrix,Silver carp,invasive,low
+Labeo rohita,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Labeo,Labeo rohita,Rohu,native,high
+Catla catla,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Catla,Catla catla,Catla,native,high
+Cirrhinus mrigala,,no,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Cirrhinus,Cirrhinus mrigala,Mrigal carp,native,medium
+Channa striata,,no,Eukaryota,Chordata,Actinopteri,Anabantiformes,Channidae,Channa,Channa striata,Striped snakehead,native,medium
+Anabas testudineus,,no,Eukaryota,Chordata,Actinopteri,Anabantiformes,Anabantidae,Anabas,Anabas testudineus,Climbing perch,native,low
+Lates calcarifer,,no,Eukaryota,Chordata,Actinopteri,Perciformes,Latidae,Lates,Lates calcarifer,Barramundi,native,medium
+Etroplus suratensis,,no,Eukaryota,Chordata,Actinopteri,Cichliformes,Cichlidae,Etroplus,Etroplus suratensis,Pearlspot,native,medium
+Anas platyrhynchos,8839,yes,Eukaryota,Chordata,Aves,Anseriformes,Anatidae,Anas,Anas platyrhynchos,Mallard,migratory,low
+Homo sapiens,9606,yes,Eukaryota,Chordata,Mammalia,Primates,Hominidae,Homo,Homo sapiens,Human,contamination,trace
+Carassius,7956,yes,Eukaryota,Chordata,Actinopteri,Cypriniformes,Cyprinidae,Carassius,,Carassius (genus-level only),invasive,low
+Oncorhynchus,8016,yes,Eukaryota,Chordata,Actinopteri,Salmoniformes,Salmonidae,Oncorhynchus,,Trout (genus-level only),introduced,low

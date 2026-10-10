@@ -1,0 +1,110 @@
+BioRadar
+Copyright (c) 2026 Om Tawde and the BioRadar Team, K.C. College of Engineering, Thane
+Smart India Hackathon 2026 -- Problem Statement SIH25042 (Ministry of Earth Sciences)
+
+================================================================================
+Layer 1 (bioradar-pipeline/) is derived from the eDNA-Container App
+================================================================================
+
+Original authors:
+  Wheeler, D.; Brancalion, L.; Kumar, A.; Lintermans, M.
+  NSW Department of Primary Industries, Australia
+
+Paper:
+  "The eDNA-Container App: A Simple-to-Use Cross-Platform Package for the
+  Reproducible Analysis of eDNA Sequencing Data."
+  Applied Sciences 2024, 14(6), 2641
+  https://doi.org/10.3390/app14062641
+
+Source:
+  https://github.com/dwheelerau/edna-container2   (container / GUI wrapper)
+  https://bitbucket.org/dpi_data_analytics/snakemake-qiime-edna2  (pipeline)
+  Docker Hub: dwheelerau/edna
+
+License:
+  The upstream repository ships an Apache License 2.0 (see LICENSE) and a
+  BSD 3-Clause license covering QIIME 2 components (see QIIME-license).
+  Apache-2.0 grants the right to use, modify and redistribute this work,
+  subject to the conditions in Section 4 of that license. This NOTICE file,
+  the LICENSE file, and all upstream copyright and attribution notices are
+  retained accordingly.
+
+================================================================================
+Changes made by the BioRadar team (required by Apache-2.0 Section 4b)
+================================================================================
+
+Provenance of the forked source
+  The Snakemake pipeline was extracted from the published Docker image
+  `dwheelerau/edna:v1.4`, at the path /home/docker_conda_template/
+  snakemake-qiime-edna, rather than cloned from Bitbucket. The extracted tree
+  is committed unmodified except where listed below. This route was chosen so
+  the team owns a verifiable copy of the exact pipeline that the published,
+  peer-reviewed image runs, independent of the upstream host's availability.
+
+Additions
+  * bioradar-pipeline/rules/bioradar.smk -- two new Snakemake rules:
+      - normalize_taxonomy: converts raw QIIME2 output into BioRadar's frozen
+        integration contract (see docs/CONTRACTS.md)
+      - emit_hash: computes SHA-256 digests of the run's artifacts and commits
+        them to BioRadar's chain-of-custody ledger
+  * bioradar/ -- a new Python package providing the pipeline-to-backend
+    integration layer (normalizer, programmatic runner, chain client,
+    temporal comparison, mock-data generator). Original BioRadar work; no
+    upstream code is reused.
+  * docker-compose.yml, ci/, tests/, integration/, data/, docs/ -- original
+    BioRadar work.
+
+Modifications to upstream files
+  * bioradar-pipeline/Snakefile -- `include:` added for rules/bioradar.smk, and
+    `rule all` extended with three additional targets. The ten upstream rules
+    and their input/output contracts are unchanged.
+
+  * bioradar-pipeline/rules/*.smk -- `denoiser` switch added so a run can use
+    vsearch (97% OTUs) instead of DADA2 when the input carries no usable
+    quality scores; `fast` switch added so the PDF QC report and rarefaction
+    can be skipped. Both default to upstream behaviour where behaviour matters.
+
+Redistribution as a container image
+  BioRadar publishes ghcr.io/omtawde09/bioradar-pipeline, built from
+  docker/Dockerfile.pipeline with `dwheelerau/edna:v1.4` as its base. The
+  derived image relocates the analysis assets to /opt/bioradar/ and carries a
+  copy of this NOTICE and of LICENSE at /opt/bioradar/, so the attribution
+  travels with the image and not only with this repository. Apache-2.0
+  Section 4 permits this redistribution in modified form on exactly these
+  terms.
+
+Removals
+  * The Flask web GUI (app.py, templates/, static/, the desktop launcher and
+    install script) is not part of the BioRadar build and is not carried in
+    this repository. BioRadar replaces it with its own web application. The
+    upstream GUI remains available from the sources listed above.
+
+Not modified
+  The bioinformatics itself is upstream's and is deliberately untouched: the
+  DADA2 denoising parameters, the cutadapt primer-trimming settings, the naive
+  Bayes classification step, the rarefaction and report generation, and the
+  order and dependencies of the ten original rules. BioRadar's contribution is
+  the layer above the pipeline, not the pipeline.
+
+================================================================================
+Third-party components
+================================================================================
+
+QIIME 2                     BSD 3-Clause (see QIIME-license)
+DADA2, cutadapt, scikit-learn, Snakemake, pandoc
+                            each under its own license, as installed in the
+                            upstream Conda environment
+MIDORI2 reference database  see https://www.reference-midori.info/ for terms;
+                            redistributed here as the classifier artifact that
+                            ships inside the upstream Docker image
+
+================================================================================
+Citation
+================================================================================
+
+Work that uses BioRadar's Layer 1 must cite the original pipeline:
+
+  Wheeler, D.; Brancalion, L.; Kumar, A.; Lintermans, M. The eDNA-Container
+  App: A Simple-to-Use Cross-Platform Package for the Reproducible Analysis of
+  eDNA Sequencing Data. Applied Sciences 2024, 14(6), 2641.
+  https://doi.org/10.3390/app14062641

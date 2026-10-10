@@ -1,0 +1,13 @@
+sample_id,site_id,site_name,state,latitude,longitude,round,collected_at,read_pairs
+BR-GOA-MANDOVI-R01,GOA-MANDOVI,"Mandovi Estuary, Goa",Goa,15.4989,73.8278,1,2026-01-15,4459
+BR-GOA-MANDOVI-R02,GOA-MANDOVI,"Mandovi Estuary, Goa",Goa,15.4989,73.8278,2,2026-04-15,6105
+BR-KER-VEMBANAD-R01,KER-VEMBANAD,"Vembanad Lake, Kerala",Kerala,9.6,76.4,1,2026-01-15,4538
+BR-KER-VEMBANAD-R02,KER-VEMBANAD,"Vembanad Lake, Kerala",Kerala,9.6,76.4,2,2026-04-15,6224
+BR-AP-KOLLERU-R01,AP-KOLLERU,"Kolleru Lake, Andhra Pradesh",Andhra Pradesh,16.6,81.2,1,2026-01-15,2877
+BR-AP-KOLLERU-R02,AP-KOLLERU,"Kolleru Lake, Andhra Pradesh",Andhra Pradesh,16.6,81.2,2,2026-04-15,4696
+BR-LD-KAVARATTI-R01,LD-KAVARATTI,"Kavaratti Lagoon, Lakshadweep",Lakshadweep,10.5667,72.6167,1,2026-01-15,2611
+BR-LD-KAVARATTI-R02,LD-KAVARATTI,"Kavaratti Lagoon, Lakshadweep",Lakshadweep,10.5667,72.6167,2,2026-04-15,2378
+BR-TN-MANNAR-R01,TN-MANNAR,"Gulf of Mannar, Tamil Nadu",Tamil Nadu,9.1,79.1,1,2026-01-15,2524
+BR-TN-MANNAR-R02,TN-MANNAR,"Gulf of Mannar, Tamil Nadu",Tamil Nadu,9.1,79.1,2,2026-04-15,2149
+BR-AN-PORTBLAIR-R01,AN-PORTBLAIR,South Andaman,Andaman & Nicobar,11.6234,92.7265,1,2026-01-15,2415
+BR-AN-PORTBLAIR-R02,AN-PORTBLAIR,South Andaman,Andaman & Nicobar,11.6234,92.7265,2,2026-04-15,2583

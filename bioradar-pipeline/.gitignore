@@ -1,0 +1,5 @@
+data/*
+
+# just the fastq files
+fastq_data/*
+.snakemake/*

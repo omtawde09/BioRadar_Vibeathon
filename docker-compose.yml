@@ -1,0 +1,143 @@
+# BioRadar full stack.
+#
+#   docker compose up -d db          bring up PostGIS only (works today)
+#   docker compose --profile full up  everything, once backend/ and dashboard/ exist
+#   docker compose --profile pipeline run --rm pipeline   process the test dataset
+#
+# Design note: backend and dashboard sit behind profiles rather than running by
+# default. Their directories do not exist yet -- Compose would refuse to build
+# the whole file and nobody could start the database. When Parth and Ishwar land
+# their services, `--profile full` starts working with no changes here.
+
+name: bioradar
+
+services:
+  # ------------------------------------------------------------------
+  # Control panel -- the one command that matters
+  # ------------------------------------------------------------------
+  # `docker compose up app` -> http://localhost:8080
+  #
+  # Runs inside the pipeline image, so snakemake is already on PATH and the
+  # pipeline executes as a local subprocess. No Docker-in-Docker, no socket
+  # mounting, no privileged container. The repo is mounted read-write because
+  # runs and reports are written back to it.
+  app:
+    # Same image the Docker Desktop GUI path uses, so both routes behave
+    # identically. Built by Dockerfile.app; `build` here means `compose up app`
+    # creates it if it is missing.
+    image: bioradar/app:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: bioradar-app
+    working_dir: /bioradar
+    environment:
+      PYTHONPATH: /bioradar
+      PYTHONUNBUFFERED: "1"
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    volumes:
+      - .:/bioradar
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # Database -- PostGIS, needed by the backend and seeded by Jimeet
+  # ------------------------------------------------------------------
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: bioradar-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bioradar}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bioradar}
+      POSTGRES_DB: ${POSTGRES_DB:-bioradar}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      # Anything dropped in sql/ runs once, in filename order, on first start.
+      # Jimeet's seed_reference_data.sql goes here.
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-bioradar}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # Layer 1 -- the forked eDNA pipeline
+  # ------------------------------------------------------------------
+  # Not a long-running service: `run --rm pipeline` executes one analysis and
+  # exits. The image is BioRadar's own published pipeline image; the Snakefile
+  # and the bioradar package are mounted in, so editing either needs no rebuild.
+  pipeline:
+    image: ${BIORADAR_PIPELINE_IMAGE:-ghcr.io/omtawde09/bioradar-pipeline:v1.0}
+    container_name: bioradar-pipeline
+    profiles: ["pipeline", "full"]
+    entrypoint: ["snakemake"]
+    command:
+      - "--cores"
+      - "${PIPELINE_CORES:-4}"
+      - "--snakefile"
+      - "/work/Snakefile"
+      - "--directory"
+      - "/work"
+      - "all"
+    working_dir: /work
+    volumes:
+      - ./runs/current:/work
+      - ./bioradar-pipeline/database:/db:ro
+      - .:/repo:ro
+    environment:
+      BIORADAR_BACKEND_URL: http://backend:8000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ------------------------------------------------------------------
+  # Layer 5 -- backend (Parth)
+  # ------------------------------------------------------------------
+  # Expects ./backend to contain a Dockerfile exposing port 8000 and serving
+  # /health plus /api/v1/chain/record and /api/v1/chain/verify/{sample_id}.
+  # Contract in docs/CONTRACTS.md; a reference implementation of just the chain
+  # endpoints lives in integration/mock_backend.py.
+  backend:
+    build: ./backend
+    container_name: bioradar-backend
+    profiles: ["backend", "full"]
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-bioradar}:${POSTGRES_PASSWORD:-bioradar}@db:5432/${POSTGRES_DB:-bioradar}
+      # Deliberately has no default. Compose interpolates the whole file even for
+      # `up db`, so a `${JWT_SECRET:?...}` guard here would block the database
+      # too. The backend must refuse to start when this is empty -- that check
+      # belongs in the app, not in Compose. Generate one with:
+      #   python -c "import secrets; print(secrets.token_urlsafe(32))"
+      JWT_SECRET: ${JWT_SECRET:-}
+      BIORADAR_RUNS_DIR: /runs
+    volumes:
+      - ./runs:/runs
+      - ./data:/data:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # Layer 4 -- dashboard (Ishwar)
+  # ------------------------------------------------------------------
+  dashboard:
+    build: ./dashboard
+    container_name: bioradar-dashboard
+    profiles: ["dashboard", "full"]
+    ports:
+      - "${DASHBOARD_PORT:-3000}:3000"
+    environment:
+      VITE_API_URL: http://localhost:${BACKEND_PORT:-8000}
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  db-data:

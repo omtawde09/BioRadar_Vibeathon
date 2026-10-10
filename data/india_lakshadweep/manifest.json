@@ -1,0 +1,50 @@
+{
+  "project": "PRJNA1296846",
+  "runs": [
+    {
+      "run_accession": "SRR34723561",
+      "sample_id": "BR-LKD-LAKSHADWEEP-ISLANDS-ST01-01",
+      "site_id": "LAKSHADWEEP-ISLANDS-ST01",
+      "latitude": 10.94,
+      "longitude": 72.28,
+      "collection_date": "2024-03",
+      "country": "India:Lakshadweep Islands",
+      "scientific_name": "Bangaram_COI",
+      "instrument_model": "",
+      "read_count": 712075,
+      "bytes": 0,
+      "source": "sra",
+      "downloads": []
+    },
+    {
+      "run_accession": "SRR34723562",
+      "sample_id": "BR-LKD-LAKSHADWEEP-ISLANDS-ST02-01",
+      "site_id": "LAKSHADWEEP-ISLANDS-ST02",
+      "latitude": 10.55,
+      "longitude": 72.62,
+      "collection_date": "2024-03",
+      "country": "India:Lakshadweep Islands",
+      "scientific_name": "Kavaratti_COI",
+      "instrument_model": "",
+      "read_count": 670612,
+      "bytes": 0,
+      "source": "sra",
+      "downloads": []
+    },
+    {
+      "run_accession": "SRR34723563",
+      "sample_id": "BR-LKD-LAKSHADWEEP-ISLANDS-ST03-01",
+      "site_id": "LAKSHADWEEP-ISLANDS-ST03",
+      "latitude": 10.85,
+      "longitude": 72.17,
+      "collection_date": "2024-03",
+      "country": "India:Lakshadweep Islands",
+      "scientific_name": "Agatti_COI",
+      "instrument_model": "",
+      "read_count": 1133438,
+      "bytes": 0,
+      "source": "sra",
+      "downloads": []
+    }
+  ]
+}

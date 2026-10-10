@@ -1,0 +1,4 @@
+site_id,site_name,state,waterbody,waterbody_type,latitude,longitude,protected_status,notes
+LAKSHADWEEP-ISLANDS-ST01,India:Lakshadweep Islands,,,Bangaram_COI,10.94,72.28,unknown,from PRJNA1296846
+LAKSHADWEEP-ISLANDS-ST02,India:Lakshadweep Islands,,,Kavaratti_COI,10.55,72.62,unknown,from PRJNA1296846
+LAKSHADWEEP-ISLANDS-ST03,India:Lakshadweep Islands,,,Agatti_COI,10.85,72.17,unknown,from PRJNA1296846

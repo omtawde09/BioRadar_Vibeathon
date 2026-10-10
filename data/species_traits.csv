@@ -1,0 +1,13 @@
+scientific_name,common_name,max_size_cm,trophic_level,water_bod,habitat_specificity,iucn_category
+Clarias gariepinus,African Catfish,170.0,3.8,4.5,low,Least Concern
+Oreochromis mossambicus,Mozambique Tilapia,39.0,2.5,3.8,low,Near Threatened
+Pterygoplichthys pardalis,Amazon Sailfin Catfish,49.0,2.1,3.2,medium,Least Concern
+Gambusia holbrooki,Eastern Mosquitofish,6.0,3.2,2.5,low,Least Concern
+Tor putitora,Golden Mahseer,275.0,3.5,1.2,high,Endangered
+Chelonia mydas,Green Sea Turtle,150.0,2.1,1.5,high,Endangered
+Lepidochelys olivacea,Olive Ridley Turtle,75.0,3.1,1.8,high,Vulnerable
+Etroplus suratensis,Pearlspot / Karimeen,40.0,2.4,2.0,medium,Least Concern
+Clarias magur,Magur / Indian Catfish,30.0,3.4,2.8,medium,Endangered
+Aplocheilus lineatus,Striped Panchax,10.0,3.3,2.2,low,Least Concern
+Labeo rohita,Rohu,200.0,2.2,2.1,medium,Least Concern
+Gibbula umbilicalis,Flat Top Shell,2.0,2.0,1.2,high,Least Concern

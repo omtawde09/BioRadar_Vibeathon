@@ -1,0 +1,24 @@
+# project number
+project: "{{ name }}"
+
+# qhime-trim-reads
+fprimer: "{{ fprimer }}"
+rprimer: "{{ rprimer }}"
+erate: 0.1
+overlap: 3
+ 
+# qiime-clean-reads
+# for ITS see: https://benjjneb.github.io/dada2/ITS_workflow.html
+trunc-len-f: {{ tlf }}
+trunc-len-r: {{ tlr }}
+max-ee-f: {{ maxef }}
+max-ee-r: {{ maxer }}
+trunc-q: {{ truncq }}
+chimera-method: "{{ chimera }}"
+
+# qiime-train-classifier
+classifier: "{{ classifier }}"
+
+# build database (not used)
+taxonomy_path: "database/MIDORI2_UNIQ_NUC_GB253_srRNA_QIIME.taxon"
+fasta_path: "database/MIDORI2_UNIQ_NUC_GB253_srRNA_QIIME.fasta"

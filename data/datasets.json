@@ -1,0 +1,24 @@
+{
+  "_comment": "No datasets are pre-registered: the app opens with an empty 'Your datasets' list so people only ever see what they upload themselves. The former SIMULATED demo entry is preserved below under `_examples` (which the app does NOT load) — move it back into `datasets` to re-enable a bundled demo.",
+  "datasets": [],
+  "_examples": [
+    {
+      "id": "demo-survey",
+      "name": "Indian coastal survey (SIMULATED demonstration data)",
+      "region": "6 sites, Indian coast",
+      "fastq_dir": "data/demo_survey/fastq",
+      "samples_csv": "data/demo_survey/samples.csv",
+      "marker": "COI Leray",
+      "classifier": "classifier-coi-india-2026.qza",
+      "fprimer": "GGWACWGGWTGAACWGTWTAYCCYCC",
+      "rprimer": "TANACYTCNGGRTGNCCRAARAAYCA",
+      "trunc_len_f": 220,
+      "trunc_len_r": 205,
+      "amplicon_length": 313,
+      "denoiser": "dada2",
+      "source": "simulated from real COI references",
+      "note": "SIMULATED. Reads are generated from real COI reference sequences in data/reference_coi_india/, so classifications are genuine; which species occur where is invented. Ground truth in data/demo_survey/truth.json. Do not present as field data.",
+      "expect": "12 samples, 6 sites x 2 rounds. Invasive species increasing 1.9x between rounds; olive ridley and green turtle at protected sites. ~3 min."
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+# Pipeline run outputs -- large, regenerable, and one directory per run.
+# Keep the demo run committed if you want a fallback for the judges; everything
+# else is disposable.
+runs/
+!runs/.gitkeep
+
+# CI scratch space
+.ci-work/
+
+# Generated mock data. Deterministic for a given seed, so regenerate rather than
+# commit: `python -m bioradar.mockgen -o mock/ --rounds 3`
+mock/
+
+# QIIME2 classifiers. Extracted from the Docker image rather than
+# version-controlled. See docs/PIPELINE.md for how to recover them.
+bioradar-pipeline/database/qiime2-qza/*.qza
+
+# ...except the India-curated COI classifier, which is the one the bundled demo
+# dataset needs and the only one that exists nowhere else -- it is not in the
+# image and it takes 10-40 minutes to retrain. Excluding it meant every fresh
+# clone opened with the demo dataset blocked. 9.1 MB is a small price for the
+# project's first-run path working for everyone.
+!bioradar-pipeline/database/qiime2-qza/classifier-coi-india-2026.qza
+
+# Downloaded FASTQ from public archives. Regenerate with:
+#   python -m bioradar.fetch_data --project <ACC> -o data/<name>
+# The sites.csv / samples.csv / manifest.json alongside them ARE committed --
+# they are small and they are the map metadata.
+data/*/fastq/
+
+# ...except the demonstration dataset, which is only 12 MB and is the thing the
+# README tells a new user to run first. Shipping the app without its sample data
+# makes the install guide untestable.
+!data/demo_survey/fastq/
+!data/demo_survey/fastq/**
+
+# Snakemake internals
+.snakemake/
+bioradar-pipeline/config.yaml
+
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Reference-build checkpoints. ~23 MB of redundant JSON whose only purpose is
+# letting an interrupted build resume; reference.fasta/.taxon are the outputs
+# worth keeping.
+data/reference_coi_india/.cache/
+
+# Uploaded datasets are transient user data, not part of the project.
+data/uploads/
+reports/*.md
+
+# Structured error records. Diagnostic output from whatever ran on this machine;
+# useful locally, meaningless in someone else's checkout.
+logs/
+
+# Field verification reports are somebody's observations, recorded on their
+# machine. They are evidence, not source -- and they may name the observer, so
+# committing them would publish a person's name along with the code.
+data/verifications.jsonl
+
+# Local dev-server config for the editor's preview pane.
+.claude/
+
+# Bundled datasets hidden through the UI's Remove button. A local
+# preference, not project data -- and keeping it out of git is what stops
+# a click in the app turning into a committed source change.
+data/.hidden_datasets.json
+
+# Node dependencies for the landing-page build toolchain (esbuild + tailwind).
+# The built artifacts live in bioradar/webapp_static/; node_modules is only
+# needed to rebuild them from src/ and should never be committed.
+node_modules/

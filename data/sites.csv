@@ -1,0 +1,19 @@
+site_id,site_name,state,waterbody,waterbody_type,latitude,longitude,protected_status,notes
+GOA-MANDOVI,Mandovi Estuary (Panaji),Goa,Mandovi,estuary,15.4989,73.8278,unprotected,Primary SIH demo site; mining-influenced estuary
+GOA-ZUARI,Zuari Estuary (Cortalim),Goa,Zuari,estuary,15.4000,73.9200,unprotected,Paired with Mandovi for beta-diversity comparison
+KER-VEMBANAD,Vembanad Lake (Kumarakom),Kerala,Vembanad,lagoon,9.6000,76.4000,ramsar,Ramsar site; heavy aquaculture pressure
+KER-ASHTAMUDI,Ashtamudi Lake (Kollam),Kerala,Ashtamudi,estuary,8.9500,76.6000,ramsar,Ramsar site; clam fishery
+TN-PULICAT,Pulicat Lake (Sriharikota),Tamil Nadu,Pulicat,lagoon,13.4200,80.3200,sanctuary,Second largest brackish lagoon in India
+TN-MANNAR,Gulf of Mannar (Mandapam),Tamil Nadu,Gulf of Mannar,marine,9.1000,79.1000,biosphere_reserve,Marine biosphere reserve; coral habitat
+OD-CHILIKA,Chilika Lagoon (Satapada),Odisha,Chilika,lagoon,19.7000,85.3200,ramsar,Largest brackish lagoon in Asia
+WB-SUNDARBANS,Sundarbans (Sajnekhali),West Bengal,Sundarbans,mangrove,21.9497,88.9000,national_park,UNESCO World Heritage mangrove
+WB-HOOGHLY,Hooghly at Diamond Harbour,West Bengal,Hooghly,river,22.1900,88.1900,unprotected,Urban-industrial river reach
+AP-KOLLERU,Kolleru Lake (Eluru),Andhra Pradesh,Kolleru,freshwater_lake,16.6000,81.2000,sanctuary,Freshwater lake; aquaculture conversion pressure
+MH-THANE,Thane Creek (Airoli),Maharashtra,Thane Creek,creek,19.2000,72.9800,flamingo_sanctuary,Urban creek adjacent to K.C. College of Engineering
+MH-MITHI,Mithi River Outfall (Mahim),Maharashtra,Mithi,river,19.0400,72.8400,unprotected,Highly polluted urban outfall; negative control site
+GJ-KUTCH,Gulf of Kutch (Jamnagar),Gujarat,Gulf of Kutch,marine,22.5000,69.8000,marine_national_park,Marine national park; coral and seagrass
+KA-NETRAVATI,Netravati Estuary (Mangaluru),Karnataka,Netravati,estuary,12.8500,74.8400,unprotected,West-coast estuary reference site
+AN-PORTBLAIR,South Andaman (Port Blair),Andaman & Nicobar,Andaman Sea,marine,11.6234,92.7265,unprotected,Island marine site; low reference coverage expected
+LD-KAVARATTI,Kavaratti Lagoon,Lakshadweep,Arabian Sea,coral_lagoon,10.5667,72.6167,unprotected,Coral lagoon; high proportion of unassigned ASVs expected
+UP-GANGA,Ganga at Varanasi,Uttar Pradesh,Ganga,river,25.3176,83.0100,unprotected,Major river monitoring site
+AS-BRAHMAPUTRA,Brahmaputra at Guwahati,Assam,Brahmaputra,river,26.1800,91.7500,unprotected,Northeast river monitoring site

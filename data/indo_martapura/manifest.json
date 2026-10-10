@@ -1,0 +1,302 @@
+{
+  "project": "PRJNA1433820",
+  "runs": [
+    {
+      "run_accession": "SRR37521665",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST01-01",
+      "site_id": "MARTAPURA-RIVER-ST01",
+      "latitude": -3.326704,
+      "longitude": 114.978998,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 275512,
+      "bytes": 10016861,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/065/SRR37521665/SRR37521665_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST01-01_S1_L001_R1_001.fastq.gz",
+          "md5": "80d92135f3284d77d765eebe17b80b72",
+          "bytes": 5048979
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/065/SRR37521665/SRR37521665_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST01-01_S1_L001_R2_001.fastq.gz",
+          "md5": "c2e08d92dfeb64a75b54866919fad94b",
+          "bytes": 4967882
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521670",
+      "sample_id": "BR-MTP-SOUTH-KALIMANTAN-ST02-01",
+      "site_id": "SOUTH-KALIMANTAN-ST02",
+      "latitude": -3.520726,
+      "longitude": 115.008457,
+      "collection_date": "2025-08",
+      "country": "Indonesia: South Kalimantan",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 190415,
+      "bytes": 6349795,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/070/SRR37521670/SRR37521670_1.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST02-01_S1_L001_R1_001.fastq.gz",
+          "md5": "a57d12e5cdda9dd3df29ce72397ed0f9",
+          "bytes": 3213429
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/070/SRR37521670/SRR37521670_2.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST02-01_S1_L001_R2_001.fastq.gz",
+          "md5": "43cbaccde49422df98392fb6f6334335",
+          "bytes": 3136366
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521668",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST03-01",
+      "site_id": "MARTAPURA-RIVER-ST03",
+      "latitude": -3.485547,
+      "longitude": 114.975589,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 308819,
+      "bytes": 10768778,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/068/SRR37521668/SRR37521668_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST03-01_S1_L001_R1_001.fastq.gz",
+          "md5": "a3c90fe2945798f36136a0f68bb1b6e1",
+          "bytes": 5406219
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/068/SRR37521668/SRR37521668_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST03-01_S1_L001_R2_001.fastq.gz",
+          "md5": "4b337d58b25e0c3b2f51e15b25897a0c",
+          "bytes": 5362559
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521672",
+      "sample_id": "BR-MTP-SOUTH-KALIMANTAN-ST04-01",
+      "site_id": "SOUTH-KALIMANTAN-ST04",
+      "latitude": -3.405272,
+      "longitude": 114.789995,
+      "collection_date": "2025-08",
+      "country": "Indonesia: South Kalimantan",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 232450,
+      "bytes": 8871011,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/072/SRR37521672/SRR37521672_1.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST04-01_S1_L001_R1_001.fastq.gz",
+          "md5": "aa4ff8b2d6a9b46093b4d1baf1241451",
+          "bytes": 4460917
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/072/SRR37521672/SRR37521672_2.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST04-01_S1_L001_R2_001.fastq.gz",
+          "md5": "4cc63e3bb12a1c2f16ec778a389dc040",
+          "bytes": 4410094
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521674",
+      "sample_id": "BR-MTP-SOUTH-KALIMANTAN-ST05-01",
+      "site_id": "SOUTH-KALIMANTAN-ST05",
+      "latitude": -3.425271,
+      "longitude": 114.853593,
+      "collection_date": "2025-08",
+      "country": "Indonesia: South Kalimantan",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 223378,
+      "bytes": 7240604,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/074/SRR37521674/SRR37521674_1.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST05-01_S1_L001_R1_001.fastq.gz",
+          "md5": "6620830fbd54bdd59eb2961ae2d209ab",
+          "bytes": 3663072
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/074/SRR37521674/SRR37521674_2.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST05-01_S1_L001_R2_001.fastq.gz",
+          "md5": "f30580c7ac2b8877dbd60c4c65798713",
+          "bytes": 3577532
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521666",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST06-01",
+      "site_id": "MARTAPURA-RIVER-ST06",
+      "latitude": -3.409259,
+      "longitude": 114.91485,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 187358,
+      "bytes": 6008490,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/066/SRR37521666/SRR37521666_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST06-01_S1_L001_R1_001.fastq.gz",
+          "md5": "aa46f01d6cc0e18e3fdcd1449804d0e4",
+          "bytes": 3010760
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/066/SRR37521666/SRR37521666_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST06-01_S1_L001_R2_001.fastq.gz",
+          "md5": "3e04f1fe7fe8e67084dbd54ba0759c4d",
+          "bytes": 2997730
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521667",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST07-01",
+      "site_id": "MARTAPURA-RIVER-ST07",
+      "latitude": -3.456291,
+      "longitude": 114.962004,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 211573,
+      "bytes": 8793834,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/067/SRR37521667/SRR37521667_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST07-01_S1_L001_R1_001.fastq.gz",
+          "md5": "345722866e42ee12a41ce78820e146ab",
+          "bytes": 4405638
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/067/SRR37521667/SRR37521667_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST07-01_S1_L001_R2_001.fastq.gz",
+          "md5": "273c8d2a28892e376f2450f9d2843728",
+          "bytes": 4388196
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521669",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST08-01",
+      "site_id": "MARTAPURA-RIVER-ST08",
+      "latitude": -3.511955,
+      "longitude": 114.999447,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 256802,
+      "bytes": 8946417,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/069/SRR37521669/SRR37521669_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST08-01_S1_L001_R1_001.fastq.gz",
+          "md5": "1848187182b397857ab77ddaae58c781",
+          "bytes": 4533012
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/069/SRR37521669/SRR37521669_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST08-01_S1_L001_R2_001.fastq.gz",
+          "md5": "3eb150695f8fe658daf87e6aab1b63a1",
+          "bytes": 4413405
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521671",
+      "sample_id": "BR-MTP-SOUTH-KALIMANTAN-ST09-01",
+      "site_id": "SOUTH-KALIMANTAN-ST09",
+      "latitude": -3.38025,
+      "longitude": 114.781558,
+      "collection_date": "2025-08",
+      "country": "Indonesia: South Kalimantan",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 210056,
+      "bytes": 7320209,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/071/SRR37521671/SRR37521671_1.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST09-01_S1_L001_R1_001.fastq.gz",
+          "md5": "28ba4d5b34327accfcc18c8115706451",
+          "bytes": 3676439
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/071/SRR37521671/SRR37521671_2.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST09-01_S1_L001_R2_001.fastq.gz",
+          "md5": "2b2a6709a9e999092c2a6460316c4b46",
+          "bytes": 3643770
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521673",
+      "sample_id": "BR-MTP-MARTAPURA-RIVER-ST10-01",
+      "site_id": "MARTAPURA-RIVER-ST10",
+      "latitude": -3.353281,
+      "longitude": 114.944719,
+      "collection_date": "2025-08",
+      "country": "Indonesia: Martapura River",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 260936,
+      "bytes": 9217918,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/073/SRR37521673/SRR37521673_1.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST10-01_S1_L001_R1_001.fastq.gz",
+          "md5": "4dabc4d3bc6a8b988c3b58374de6bbce",
+          "bytes": 4641740
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/073/SRR37521673/SRR37521673_2.fastq.gz",
+          "target": "BR-MTP-MARTAPURA-RIVER-ST10-01_S1_L001_R2_001.fastq.gz",
+          "md5": "2f6cf52645b21da4c45b03153954eca0",
+          "bytes": 4576178
+        }
+      ]
+    },
+    {
+      "run_accession": "SRR37521675",
+      "sample_id": "BR-MTP-SOUTH-KALIMANTAN-ST11-01",
+      "site_id": "SOUTH-KALIMANTAN-ST11",
+      "latitude": -3.457223,
+      "longitude": 114.949382,
+      "collection_date": "2025-08",
+      "country": "Indonesia: South Kalimantan",
+      "scientific_name": "freshwater metagenome",
+      "instrument_model": "Illumina iSeq 100",
+      "read_count": 211616,
+      "bytes": 7713184,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/075/SRR37521675/SRR37521675_1.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST11-01_S1_L001_R1_001.fastq.gz",
+          "md5": "899b29a70c90dac6fa3e7653c9c25e97",
+          "bytes": 3880388
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR375/075/SRR37521675/SRR37521675_2.fastq.gz",
+          "target": "BR-MTP-SOUTH-KALIMANTAN-ST11-01_S1_L001_R2_001.fastq.gz",
+          "md5": "5393915ac15fe4155ae4bc8090ae3dd7",
+          "bytes": 3832796
+        }
+      ]
+    }
+  ]
+}

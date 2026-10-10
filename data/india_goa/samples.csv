@@ -1,0 +1,2 @@
+sample_id,site_id,run_accession,latitude,longitude,collected_at,instrument,read_count,source_project
+BR-GOA-INDIA-ST01-01,INDIA-ST01,SRR26872904,15.48295,73.75398,2023-03-15,Illumina HiSeq 1000,1513460,PRJNA1040471

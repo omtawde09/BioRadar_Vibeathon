@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Scoped to the landing view (`body.on-home-view`) so these page-level
+     defaults don't leak into the app shell, which sets its own background,
+     text colour and Inter/JetBrains typography via app.css. Leaking them was
+     what tinted the app cream and rendered its headings in Bungee. */
+  body.on-home-view {
+    background-color: #fcfcf0;
+    color: #020404;
+    font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+
+  .on-home-view h1, .on-home-view h2, .on-home-view h3,
+  .on-home-view h4, .on-home-view h5, .on-home-view h6 {
+    font-family: 'Bungee', cursive, sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* ── Bio & Nature Network Background Patterns ── */
+
+/* 1. Darker, Prominent Synaptic Neural & eDNA Grid Background */
+.bg-bio-neural {
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(104, 150, 96, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, rgba(189, 59, 103, 0.10) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(42, 123, 136, 0.08) 0%, transparent 50%),
+    linear-gradient(to right, rgba(2, 4, 4, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(2, 4, 4, 0.09) 1px, transparent 1px),
+    linear-gradient(to right, rgba(104, 150, 96, 0.14) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(104, 150, 96, 0.14) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 72px 72px, 72px 72px, 24px 24px, 24px 24px;
+}
+
+/* 2. Marine Bathymetric Waves & Water Texture */
+.bg-marine-waves {
+  background-image: 
+    radial-gradient(ellipse at top right, rgba(42, 123, 136, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(104, 150, 96, 0.14) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.737-4.864-1.69-7.385-2.7-8.8-3.52-15.753-6.3-26.219-6.3-10.428 0-16.793 2.73-25.754 6.208-2.617 1.015-5.068 1.968-7.669 2.792h4.602zM0 17.5c2.45-.71 4.75-1.63 7.21-2.61 8.8-3.52 15.75-6.3 26.22-6.3 10.43 0 16.79 2.73 25.75 6.21 2.62 1.01 5.07 1.97 7.67 2.7h-4.6c-.36-.13-.72-.26-1.09-.4l-1.77-.66C49.79 12.85 43.78 11.5 33.43 11.5c-10.27 0-15.36 1.22-24.63 4.93-.95.38-1.87.74-2.75 1.07H0z' fill='%23689660' fill-opacity='0.10' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* 3. DNA Helix Strands Micro Texture */
+.bg-dna-dots {
+  background-image: radial-gradient(rgba(104, 150, 96, 0.22) 1.5px, transparent 1.5px), radial-gradient(rgba(189, 59, 103, 0.18) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* ── Tactile Depth & Shadows ── */
+.shadow-tactile-card {
+  box-shadow: 
+    0 1px 3px rgba(2, 4, 4, 0.08),
+    0 10px 24px -4px rgba(2, 4, 4, 0.12),
+    0 4px 12px -2px rgba(104, 150, 96, 0.15);
+}
+
+.shadow-tactile-card-hover:hover {
+  box-shadow: 
+    0 4px 6px -1px rgba(2, 4, 4, 0.10),
+    0 20px 36px -6px rgba(2, 4, 4, 0.16),
+    0 8px 18px -2px rgba(104, 150, 96, 0.22);
+  transform: translateY(-4px);
+}
+
+.shadow-tactile-btn {
+  box-shadow: 0 4px 0 0 rgba(2, 4, 4, 0.25), 0 6px 14px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.shadow-tactile-btn:hover {
+  box-shadow: 0 6px 0 0 rgba(2, 4, 4, 0.30), 0 10px 20px rgba(0, 0, 0, 0.20);
+  transform: translateY(-2px);
+}
+
+.shadow-tactile-btn:active {
+  box-shadow: 0 1px 0 0 rgba(2, 4, 4, 0.30), 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(2px);
+}
+
+/* ── Halo Pulse & Glow ── */
+@keyframes halo-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(104, 150, 96, 0.3), inset 0 0 15px rgba(104, 150, 96, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(104, 150, 96, 0.55), inset 0 0 25px rgba(104, 150, 96, 0.35);
+  }
+}
+
+.animate-halo-pulse {
+  animation: halo-glow 4s ease-in-out infinite;
+}
+
+/* Orbit continuous rotation */
+@keyframes spin-orbit {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orbit {
+  animation: spin-orbit 24s linear infinite;
+}
+
+/* Reverse orbit for counter-rotation */
+@keyframes spin-orbit-reverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-orbit-reverse {
+  animation: spin-orbit-reverse 32s linear infinite;
+}
+
+/* Float Animation */
+@keyframes bio-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.01);
+  }
+}
+
+.animate-bio-float {
+  animation: bio-float 6s ease-in-out infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fcfcf0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #689660;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bd3b67;
+}
+
+/* ── Sleek Animated Underline Hover Effect for Transparent Navbar ── */
+.nav-link-underline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  transition: color 0.25s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  width: 90%;
+  height: 2.5px;
+  border-radius: 2px;
+  background: #82b978;
+  box-shadow: 0 0 12px rgba(130, 185, 120, 0.9);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease;
+}
+
+.nav-link-underline:hover {
+  color: #82b978;
+}
+
+.nav-link-underline:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-link-underline.active {
+  color: #82b978;
+}
+
+.nav-link-underline.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.nav-link-underline-rose:hover {
+  color: #e66a93;
+}
+
+.nav-link-underline-rose::after {
+  background: #e66a93;
+  box-shadow: 0 0 12px rgba(230, 106, 147, 0.9);
+}
+
+.nav-link-underline-rose.active {
+  color: #e66a93;
+}
+
+.nav-link-underline-rose.active::after {
+  transform: translateX(-50%) scaleX(1);
+  background: #e66a93;
+}
+
+

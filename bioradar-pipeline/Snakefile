@@ -1,0 +1,160 @@
+configfile: "config.yaml"
+
+# BioRadar fork: normalize_taxonomy + emit_hash extend the upstream DAG.
+# See rules/bioradar.smk and NOTICE for what changed relative to upstream.
+include: "rules/bioradar.smk"
+
+rule setup:
+    shell:
+        "mkdir -p database/qiime2-qza logs/ manifest/ fastq_data"
+
+# fast mode skips the upstream QC report and alpha rarefaction. They cost about
+# a fifth of the runtime and produce a PDF plus QZV files that BioRadar's own
+# report does not read. Set `fast: false` in config.yaml to get them back.
+FAST = str(config.get("fast", "true")).lower() not in ("false", "0", "no")
+
+rule all:
+    input:
+        (["final_results/taxonomy_normalized.csv",
+          "final_results/sample_summary.csv",
+          "final_results/hash_record.json"]
+         if FAST else
+         ["final_results/final-report.pdf",
+          "final_results/taxonomy_normalized.csv",
+          "final_results/sample_summary.csv",
+          "final_results/hash_record.json"])
+
+rule create_manifest:
+    input:
+        "metadata.csv"
+    output:
+        "manifest/manifest.tsv"
+    script:
+        "scripts/build-manifest.py"
+
+rule import_reads:
+    input:
+        "manifest/manifest.tsv"
+    output:
+        "qiime2/loci/paired-end-demux.qza",
+        "qiime2/loci/paired-end-demux.qzv"
+    script:
+        "scripts/import_reads.sh"
+
+rule trim_reads:
+    input:
+        "qiime2/loci/paired-end-demux.qzv"
+    output:
+        "qiime2/loci/paired-end-demux-trimmed.qza"
+    params:
+        f=config["fprimer"],
+        r=config["rprimer"],
+        er=config["erate"],
+        ov=config["overlap"],
+    shell:
+        "bash scripts/qiime-trim.sh {params.f} {params.r} "
+        "{params.er} {params.ov}"
+
+rule clean_reads:
+    input:
+        "qiime2/loci/paired-end-demux-trimmed.qza"
+    output:
+        "qiime2/loci/asvs/stats-dada2.qzv"
+    params:
+        truncf=config["trunc-len-f"],
+        truncr=config["trunc-len-r"],
+        maxeef=config["max-ee-f"],
+        maxeer=config["max-ee-r"],
+        trunq=config["trunc-q"],
+        chimera_method=config["chimera-method"],
+        denoiser=config.get("denoiser", "dada2")
+    shell:
+        "bash scripts/bioradar-denoise.sh {params.denoiser} "
+        "{params.truncf} {params.truncr} "
+        "{params.maxeef} {params.maxeer} {params.trunq} {params.chimera_method}"
+
+rule assign_taxonomy:
+    input:
+        "qiime2/loci/asvs/stats-dada2.qzv"
+    output:
+        "qiime2/loci/asvs/taxonomy.tsv"
+    params:
+        classifier_path=config["classifier"]
+    shell:
+        "bash scripts/qiime-train-classifier.sh {params.classifier_path}"
+
+rule export_data:
+    input:
+        "qiime2/loci/asvs/taxonomy.tsv"
+    output:
+        "qiime2/loci/asvs/rep-seqs-dada2.qzv"
+    script:
+        "scripts/summarise-qiime2.sh"
+
+rule count_table:
+    input:
+        "qiime2/loci/asvs/rep-seqs-dada2.qzv"
+    output:
+        "qiime2/loci/asvs/asv_count_tax_seqs_summary.csv"
+    script:
+        "scripts/create_outputs.py"
+
+rule write_report_md:
+    input:
+        "qiime2/loci/asvs/asv_count_tax_seqs_summary.csv"
+    output:
+        "final-report.md"
+    shell:
+        "bash scripts/create_report.sh && python report/report.py"
+
+rule rarefaction:
+    input:
+        "final-report.md"
+    output:
+        "rarefaction/viz/alpha_rarefaction.qzv"
+    script:
+        "scripts/rarefaction.sh"
+
+rule write_report_pdf:
+    input:
+        "rarefaction/viz/alpha_rarefaction.qzv"
+    output:
+        "final-report.pdf"
+    shell:
+        "pandoc -o {output} final-report.md --pdf-engine=weasyprint"
+
+rule finish:
+    input:
+        "final-report.pdf"
+    output:
+        "final_results/final-report.pdf"
+    script:
+        "scripts/finish.sh"
+
+   
+
+rule clean:
+    shell:
+         "rm -rf ./qiime2 ./fastq_data ./fastq_data_trimmed ./report_data ./logs && "
+         "rm -rf ./rarefaction && "
+         "rm -f final-report.md final-report.pdf manifest/manifest.tsv && "
+         "rm -f metadata.csv && rm -rf ./final_results"
+
+rule build_database:
+    input:
+        taxonomy=config["taxonomy_path"],
+        sequences=config["fasta_path"],
+    output:
+        "database/qiime2-qza/QIIME-classifier.qza"
+    params:
+        primerf=config["fprimer"],
+        primerr=config["rprimer"]
+    shell:
+        "bash scripts/qiime-create-database.sh {input.taxonomy} {input.sequences} "
+        "{params.primerf} {params.primerr}" 
+
+rule create_metadata:
+    output:
+        "metadata.csv"
+    shell:
+       "bash scripts/create_metadata_file.sh"

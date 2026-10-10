@@ -1,0 +1,751 @@
+{
+  "GOA-MANDOVI": {
+    "timestamp_epoch": 1791613662.4661427,
+    "data": {
+      "sample_id": "GOA-MANDOVI",
+      "status": "SUCCESS",
+      "model_version": "BioRadar-Prophet-Platt-v1.1.6",
+      "forecast_days": 7,
+      "overall_trend": "declining",
+      "historical_rounds_used": 3,
+      "last_updated": "2026-10-10 06:27:42 UTC",
+      "daily_forecasts": [
+        {
+          "day_number": 1,
+          "date": "2026-10-11",
+          "day_name": "Sunday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.765,
+              "detection_probability_pct": "76.5%",
+              "confidence_interval_95": {
+                "lower": 0.693,
+                "upper": 0.837
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.461,
+              "detection_probability_pct": "46.1%",
+              "confidence_interval_95": {
+                "lower": 0.4,
+                "upper": 0.522
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.594,
+              "detection_probability_pct": "59.4%",
+              "confidence_interval_95": {
+                "lower": 0.563,
+                "upper": 0.624
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 2,
+          "date": "2026-10-12",
+          "day_name": "Monday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.768,
+              "detection_probability_pct": "76.8%",
+              "confidence_interval_95": {
+                "lower": 0.676,
+                "upper": 0.86
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.466,
+              "detection_probability_pct": "46.6%",
+              "confidence_interval_95": {
+                "lower": 0.385,
+                "upper": 0.547
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.598,
+              "detection_probability_pct": "59.8%",
+              "confidence_interval_95": {
+                "lower": 0.547,
+                "upper": 0.649
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 3,
+          "date": "2026-10-13",
+          "day_name": "Tuesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.772,
+              "detection_probability_pct": "77.2%",
+              "confidence_interval_95": {
+                "lower": 0.66,
+                "upper": 0.884
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.47,
+              "detection_probability_pct": "47.0%",
+              "confidence_interval_95": {
+                "lower": 0.369,
+                "upper": 0.572
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.603,
+              "detection_probability_pct": "60.3%",
+              "confidence_interval_95": {
+                "lower": 0.532,
+                "upper": 0.674
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 4,
+          "date": "2026-10-14",
+          "day_name": "Wednesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.775,
+              "detection_probability_pct": "77.5%",
+              "confidence_interval_95": {
+                "lower": 0.643,
+                "upper": 0.907
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.475,
+              "detection_probability_pct": "47.5%",
+              "confidence_interval_95": {
+                "lower": 0.354,
+                "upper": 0.596
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.607,
+              "detection_probability_pct": "60.7%",
+              "confidence_interval_95": {
+                "lower": 0.516,
+                "upper": 0.698
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 5,
+          "date": "2026-10-15",
+          "day_name": "Thursday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.779,
+              "detection_probability_pct": "77.9%",
+              "confidence_interval_95": {
+                "lower": 0.627,
+                "upper": 0.931
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.48,
+              "detection_probability_pct": "48.0%",
+              "confidence_interval_95": {
+                "lower": 0.339,
+                "upper": 0.621
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.612,
+              "detection_probability_pct": "61.2%",
+              "confidence_interval_95": {
+                "lower": 0.501,
+                "upper": 0.723
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 6,
+          "date": "2026-10-16",
+          "day_name": "Friday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.782,
+              "detection_probability_pct": "78.2%",
+              "confidence_interval_95": {
+                "lower": 0.61,
+                "upper": 0.954
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.485,
+              "detection_probability_pct": "48.5%",
+              "confidence_interval_95": {
+                "lower": 0.324,
+                "upper": 0.646
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.617,
+              "detection_probability_pct": "61.7%",
+              "confidence_interval_95": {
+                "lower": 0.486,
+                "upper": 0.748
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 7,
+          "date": "2026-10-17",
+          "day_name": "Saturday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.785,
+              "detection_probability_pct": "78.5%",
+              "confidence_interval_95": {
+                "lower": 0.593,
+                "upper": 0.977
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.49,
+              "detection_probability_pct": "49.0%",
+              "confidence_interval_95": {
+                "lower": 0.309,
+                "upper": 0.671
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.621,
+              "detection_probability_pct": "62.1%",
+              "confidence_interval_95": {
+                "lower": 0.471,
+                "upper": 0.772
+              },
+              "trend": "stable"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "BR-TEST-COLD": {
+    "timestamp_epoch": 1787592728.4845104,
+    "data": {
+      "sample_id": "BR-TEST-COLD",
+      "status": "SUCCESS",
+      "model_version": "BioRadar-Prophet-Platt-v1.1.6",
+      "forecast_days": 7,
+      "overall_trend": "declining",
+      "historical_rounds_used": 3,
+      "last_updated": "2026-08-24 17:32:08 UTC",
+      "daily_forecasts": [
+        {
+          "day_number": 1,
+          "date": "2026-08-25",
+          "day_name": "Tuesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.781,
+              "detection_probability_pct": "78.1%",
+              "confidence_interval_95": {
+                "lower": 0.709,
+                "upper": 0.853
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.484,
+              "detection_probability_pct": "48.4%",
+              "confidence_interval_95": {
+                "lower": 0.423,
+                "upper": 0.545
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.616,
+              "detection_probability_pct": "61.6%",
+              "confidence_interval_95": {
+                "lower": 0.585,
+                "upper": 0.647
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 2,
+          "date": "2026-08-26",
+          "day_name": "Wednesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.783,
+              "detection_probability_pct": "78.3%",
+              "confidence_interval_95": {
+                "lower": 0.691,
+                "upper": 0.875
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.487,
+              "detection_probability_pct": "48.7%",
+              "confidence_interval_95": {
+                "lower": 0.406,
+                "upper": 0.568
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.619,
+              "detection_probability_pct": "61.9%",
+              "confidence_interval_95": {
+                "lower": 0.568,
+                "upper": 0.67
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 3,
+          "date": "2026-08-27",
+          "day_name": "Thursday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.786,
+              "detection_probability_pct": "78.6%",
+              "confidence_interval_95": {
+                "lower": 0.674,
+                "upper": 0.898
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.49,
+              "detection_probability_pct": "49.0%",
+              "confidence_interval_95": {
+                "lower": 0.389,
+                "upper": 0.591
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.622,
+              "detection_probability_pct": "62.2%",
+              "confidence_interval_95": {
+                "lower": 0.551,
+                "upper": 0.693
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 4,
+          "date": "2026-08-28",
+          "day_name": "Friday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.788,
+              "detection_probability_pct": "78.8%",
+              "confidence_interval_95": {
+                "lower": 0.656,
+                "upper": 0.92
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.493,
+              "detection_probability_pct": "49.3%",
+              "confidence_interval_95": {
+                "lower": 0.372,
+                "upper": 0.614
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.625,
+              "detection_probability_pct": "62.5%",
+              "confidence_interval_95": {
+                "lower": 0.534,
+                "upper": 0.716
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 5,
+          "date": "2026-08-29",
+          "day_name": "Saturday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.79,
+              "detection_probability_pct": "79.0%",
+              "confidence_interval_95": {
+                "lower": 0.638,
+                "upper": 0.942
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.497,
+              "detection_probability_pct": "49.7%",
+              "confidence_interval_95": {
+                "lower": 0.355,
+                "upper": 0.638
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.628,
+              "detection_probability_pct": "62.8%",
+              "confidence_interval_95": {
+                "lower": 0.517,
+                "upper": 0.739
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 6,
+          "date": "2026-08-30",
+          "day_name": "Sunday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.792,
+              "detection_probability_pct": "79.2%",
+              "confidence_interval_95": {
+                "lower": 0.62,
+                "upper": 0.964
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.5,
+              "detection_probability_pct": "50.0%",
+              "confidence_interval_95": {
+                "lower": 0.339,
+                "upper": 0.661
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.631,
+              "detection_probability_pct": "63.1%",
+              "confidence_interval_95": {
+                "lower": 0.5,
+                "upper": 0.761
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 7,
+          "date": "2026-08-31",
+          "day_name": "Monday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.794,
+              "detection_probability_pct": "79.4%",
+              "confidence_interval_95": {
+                "lower": 0.602,
+                "upper": 0.986
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.503,
+              "detection_probability_pct": "50.3%",
+              "confidence_interval_95": {
+                "lower": 0.322,
+                "upper": 0.684
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Labeo rohita",
+              "detection_probability": 0.634,
+              "detection_probability_pct": "63.4%",
+              "confidence_interval_95": {
+                "lower": 0.483,
+                "upper": 0.784
+              },
+              "trend": "stable"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "BR-FORECAST": {
+    "timestamp_epoch": 1787592728.489585,
+    "data": {
+      "sample_id": "BR-FORECAST",
+      "status": "SUCCESS",
+      "model_version": "BioRadar-Prophet-Platt-v1.1.6",
+      "forecast_days": 7,
+      "overall_trend": "declining",
+      "historical_rounds_used": 5,
+      "last_updated": "2026-08-24 17:32:08 UTC",
+      "daily_forecasts": [
+        {
+          "day_number": 1,
+          "date": "2026-08-25",
+          "day_name": "Tuesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.869,
+              "detection_probability_pct": "86.9%",
+              "confidence_interval_95": {
+                "lower": 0.805,
+                "upper": 0.933
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.597,
+              "detection_probability_pct": "59.7%",
+              "confidence_interval_95": {
+                "lower": 0.533,
+                "upper": 0.661
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 2,
+          "date": "2026-08-26",
+          "day_name": "Wednesday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.871,
+              "detection_probability_pct": "87.1%",
+              "confidence_interval_95": {
+                "lower": 0.787,
+                "upper": 0.954
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.6,
+              "detection_probability_pct": "60.0%",
+              "confidence_interval_95": {
+                "lower": 0.516,
+                "upper": 0.684
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 3,
+          "date": "2026-08-27",
+          "day_name": "Thursday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.872,
+              "detection_probability_pct": "87.2%",
+              "confidence_interval_95": {
+                "lower": 0.768,
+                "upper": 0.976
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.603,
+              "detection_probability_pct": "60.3%",
+              "confidence_interval_95": {
+                "lower": 0.499,
+                "upper": 0.707
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 4,
+          "date": "2026-08-28",
+          "day_name": "Friday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.873,
+              "detection_probability_pct": "87.3%",
+              "confidence_interval_95": {
+                "lower": 0.75,
+                "upper": 0.997
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.606,
+              "detection_probability_pct": "60.6%",
+              "confidence_interval_95": {
+                "lower": 0.482,
+                "upper": 0.73
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 5,
+          "date": "2026-08-29",
+          "day_name": "Saturday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.875,
+              "detection_probability_pct": "87.5%",
+              "confidence_interval_95": {
+                "lower": 0.731,
+                "upper": 1.0
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.609,
+              "detection_probability_pct": "60.9%",
+              "confidence_interval_95": {
+                "lower": 0.465,
+                "upper": 0.753
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 6,
+          "date": "2026-08-30",
+          "day_name": "Sunday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.876,
+              "detection_probability_pct": "87.6%",
+              "confidence_interval_95": {
+                "lower": 0.712,
+                "upper": 1.0
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.612,
+              "detection_probability_pct": "61.2%",
+              "confidence_interval_95": {
+                "lower": 0.448,
+                "upper": 0.776
+              },
+              "trend": "stable"
+            }
+          ]
+        },
+        {
+          "day_number": 7,
+          "date": "2026-08-31",
+          "day_name": "Monday",
+          "species_forecasts": [
+            {
+              "species_name": "Tor putitora",
+              "detection_probability": 0.878,
+              "detection_probability_pct": "87.8%",
+              "confidence_interval_95": {
+                "lower": 0.694,
+                "upper": 1.0
+              },
+              "trend": "stable"
+            },
+            {
+              "species_name": "Clarias gariepinus",
+              "detection_probability": 0.615,
+              "detection_probability_pct": "61.5%",
+              "confidence_interval_95": {
+                "lower": 0.431,
+                "upper": 0.799
+              },
+              "trend": "stable"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

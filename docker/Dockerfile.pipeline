@@ -1,0 +1,57 @@
+# Build recipe for the BioRadar pipeline image.
+#
+# You run this ONCE, push the result to your own registry, and from then on
+# every part of BioRadar — the app, docker-compose, the CLI, CI — pulls only
+# your image. Nothing at runtime reaches for anyone else's.
+#
+#   docker build -f docker/Dockerfile.pipeline -t ghcr.io/omtawde09/bioradar-pipeline:v1.0 .
+#   docker push ghcr.io/omtawde09/bioradar-pipeline:v1.0
+#
+# ---------------------------------------------------------------------------
+# About the base image
+# ---------------------------------------------------------------------------
+# BioRadar's Layer 1 bioinformatics is derived from the eDNA-Container App
+# (Wheeler et al., Applied Sciences 2024, 14(6), 2641, doi:10.3390/app14062641),
+# which is Apache-2.0 licensed. Apache-2.0 explicitly permits redistribution,
+# including in modified form, provided attribution is retained — which it is, in
+# NOTICE at the repository root.
+#
+# This one FROM line is the only place the upstream image is named, and it is
+# consumed only when *you* build. Anyone using BioRadar pulls your published
+# image and never touches it.
+#
+# Building the QIIME 2 / DADA2 / cutadapt / vsearch stack from source instead
+# would take hours and pin you to whatever those projects publish today, which
+# is precisely the reproducibility problem a container is meant to solve.
+FROM dwheelerau/edna:v1.4
+
+LABEL org.opencontainers.image.title="BioRadar pipeline"
+LABEL org.opencontainers.image.description="eDNA biodiversity analysis pipeline for Indian waters"
+LABEL org.opencontainers.image.authors="Om Tawde"
+LABEL org.opencontainers.image.source="https://github.com/omtawde09/BioRadar"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.version="1.0"
+
+# The upstream entrypoint launches a Flask GUI BioRadar does not use. Reset it
+# so the image is a plain analysis environment; the app image sets its own.
+ENTRYPOINT []
+CMD ["/bin/bash"]
+
+WORKDIR /bioradar
+
+ENV PYTHONPATH=/bioradar \
+    PYTHONUNBUFFERED=1
+
+# Relocate the analysis assets to BioRadar's own paths. The base image scatters
+# them under /home/docker_conda_template/snakemake-qiime-edna/, which is an
+# implementation detail of somebody else's build; depending on it would make
+# every script here fragile and would leak that layout into BioRadar's docs.
+ARG UPSTREAM=/home/docker_conda_template/snakemake-qiime-edna
+RUN mkdir -p /opt/bioradar/classifiers /opt/bioradar/pipeline \
+ && cp -a "$UPSTREAM/database/qiime2-qza/." /opt/bioradar/classifiers/ \
+ && cp -a "$UPSTREAM/." /opt/bioradar/pipeline/ \
+ && rm -rf /opt/bioradar/pipeline/.git
+
+# Attribution travels with the image, not just the repository.
+COPY NOTICE /opt/bioradar/NOTICE
+COPY LICENSE /opt/bioradar/LICENSE

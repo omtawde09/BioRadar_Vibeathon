@@ -1,0 +1,21 @@
+[
+  {
+    "id": "sat-alert-1787081118",
+    "sample_id": "BR-GOA-001",
+    "location": {
+      "latitude": 15.4989,
+      "longitude": 73.8278
+    },
+    "buffer_radius_km": 2.0,
+    "area_sqkm": 12.57,
+    "change_type": "deforestation",
+    "severity": "critical",
+    "ndvi_before": 0.68,
+    "ndvi_after": 0.32,
+    "ndvi_change": -0.36,
+    "image_url_before": "https://earthengine.googleapis.com/v1/projects/bioradar/thumbnails/BR-GOA-001-before",
+    "image_url_after": "https://earthengine.googleapis.com/v1/projects/bioradar/thumbnails/BR-GOA-001-after",
+    "interpretation": "Severe NDVI vegetation loss (-0.36) detected within 2.0 km buffer. Indicates active deforestation or major riparian canopy loss affecting river shading.",
+    "created_at": "2026-08-18 19:25:18 UTC"
+  }
+]

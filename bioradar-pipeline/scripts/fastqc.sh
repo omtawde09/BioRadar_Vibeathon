@@ -1,0 +1,1 @@
+for f in *; do echo Undetermined_S0_L001_R2_001.fastq.gz; out=Undetermined_S0_L001_R2_001; mkdir ../fastqc/Undetermined_S0_L001_R2_001; fastqc Undetermined_S0_L001_R2_001.fastq.gz -o ../fastqc/Undetermined_S0_L001_R2_001 -t 4;done

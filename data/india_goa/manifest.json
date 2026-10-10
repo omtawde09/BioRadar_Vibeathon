@@ -1,0 +1,32 @@
+{
+  "project": "PRJNA1040471",
+  "runs": [
+    {
+      "run_accession": "SRR26872904",
+      "sample_id": "BR-GOA-INDIA-ST01-01",
+      "site_id": "INDIA-ST01",
+      "latitude": 15.48295,
+      "longitude": 73.75398,
+      "collection_date": "2023-03-15",
+      "country": "India",
+      "scientific_name": "marine sediment metagenome",
+      "instrument_model": "Illumina HiSeq 1000",
+      "read_count": 1513460,
+      "bytes": 57572313,
+      "downloads": [
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR268/004/SRR26872904/SRR26872904_1.fastq.gz",
+          "target": "BR-GOA-INDIA-ST01-01_S1_L001_R1_001.fastq.gz",
+          "md5": "6032a12879378855a95178cca92cd96f",
+          "bytes": 28612586
+        },
+        {
+          "url": "https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR268/004/SRR26872904/SRR26872904_2.fastq.gz",
+          "target": "BR-GOA-INDIA-ST01-01_S1_L001_R2_001.fastq.gz",
+          "md5": "f431b750d2601768d6e69168a6e40a2c",
+          "bytes": 28959727
+        }
+      ]
+    }
+  ]
+}
