@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relative Finder</title>
+<link rel="stylesheet" href="/static/app.css">
+<style>
+  body.rf { background: var(--surface-base); color: var(--text-primary); font-family: var(--font-sans);
+            margin: 0; padding: 16px; }
+  .rf main { max-width: 1100px; margin: 0 auto; }
+  .rf h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  .rf h2 { font-size: 1.1rem; margin: 0 0 8px; }
+  .rf .note { color: var(--text-secondary); font-size: .9rem; margin: 0 0 16px; }
+  .rf .card { background: var(--surface-raised); border: 1px solid var(--border-hairline);
+              border-radius: var(--radius-md); padding: 16px; margin: 0 0 16px; }
+  .rf .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+  .rf label { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; color: var(--text-secondary); }
+  .rf select, .rf input, .rf textarea { background: var(--surface-base); color: var(--text-primary);
+              border: 1px solid var(--border-hairline); border-radius: var(--radius-sm); padding: 6px 8px; font: inherit; }
+  .rf textarea { width: 100%; min-height: 80px; font-family: ui-monospace, monospace; font-size: .8rem; box-sizing: border-box; }
+  .rf button { background: var(--accent-primary); color: var(--accent-ink); border: 0; border-radius: var(--radius-sm);
+               padding: 8px 14px; font: inherit; cursor: pointer; }
+  .rf button:focus-visible, .rf select:focus-visible, .rf input:focus-visible { outline: 2px solid var(--accent-secondary); outline-offset: 2px; }
+  .rf .wrap { overflow-x: auto; }
+  .rf table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+  .rf th, .rf td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border-hairline); vertical-align: top; }
+  .rf .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); font-size: .8rem; }
+  .rf .muted { color: var(--text-secondary); }
+  .rf .warn { color: var(--alert-rare); }
+  .rf details { margin-top: 4px; }
+  .rf .status { margin: 8px 0 0; font-size: .85rem; }
+</style>
+</head>
+<body class="rf">
+<main>
+  <h1>Relative finder</h1>
+  <p class="note">Closest reference relatives of an unknown DNA fragment and an identity <b>hypothesis</b> for expert review.
+    It is never a confirmed identification. Support = share of relatives that agree; held-out accuracy = how often the
+    same rule was right when a known species was hidden from the reference. Diet, chromosomes and hormones cannot be read
+    from DNA in water: they count as evidence only when measured on a specimen and entered below.</p>
+
+  <section class="card" aria-labelledby="s1">
+    <h2 id="s1">Unknowns in a real sample</h2>
+    <div class="row">
+      <label>Sample <select id="sample"></select></label>
+      <button id="go">Find relatives</button>
+    </div>
+    <p class="status muted" id="s1status" role="status"></p>
+    <div class="wrap" id="s1out"></div>
+  </section>
+
+  <section class="card" aria-labelledby="s2">
+    <h2 id="s2">Query one sequence</h2>
+    <label>DNA sequence (12S fragment, either strand)<textarea id="seq" spellcheck="false"></textarea></label>
+    <p class="muted" style="margin:8px 0 4px;font-size:.85rem">Observations from the sample or a physical specimen (leave blank if not measured):</p>
+    <div class="row">
+      <label>Habitat <select id="o_habitat"><option value="">not observed</option><option>freshwater</option><option>brackish</option><option>marine</option></select></label>
+      <label>Country <input id="o_country" placeholder="e.g. India" size="12"></label>
+      <label>Karyotype 2n <input id="o_karyotype_2n" type="number" min="2" max="300" size="6"></label>
+      <label>Genome size (pg) <input id="o_genome_size_pg" type="number" step="0.01" min="0" size="6"></label>
+      <label>Diet <select id="o_diet"><option value="">not observed</option><option>herbivore</option><option>omnivore</option><option>carnivore</option><option>detritivore</option><option>planktivore</option></select></label>
+      <label>Trophic level <input id="o_trophic_level" type="number" step="0.1" min="1" max="5" size="5"></label>
+      <label>Hormone note <input id="o_hormone" size="14"></label>
+      <button id="q">Find relatives</button>
+    </div>
+    <p class="status muted" id="s2status" role="status"></p>
+    <div id="s2out"></div>
+  </section>
+
+  <p class="note" id="model"></p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function pct(x) { return x == null ? "n/a" : (100 * x).toFixed(1) + "%"; }
+  function num(x, d) { return x == null ? "n/a" : Number(x).toFixed(d == null ? 3 : d); }
+
+  function hypText(h) {
+    var hy = h.hypothesis;
+    if (!hy || !hy.rank) return '<span class="warn">No rank stated</span><div class="muted">' + esc((hy && hy.note) || h.status) + "</div>";
+    var acc = hy.heldout_accuracy;
+    return '<span class="pill">' + esc(hy.rank) + "</span> <b><i>" + esc(hy.taxon) + "</i></b>" +
+      '<div class="muted">support ' + pct(hy.support) +
+      (acc ? " &middot; held-out accuracy " + pct(acc.value) + " (n=" + esc(acc.n) + ", cosine " + esc(acc.cosine_bin) + ")" : "") + "</div>";
+  }
+  function relTable(rels) {
+    var rows = rels.map(function (r) {
+      return "<tr><td>" + r.rank + "</td><td><i>" + esc(r.species) + "</i></td><td>" + num(r.cosine) + "</td><td>" +
+        (r.identity == null ? "" : pct(r.identity)) + "</td><td>" + esc(r.genus) + "</td><td>" + esc(r.family) + "</td><td>" +
+        esc(r.order) + "</td><td>" + num(r.context_weight != null ? r.context_weight : r.weight, 3) + "</td></tr>";
+    }).join("");
+    return '<div class="wrap"><table><thead><tr><th>#</th><th>Relative</th><th>Cosine</th><th>Identity</th><th>Genus</th>' +
+      "<th>Family</th><th>Order</th><th>Weight</th></tr></thead><tbody>" + rows + "</tbody></table></div>";
+  }
+  function factorsText(h) {
+    var used = (h.factors_used || []).join(", ");
+    var not = (h.factors_not_used || []).map(function (f) { return esc(f.label) + " (" + esc(f.factor) + ")"; }).join("; ");
+    var ev = (h.evidence || []).map(function (e) {
+      return "<li><i>" + esc(e.species) + "</i>: " + e.checks.map(function (c) {
+        return esc(c.factor) + " " + esc(c.verdict) + (c.note ? " - " + esc(c.note) : ""); }).join("; ") + "</li>";
+    }).join("");
+    var prof = h.inferred_profile || {};
+    var profRows = Object.keys(prof).filter(function (k) { return k !== "status" && prof[k] && typeof prof[k] === "object"; })
+      .map(function (k) { return "<li>" + esc(k) + ": " + esc(JSON.stringify(prof[k])) + "</li>"; }).join("");
+    return "<div><b>Used:</b> " + esc(used) + "</div><div class=\"muted\"><b>Not used:</b> " + not + "</div>" +
+      (ev ? "<details><summary>Evidence from observations</summary><ul>" + ev + "</ul></details>" : "") +
+      (profRows ? "<details><summary>Inferred profile (expected if the hypothesis is right, not measured)</summary><ul>" + profRows + "</ul></details>"
+                : (prof.status ? '<div class="muted">' + esc(prof.status) + "</div>" : ""));
+  }
+  function card(h) {
+    var c = h.closest_species || {};
+    return "<div><b>Closest species:</b> <i>" + esc(c.species) + "</i> (cosine " + num(c.cosine) +
+      (c.identity != null ? ", identity " + pct(c.identity) + ", coverage " + pct(c.coverage) : "") + ")" +
+      (c.is_species_level_match ? "" : ' <span class="muted">- a relative, not an identification</span>') + "</div>" +
+      "<div style=\"margin:6px 0\"><b>Hypothesis:</b> " + hypText(h) + "</div>" + factorsText(h) +
+      "<details><summary>Top relatives</summary>" + relTable(h.relatives || []) + "</details>";
+  }
+
+  function getJSON(url, opts) {
+    return fetch(url, opts).then(function (r) {
+      return r.json().then(function (body) { if (!r.ok) throw new Error(body.error || r.statusText); return body; });
+    });
+  }
+
+  getJSON("/api/adjudicate/index").then(function (idx) {
+    var opts = idx.samples.filter(function (s) { return s.unknowns > 0; })
+      .sort(function (a, b) { return b.unknowns - a.unknowns; })
+      .map(function (s) { return '<option value="' + esc(s.sample_id) + '">' + esc(s.label) + " (" + s.unknowns + " unknowns)</option>"; });
+    $("sample").innerHTML = opts.join("");
+  }).catch(function (e) { $("s1status").textContent = "Could not load samples: " + e.message; });
+
+  $("go").addEventListener("click", function () {
+    var id = $("sample").value;
+    if (!id) return;
+    $("s1status").textContent = "Finding relatives for the 10 most abundant unknowns (first run takes a few seconds)...";
+    $("s1out").innerHTML = "";
+    getJSON("/api/adjudicate/relatives/" + encodeURIComponent(id)).then(function (doc) {
+      $("s1status").textContent = doc.label + " - " + doc.unknowns_in_queue + " unknowns in the review queue; showing the top " +
+        doc.hypotheses.length + ". Observations from metadata: " + (JSON.stringify(doc.observations_used) || "none");
+      var rows = doc.hypotheses.map(function (h) {
+        var c = h.closest_species || {};
+        return "<tr><td>" + esc(h.reads) + "</td><td><i>" + esc(c.species) + "</i><div class=\"muted\">cosine " + num(c.cosine) +
+          (c.identity != null ? ", identity " + pct(c.identity) : "") + "</div></td><td>" + hypText(h) + "</td><td>" +
+          "<details><summary>details</summary>" + factorsText(h) + relTable(h.relatives || []) + "</details></td></tr>";
+      }).join("");
+      $("s1out").innerHTML = "<table><thead><tr><th>Reads</th><th>Closest species</th><th>Hypothesis</th><th>Evidence</th></tr></thead><tbody>" +
+        rows + "</tbody></table>";
+      $("model").textContent = "Model: " + doc.model.embedding + " | reference: " + doc.model.reference +
+        " | lineage: " + doc.model.lineage + " | calibration: " + (doc.model.calibration && doc.model.calibration.method || doc.model.calibration);
+    }).catch(function (e) { $("s1status").textContent = "Failed: " + e.message; });
+  });
+
+  $("q").addEventListener("click", function () {
+    var obs = {};
+    ["habitat", "country", "karyotype_2n", "genome_size_pg", "diet", "trophic_level", "hormone"].forEach(function (k) {
+      var v = $("o_" + k).value.trim();
+      if (v !== "") obs[k] = (k === "karyotype_2n") ? parseInt(v, 10) : (["genome_size_pg", "trophic_level"].indexOf(k) >= 0 ? parseFloat(v) : v);
+    });
+    var seq = $("seq").value.replace(/[^A-Za-z]/g, "");
+    $("s2status").textContent = "Searching...";
+    $("s2out").innerHTML = "";
+    getJSON("/api/adjudicate/relatives/query", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sequence: seq, observations: obs }) })
+      .then(function (h) { $("s2status").textContent = h.status; $("s2out").innerHTML = card(h); })
+      .catch(function (e) { $("s2status").textContent = "Failed: " + e.message; });
+  });
+})();
+</script>
+</body>
+</html>
