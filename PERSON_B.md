@@ -288,6 +288,43 @@ After these fixes a warm `fetch` takes **0.9 s** and leaves `git status` clean; 
 Remaining risk: the attempt-1 test-failure cluster is unexplained. It happened only in the half-fetched state and the
 complete rehearsal is green, but it was not reproduced or diagnosed.
 
+---
+
+## After B5: branch merged, pipeline Results page redesigned (done)
+
+Requested by the maintainer: no separate branch; the project must run as before with the real pipeline; make the Results page
+less text-heavy with graphs.
+
+**Branch.** `challenge/odyssey-adjudication` was fast-forward merged into `main`, pushed, and deleted locally and on GitHub.
+The merge changed 4 existing files only (`.gitignore`, `webapp.py` routes, an additive `i18n.js` hook, 2 lines of `index.html`)
+and **no pipeline file** (`pipeline_runner`, Snakefile, preflight, normalize, contract, classifiers, Docker files: none).
+
+**Real pipeline verified on the merged build.** In a fresh container from the pipeline image
+(`docker run -v <repo>:/bioradar bioradar/app:latest`, Python 3.8, Snakemake present) a run on the uploaded dataset completed
+end to end: import reads, cutadapt, DADA2, naive-Bayes taxonomy, export, chain-of-custody hash -> `completed`, 12 samples,
+12 named species, 80 detections. The merged code also imports and serves under the image's Python 3.8.
+
+Finding (pre-existing, not changed): running the app **natively on Windows** fails every pipeline run with
+`PatternError: bad escape \U` (a regex that receives a Windows `C:\Users\...` path), then the retry dies with
+`FileExistsError: run directory already exists`. The Docker app, the supported way to run it, is unaffected. Pipeline code was
+not touched, per the instruction.
+
+**Results page (the original pipeline page).** New `visuals.js` + `visuals.css`, pure SVG/CSS, tokens only, English and Hindi,
+every chart has a text equivalent. No backend change: data comes from the run's `report` and `/analysis`.
+
+| Before | After |
+|---|---|
+| paragraph-heavy AI briefing + threat table + forecasts always expanded | folded into one line: "AI briefing and insights" + a risk chip (e.g. INVASIVE ALERT); one click opens it |
+| phylum bars + 40-row species table | **phylum donut**, **top-species bars** (colour = phylum, opacity = confidence), **confidence histogram** |
+| no per-sample view | **reads per sample, named vs no-reference-match** (stacked) and **species + Shannon per sample** |
+| species table always expanded | folded: "Full species table (12)" |
+
+Fixes found on the way: per-sample data no longer triggers a second full page render (it re-fired about 8 requests and rebuilt
+the map); a delayed `invalidateSize` on a removed Leaflet map in the Review view threw a TypeError.
+
+Tests: pytest **267 passed, 2 failed** (same 2 pre-existing); CI fast **18 / 4 / 3** (unchanged). Added:
+`tests/test_results_visuals_static.py` (9, including a real run of the module in node on real-shaped data).
+
 ## Open questions for the maintainer / Person A
 
 1. Which repository is canonical (`BioRadar_Vibeathon` vs `BioRadar`)?
