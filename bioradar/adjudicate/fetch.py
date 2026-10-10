@@ -132,8 +132,7 @@ DATASETS = [
         "publication": "Chen J. et al. 2025, Global Ecology and Conservation 64:e03906, "
                        "doi:10.1016/j.gecco.2025.e03906",
         "runs": None,
-        "used_for": "mixed mock communities (A-D) and the same four sites sampled in "
-                    "summer (2019-08) and winter (2019-11)",
+        "used_for": "fish mixtures made on purpose (A to D), and the same four river places sampled in summer (August 2019) and winter (November 2019)",
     },
     {
         "bioproject": "PRJNA1433820",
@@ -142,8 +141,7 @@ DATASETS = [
         "centre": "Universitas Airlangga",
         "publication": "none listed in the archive record",
         "runs": ["SRR37521672", "SRR37521667"],
-        "used_for": "real sample with primer-dimer short fragments (ST04, ST07) and real "
-                    "invasive fish (Oreochromis niloticus, Pterygoplichthys)",
+        "used_for": "a river sample with many short pieces of DNA and real harmful fish (Nile tilapia, sailfin catfish)",
     },
     {
         "bioproject": "PRJNA1269473",
@@ -152,7 +150,7 @@ DATASETS = [
         "centre": "see ENA record",
         "publication": "none listed in the archive record",
         "runs": ["SRR33845265", "SRR33845234"],
-        "used_for": "real low-yield field samples (a few hundred reads): unusable, retake",
+        "used_for": "real water samples with very little DNA (a few hundred pieces): unusable, so collect again",
     },
     {
         "bioproject": "PRJNA985779",
@@ -161,7 +159,7 @@ DATASETS = [
         "centre": "see ENA record",
         "publication": "none listed in the archive record",
         "runs": ["SRR25108818"],
-        "used_for": "real field water blank, low yield",
+        "used_for": "a real blank water sample with very little DNA",
     },
 ]
 
@@ -175,13 +173,72 @@ def fetch_from_manifest() -> Path:
     doc = json.loads(manifest.read_text(encoding="utf-8"))
     total = fresh = 0
     for ds in doc["datasets"]:
-        for run in ds["runs"]:
-            for f in run["files"]:
-                status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
-                total += 1
-                fresh += status == "downloaded"
-                print("  {:<11} {}".format(status, f["file"].rsplit("/", 1)[-1]), flush=True)
+        files = [f for run in ds["runs"] for f in run["files"]] + list(ds.get("reference_files", []))
+        for f in files:
+            status = download_verified(f["source_url"], DATA_DIR / f["file"], f["md5"])
+            total += 1
+            fresh += status == "downloaded"
+            print("  {:<11} {}".format(status, f["file"].rsplit("/", 1)[-1]), flush=True)
     print("  {} files verified against the manifest ({} downloaded)".format(total, fresh), flush=True)
+    return manifest
+
+
+ZENODO_RECORD = "4025362"
+FISH_EGG_FOLDER = "ZENODO4025362_fish_egg_mock"
+
+
+def fetch_fish_egg_mock() -> Path:
+    """Register the fish-egg mock-community dataset (Duke & Burton 2020) in the manifest and download it.
+
+    Files come from the Zenodo mirror of the Dryad deposit (CC0); each is checked against the md5 Zenodo publishes.
+    Which library is which mock community comes from the paper's Table S1 (ground_truth/), not from file names."""
+    import urllib.parse
+    folder = DATASETS_DIR / FISH_EGG_FOLDER
+    truth = json.loads((folder / "ground_truth" / "fish_egg_ground_truth.json").read_text(encoding="utf-8"))
+    rec = json.loads(_get("https://zenodo.org/api/records/" + ZENODO_RECORD))
+    by_key = {f["key"]: f for f in rec["files"]}
+
+    def file_entry(key: str) -> Dict[str, Any]:
+        f = by_key[key]
+        return {"file": "datasets/{}/raw/{}".format(FISH_EGG_FOLDER, key), "mate": 1,
+                "md5": f["checksum"].split(":", 1)[1], "bytes": int(f["size"]),
+                "source_url": "https://zenodo.org/api/records/{}/files/{}/content".format(
+                    ZENODO_RECORD, urllib.parse.quote(key))}
+
+    runs = []
+    for lib, info in truth["library_key"].items():
+        if info["kind"] != "pooled":
+            continue
+        key = next(k for k in by_key if k.startswith(lib + "_S") and k.endswith("_merged.fa"))
+        mc = truth["mock_communities"][info["mock"]]
+        runs.append({
+            "run_accession": "ZEN-" + lib, "biosample": "", "sample_alias": lib, "collection_date": "", "location": "",
+            "latitude_longitude_as_deposited": ["", ""],
+            "design_note_from_submitter": "mock community {} ({} species, {} eggs), {} amplicon, pooled replicate PCRs".format(
+                info["mock"], mc["species_count"], mc["total_eggs"], info["primers"]),
+            "biosample_attributes": {}, "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+            "instrument": "Illumina MiSeq", "read_pairs": 0,
+            "marker": info["primers"], "mock_community": info["mock"], "library_kind": info["kind"],
+            "analyses": [{"profile": "fish_egg_paper", "role": "mixed"},
+                         {"profile": "refseq_coi_16s", "role": "unknowns"}],
+            "files": [file_entry(key)],
+        })
+    entry = {
+        "bioproject": "ZENODO-4025362", "folder": FISH_EGG_FOLDER,
+        "title": "Fish-egg mock communities with known proportions (COI and 16S)",
+        "centre": "Scripps Institution of Oceanography (Duke & Burton)",
+        "publication": "Duke EM, Burton RS (2020) Ecology and Evolution 10:3463-3476, doi:10.1002/ece3.6144",
+        "runs": runs, "ena_url": "https://zenodo.org/records/" + ZENODO_RECORD,
+        "used_for": "fish mixtures whose fish AND amounts are published (a known answer), and fish that are missing from the public list (unknown, but the true name is known)",
+        "doi": "10.5061/dryad.zw3r22854", "license": "CC0-1.0",
+        "reference_files": [file_entry("Burton_Hastings_COI_16S.fasta")],
+        "reference_note": "the authors' own COI + 16S reference library for these species",
+    }
+    manifest = DATA_DIR / "manifest.json"
+    doc = json.loads(manifest.read_text(encoding="utf-8"))
+    doc["datasets"] = [d for d in doc["datasets"] if d["bioproject"] != entry["bioproject"]] + [entry]
+    manifest.write_text(json.dumps(doc, indent=2), encoding="utf-8")
+    _write_dataset_folder(entry)
     return manifest
 
 
@@ -203,9 +260,9 @@ def _write_dataset_folder(entry: Dict[str, Any]) -> None:
         "| Run | Sample | Collected | Place | Reads (pairs) | File |", "|---|---|---|---|---|---|",
     ]
     for run in entry["runs"]:
-        lines.append("| {} | {} | {} | {} | {:,} | `{}` |".format(
+        lines.append("| {} | {} | {} | {} | {} | `{}` |".format(
             run["run_accession"], run["sample_alias"], run["collection_date"] or "n/a",
-            run["location"] or "n/a", run["read_pairs"],
+            run["location"] or "n/a", "{:,}".format(run["read_pairs"]) if run["read_pairs"] else "n/a",
             run["files"][0]["file"].rsplit("/", 1)[-1] if run["files"] else "-"))
     (folder / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
@@ -253,8 +310,7 @@ def fetch_samples(datasets: List[Dict[str, Any]] = None, mates: str = "1") -> Pa
         _write_dataset_folder(entry)
     manifest = {
         "retrieved_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "mates_downloaded": "R1 only. Originals are stored unmodified and verified by md5; "
-                            "no sequence or metadata record has been created or edited.",
+        "mates_downloaded": "Only the first file of each pair (R1) is used. Files are stored unchanged and checked against the archive's fingerprint (md5). No DNA code or record was made up or edited.",
         "datasets": out_sets,
     }
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -419,7 +475,7 @@ def fetch_records() -> Path:
 
 def main(argv: List[str] = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("what", choices=["samples", "reference", "records", "boundary", "all"])
+    parser.add_argument("what", choices=["samples", "reference", "records", "boundary", "fish_egg", "all"])
     parser.add_argument("--refresh", action="store_true",
                         help="re-query the archives and rewrite the committed manifest/snapshots")
     args = parser.parse_args(argv)
@@ -427,6 +483,8 @@ def main(argv: List[str] = None) -> int:
     boundary_file = DATA_DIR / "boundary" / "litoral_norte.geojson"
     manifest = DATA_DIR / "manifest.json"
     steps = []
+    if args.what == "fish_egg":
+        steps.append(("Fish-egg mock communities (register in the manifest, md5-verified)", fetch_fish_egg_mock))
     if args.what in ("samples", "all"):
         if manifest.is_file() and not args.refresh:
             steps.append(("Samples (from the committed manifest, md5-verified)", fetch_from_manifest))

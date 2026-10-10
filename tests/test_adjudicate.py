@@ -35,7 +35,7 @@ def test_every_threshold_carries_its_rationale():
 
 def test_short_fragment_is_rejected_with_reason():
     code, why = quality.check("ACGT" * 10, 5, None, T)
-    assert code == "too_short" and "40 bp" in why and str(T.min_length) in why
+    assert code == "too_short" and "40 letters" in why and str(T.min_length) in why
 
 
 def test_n_heavy_sequence_is_rejected():

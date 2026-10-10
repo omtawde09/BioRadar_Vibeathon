@@ -10,7 +10,7 @@
     "reverse": "CATAGTGGGGTATCTAATCCCAGTTTG"
   },
   "built_at": "2026-10-10T07:24:31+00:00",
-  "note": "Amplicon = primer-to-primer region cut from each mitogenome with up to 5 primer mismatches. Mitogenomes without a findable amplicon are not in the list, so some fish are genuinely absent from this reference.",
+  "note": "Each entry is the part of a fish's mitochondrial DNA between the two test markers (primers), cut out of the public RefSeq genome. A genome with no findable stretch is left out, so some fish are simply not on this list.",
   "excluded_unresolved_names": 39,
   "excluded_note": "Mitogenomes named only to genus ('Genus sp.', 'cf.', 'aff.') are not species-level references and are left out.",
   "human_contaminant_amplicon_bp": 219

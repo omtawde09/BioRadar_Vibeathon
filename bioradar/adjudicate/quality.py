@@ -13,21 +13,22 @@ from typing import Optional, Tuple
 
 from bioradar.adjudicate.thresholds import Thresholds
 
-VALID = set("ACGTN")
+VALID = set("ACGTRYKMSWBDHVN")  # IUPAC: R, Y, ... are ambiguous bases (merged reads carry them)
+AMBIGUOUS = set("RYKMSWBDHVN")
 
 # Stable order for display.
 REASON_ORDER = ["invalid_characters", "too_short", "too_many_n", "low_complexity",
                 "low_quality", "singleton", "human_contamination", "unrelated"]
 
 REASON_LABELS = {
-    "invalid_characters": "Not a DNA sequence",
-    "too_short": "Short fragment",
-    "too_many_n": "Too many N bases",
-    "low_complexity": "Low complexity / repeat",
-    "low_quality": "Low base quality",
-    "singleton": "Seen once (probable error)",
-    "human_contamination": "Human contamination",
-    "unrelated": "Unrelated to any reference",
+    "invalid_characters": "Not DNA",
+    "too_short": "Too short",
+    "too_many_n": "Too many unreadable letters",
+    "low_complexity": "Same letters repeated",
+    "low_quality": "Poor quality",
+    "singleton": "Seen only once (maybe a mistake)",
+    "human_contamination": "Human DNA",
+    "unrelated": "Not like any fish on the list",
 }
 
 
@@ -37,29 +38,30 @@ def entropy(seq: str) -> float:
     return -sum((c / n) * math.log2(c / n) for c in counts.values()) if n else 0.0
 
 
-def check(seq: str, count: int, mean_q: Optional[float], t: Thresholds) -> Optional[Tuple[str, str]]:
+def check(seq: str, count: int, mean_q: Optional[float], t: Thresholds,
+          count_rule: bool = True) -> Optional[Tuple[str, str]]:
     n = len(seq)
     bad = set(seq) - VALID
     if bad:
         return ("invalid_characters",
-                "contains non-DNA characters {} - not a nucleotide sequence".format(
+                "has letters that are not DNA ({}): not a DNA code".format(
                     "".join(sorted(bad))[:10]))
     if n < t.min_length:
-        return ("too_short", "short fragment: {} bp is under the {} bp minimum".format(n, t.min_length))
-    n_pct = 100.0 * seq.count("N") / n
+        return ("too_short", "too short: {} letters, and at least {} are needed".format(n, t.min_length))
+    n_pct = 100.0 * sum(1 for c in seq if c in AMBIGUOUS) / n
     if n_pct > t.max_n_percent:
-        return ("too_many_n", "{:.1f}% N (uncalled) bases is over the {}% maximum".format(
+        return ("too_many_n", "{:.1f}% of the letters could not be read (N or unclear). The most allowed is {}%".format(
             n_pct, t.max_n_percent))
     ent = entropy(seq)
     if ent < t.min_complexity_entropy:
-        return ("low_complexity", "low complexity (entropy {:.2f} bits, minimum {}): "
-                                  "repeat or single-letter run, not a real fragment".format(
+        return ("low_complexity", "the same few letters repeat (variety score {:.2f}, at least {} needed): "
+                                  "not a real piece of DNA".format(
                                       ent, t.min_complexity_entropy))
     if mean_q is not None and mean_q < t.min_mean_quality:
-        return ("low_quality", "mean base quality Q{:.0f} is under the Q{} minimum".format(
+        return ("low_quality", "the machine was not sure of its letters (quality Q{:.0f}, at least Q{} needed)".format(
             mean_q, t.min_mean_quality))
-    if count < t.min_read_count:
-        return ("singleton", "seen only {} time(s), under the {}-read minimum: probable "
-                             "sequencing or PCR error, not a real sequence".format(
+    if count_rule and count < t.min_read_count:
+        return ("singleton", "seen only {} time(s), and at least {} are needed: probably a "
+                             "copying mistake, not real DNA".format(
                                  count, t.min_read_count))
     return None

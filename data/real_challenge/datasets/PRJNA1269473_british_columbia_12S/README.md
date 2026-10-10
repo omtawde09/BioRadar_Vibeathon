@@ -3,7 +3,7 @@
 - Public archive: PRJNA1269473 (https://www.ebi.ac.uk/ena/browser/view/PRJNA1269473)
 - Submitted by: see ENA record
 - Publication: none listed in the archive record
-- Used for: real low-yield field samples (a few hundred reads): unusable, retake
+- Used for: real water samples with very little DNA (a few hundred pieces): unusable, so collect again
 - Runs here: 2 (R1 reads only)
 
 Files in `raw/` are the archive's original files, byte for byte, verified by md5 against the

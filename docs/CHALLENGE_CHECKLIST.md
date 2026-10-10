@@ -3,6 +3,8 @@
 Sources: **Points Noted.pdf** (handwritten notes) and **Challenges BioRadar.pdf** (the ODYSSEY brief: "Prove What Lives in the Water").
 Status is taken from the live check `python -m bioradar.adjudicate.runner verify` (writes `data/real_challenge/COMPLIANCE.md`)
 and from the running app on `main`. Nothing is marked done unless it was run on real public data.
+Last updated after the fish-egg ground truth, the upload path and the plain-language pass. The app screens are now called
+**Check samples** (the Review view), **Record check** (data guard) and **Words** (glossary).
 
 Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met · ⬜ not done yet · ➕ BioRadar already had it before the challenge
 
@@ -12,13 +14,13 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 
 | # | Challenge (as written) | Status | What BioRadar does | Where to see it |
 |---|---|---|---|---|
-| 1 | 5 identifiable species with shares (sample from a mixed sample) | 🟡 | Splits a real mock community into species with `reads / denominator = share`; shows indistinguishable species as one group. The source only gives the **count** of fish mixed (15), so the check is count-only: **15 for 15 consistent**; species identities and shares are **not** verified against ground truth | Review → `A2 - HongQimen` |
+| 1 | 5 identifiable species with shares (sample from a mixed sample) | ✅ 🟡 | Real fish-egg mock communities whose **species and shares are published** (Duke & Burton 2020, Table 1). Headline `G1` (7 fish): all 7 found, shares within 3 times: 5 of 5. Over all 12 libraries: every fish found in 9, shares within 3 times for **54 of 90 (60%)**; 3 libraries failed and are shown. The 12S Pearl River mixtures still have only a count | Check samples → `G1 - mock MC3 (COI) - authors' own reference` |
 | 2 | Poor-quality and noisy samples | ✅ | Per-sequence QC: short fragment, N bases, low quality, low complexity, seen-once, human DNA, unrelated. Real case: 361 reads, 65 human-DNA reads | Review → `GSS356` |
-| 3 | 2 samples not in our reference list but actual identity is known | 🟡 | Unrecognised sequences are queued with closest match, identity and a capped score. **No ground-truth identity exists** for them in the public data, so "identity known" is not claimed; each has a manual NCBI review link | Review → `Irigation point 3` |
+| 3 | 2 samples not in our reference list but actual identity is known | ✅ 🟡 | Same fish-egg library judged against the public RefSeq list, which has no entry for 2 of 4 fish (*Oxyjulis californica*, *Paralichthys californicus*). Their DNA stays **unknown**; the authors' own library names them in an answer-key table. Honest limit: across the 12 libraries 21 fish that were *not* in the mixture were named (some are close relatives of a missing fish) | Check samples → `E1 - mock MC1 (COI) - public RefSeq list` |
 | 4 | Retake the sample if noisy or poor data samples are present | ✅ | Verdict **Retake sample** (under 1,000 usable reads, or under 10% usable); "Usable with caution" between | Review → `GSS356`, `GSS471`, water blank |
 | 5 | Detect inconsistent, redundant and duplicate samples, with valid reasoning | ✅ | Data guard on 5,119 real archive records: 24 duplicate IDs merged as re-runs, 18 future dates, 4,707 outside boundary, 367 without GPS, 2 species double spellings. Every decision has a written reason; post-check says the clean store is clean | Review → Data guard |
 | 6 | Alert the officer about the danger level of invasive species | ✅ | Banner + log + alert map with pin, species, level (CRITICAL / HIGH / WATCH), action and IUCN source link. Real trigger: **HIGH, Nile tilapia and African catfish** (Indonesia). No SMS or e-mail is sent for the challenge path | Review → `Irigation point 3`, Alerts tab |
-| 7 | Timeline of the two seasons (summer, winter) for the same location | ✅ | Same-site slider: species per season, newly detected, not detected, replicates, quality caution. Pearl River, 4 sites, **Aug vs Nov 2019** (matches the notes: summer / winter) | Review → Seasons & map |
+| 7 | Timeline of the two seasons (summer, winter) for the same location | ✅ | Same-place slider: fish per season, new, not found, repeats, quality caution. Pearl River, 4 places, **Aug vs Nov 2019** (matches the notes: summer / winter) | Check samples → Seasons & map |
 | 8 | 1-page conclusion PDF: animal detected, risk level, source and sample date, uncertainty / missing coverage | ✅ | One-page PDF per sample and per site (both seasons), generated live; guarded so it cannot spill to page 2; 43 tests prove one page, no overlap, all fields | "Print officer report" buttons; samples in `docs/demo_outputs/` |
 
 ## 2. Critical targets (handwritten)
@@ -26,10 +28,10 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | # | Target | Status | Notes |
 |---|---|---|---|
 | 1 | Rejected samples have a documented reason | ✅ | reason per dropped sequence on screen; full list as CSV; sample-level reason on the verdict |
-| 2 | 5 distinct species from a sample, each shown with its share | 🟡 | shown (all species, not just 5) with counts and denominator; shares not verifiable against a published table (see #1 above) |
-| 3 | Unknown sequences reported with a confidence score | ✅ 🟡 | reported with **identity** (measured) and a **match score** capped at 0.60. The score is a documented heuristic, **not** a calibrated probability, and is labelled so |
+| 2 | 5 distinct species from a sample, each shown with its share | ✅ | `G1`: 7 fish, each with its share and the published share beside it; shares are within 3 times for 5 of 5 (60% over all 12 libraries) |
+| 3 | Unknown sequences reported with a confidence score | ✅ 🟡 | reported with **match** (measured) and a **match score** capped at 0.60. The score is a documented rule of thumb, **not** a calibrated probability, and is labelled so |
 | 4 | Trigger alert for the forest officer for invasive species | ✅ | see challenge 6 |
-| 5 | UI clean and simple, focused on graphs and visuals | ✅ | pipeline Results page now opens with a phylum donut, top-species bars, confidence histogram and per-sample reads / diversity; briefing and species table folded; English + Hindi, light + dark |
+| 5 | UI clean and simple, focused on graphs and visuals | ✅ | Results page opens with a plain-words summary, a donut, top-animal bars, a sureness histogram and per-sample DNA / variety charts; briefing and animal table folded; every page has an "In plain words" box and a Words page; English + Hindi |
 
 ## 3. The ODYSSEY brief
 
@@ -37,15 +39,15 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 
 | Requirement | Status | Notes |
 |---|---|---|
-| Select 3 real samples from a documented public eDNA dataset | ✅ | 38 real samples from 4 public projects (ENA), 3 designated core samples in `selection.json`. Reads are R1 FASTQ read **by content**; no FASTA file was created |
-| Do not write or alter sequences; keep originals and metadata unchanged | ✅ | all 38 files verified by md5 against the archive (0 altered) |
-| Mixed sample with 5 identifiable species + source-supported shares | 🟡 | source supports only the count (15/30 fish); the paper with the species table is behind a CAPTCHA. Reported as PARTIAL, not claimed |
+| Select 3 real samples from a documented public eDNA dataset | ✅ | 50 real libraries from 5 public projects (ENA and Zenodo), core samples named in `selection.json`. Files are read **by content**; no FASTA file was created |
+| Do not write or alter sequences; keep originals and metadata unchanged | ✅ | all 51 files (50 libraries + the authors' reference library) verified by md5 against the archive (0 altered) |
+| Mixed sample with 5 identifiable species + source-supported shares | ✅ | `G1` (7 fish) against the paper's published proportions. The paper itself sits behind a CAPTCHA, so the proportions come from the open-access PMC text and the supplementary table (Europe PMC), and Zenodo mirrors the data. Built by `build_truth` with checks that each community sums to 1 and has the printed species count |
 | Poor-quality sample (short fragments, many N, unrelated, human DNA) | ✅ | `GSS356` (+ primer-dimer fragments in the Indonesian sample) |
-| Sample with 2 sequences not in the reference list, identity known or reviewable | 🟡 | reviewable (NCBI link), **not** known |
+| Sample with 2 sequences not in the reference list, identity known or reviewable | ✅ | known (answer key) **and** reviewable (NCBI link) for `E1 - public RefSeq list` |
 | Rejects poor sequences with a reason for every dropped sequence; "Retake sample" if unusable | ✅ | |
-| Splits mixed sample into all species and reports estimated shares | 🟡 | splits ✅; verification against source ❌ (above) |
+| Splits mixed sample into all species and reports estimated shares | ✅ 🟡 | splits ✅; verified against the source ✅ for the headline sample; overall accuracy is modest (60% of shares within 3 times) and is stated |
 | Marks unrecognised sequences **unknown**, shows closest match and confidence, review queue, never confirmed or full confidence | ✅ | status `needs review`, capped, never 1.0 |
-| Does not crash on any input; kept / dropped / unknown summary for each real sample | ✅ | all 38 processed, including 3 pathological ones. See "unseen input" below for arbitrary files |
+| Does not crash on any input; kept / dropped / unknown summary for each real sample | ✅ | all 62 analyses done (50 libraries; the 12 fish-egg ones twice). Empty, non-DNA, picture, broken-gzip and gzip-bomb files get a plain message |
 | File name must not decide the answer | ✅ | format read from content; a test copies a real file under a misleading name and gets the same result |
 
 ### 3B. "Data guard and risk alert"
@@ -66,7 +68,7 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 
 | Requirement | Status | Notes |
 |---|---|---|
-| Two seasons, **same location**, real samples | ✅ 🟡 | 4 sites, summer (Aug) vs winter (Nov) 2019. The brief says **monsoon vs summer**: not claimed, and no India monsoon pair was found in a usable form |
+| Two seasons, **same location**, real samples | ✅ 🟡 | 4 places, summer (Aug) vs winter (Nov) 2019, southern China. The brief says **monsoon vs summer** (and ideally India): not claimed. The ENA searches I ran found no usable Indian pair (see ODYSSEY_CHALLENGE.md) |
 | Leaflet map with a season slider; detected, new, not-detected, counts for both seasons | ✅ | verified against the data for all 4 sites in both positions (8 of 8) |
 | "Not detected" is never "absent" | ✅ | stated on the page and in the PDF; a test blocks the word "absent" in user text |
 | One button on the site page that prints a one-page PDF | ✅ | animals detected, risk level, source and date, uncertainty / missing coverage, action in plain words |
@@ -77,26 +79,26 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | # | Scenario | Status |
 |---|---|---|
 | 1 | Poor-quality sample: reasons on screen + retake verdict | ✅ |
-| 2 | Mixed sample: all species and their shares, none missing | 🟡 count-only check |
-| 3 | Unknown sequences: queue, closest match, confidence, never certain | ✅ |
+| 2 | Mixed sample: all species and their shares, none missing | ✅ `G1`; 🟡 overall (9 of 12 libraries complete) |
+| 3 | Unknown sequences: queue, closest match, confidence, never certain | ✅ with a known-identity answer key |
 | 4 | Bad records rejected / merged with reasons; database clean; absent scenarios disclosed | ✅ |
 | 5 | Invasive species: real sample raises an alert with pin and threat level | ✅ |
 | 6 | Season slider: arrivals / non-detections with counts for both seasons | ✅ |
 | 7 | Report button: one-page PDF, action line clear enough to read aloud | ✅ |
-| 8 | Unseen input: a judge selects another real sample and understands the result | 🟡 any of the 38 real samples can be selected; **a brand-new file cannot be dropped into the Review view** (uploads go to the QIIME2 pipeline instead) |
+| 8 | Unseen input: a judge selects another real sample and understands the result | ✅ any of the 62 analyses can be selected, **and a brand-new FASTA/FASTQ file (plain or .gz, up to 12 MB) can be dropped into "Try your own file"**; it is checked by content, analysed and deleted. No PDF or composition check for it (no published answer) |
 
 ### 3E. Implementation guidance and "Definition of Done"
 
 | Item | Status | Notes |
 |---|---|---|
 | Manifest of filenames, source links, sample IDs, metadata, reference-database version | ✅ | `data/real_challenge/manifest.json`, one per dataset folder; reference version + NCBI query in `reference.json` |
-| Every threshold in one place, with its rationale | ✅ | `thresholds.json`, shown in the app ("Numbers & sources") |
+| Every threshold in one place, with its rationale | ✅ | `thresholds.json`, rationale in plain words, shown in the app ("Numbers & words") |
 | Respect the judging clock: no 5-minute model run; pre-run or recorded | ✅ | all results pre-run; opening a sample takes under half a second |
 | Never show fabricated or edited output | ✅ | |
-| Report readable by a stranger; **test it with someone outside the team** | ⬜ | wording is plain, but **no outsider has read it yet** |
+| Report readable by a stranger; **test it with someone outside the team** | 🟡 | every screen has an "In plain words" box, a Words page explains 14 terms, jargon is replaced; `tests/test_plain_language.py` holds the English to a reading grade (mean grade 2.9, hardest string 8.8, limit 10) and a jargon list. **No outsider has read it yet** |
 | Simple interface: sample selection, quality summary, result / confidence, map, alert, report | ✅ | the Review view |
-| Everything runs from a clean start with one documented command, or is pre-run on video | ✅ 🟡 | `runner fetch` / `all` / `verify`; rehearsed from a fresh clone (about 6 min warm). No video recorded |
-| Show the real dataset manifest and source first; one sentence: what BioRadar showed on slides before vs what ran on real data | ⬜ | the demo path is written (`PERSON_B.md`); the sentence is not rehearsed. Suggested: *"Before today our slides showed 100% recall on a simulated community; today the same platform ran 38 real public samples and told us when to retake, what is unknown, and where invasive fish were detected."* |
+| Everything runs from a clean start with one documented command, or is pre-run on video | ✅ 🟡 | `runner fetch` / `all` / `verify`; rehearsed from a fresh clone before the fish-egg data was added (about 6 min warm); a full run is now about 11 min cold. No video recorded |
+| Show the real dataset manifest and source first; one sentence: what BioRadar showed on slides before vs what ran on real data | ✅ 🟡 | `docs/DEMO_SCRIPT.md` opens on the manifest and gives the sentence. Edit its first half to match the slide you actually showed; it has not been rehearsed in front of anyone |
 
 ### 3F. What they said NOT to build
 
@@ -132,11 +134,12 @@ These ➕ features existed **before** the challenge. They run on the **QIIME2 / 
 
 ## 5. Still open (honest list)
 
-1. ❌ Mixed-sample **shares** not verified: needs the paper's species table (paywalled / CAPTCHA). Paste it into `data/real_challenge/expected_composition.json` and it becomes a full check.
-2. ❌ "Identity known" for unknown sequences: no ground truth available.
-3. 🟡 **Monsoon vs summer** not shown (data is Aug vs Nov, summer vs winter). Matches the handwritten notes, not the brief's wording.
-4. 🟡 Invasive triggers are in **Indonesia and China**, boundary is in **Portugal**: real, but not India / forest.
-5. 🟡 A brand-new file cannot be dropped into the Review view (only the 38 prepared real samples).
-6. ⬜ Nobody outside the team has read the report yet.
-7. ⬜ The one-sentence "slides vs real data" line is not rehearsed; no video fallback recorded.
+1. 🟡 **Shares are only roughly right**: 60% of measurable shares are within 3 times of the published share; 3 of 12 libraries miss fish. Reported, not tuned away.
+2. 🟡 **Wrong names**: 21 fish that were not in the mixtures were named across the 12 unknown-identity libraries (close relatives of missing fish, and some stray DNA).
+3. 🟡 **Monsoon vs summer, and India** not shown (data is Aug vs Nov in southern China). No usable Indian same-place pair was found in the ENA searches I ran.
+4. 🟡 Harmful-fish alerts are in **Indonesia and China**, the area line is in **Portugal**: real, but not India / forest.
+5. 🟡 **Outsider test**: plain language is enforced by a program and a jargon list, but no person outside the team has read it.
+6. ⬜ The one-sentence line and the demo are written (`DEMO_SCRIPT.md`) but not rehearsed in front of anyone; no video fallback recorded.
+7. Uploaded files get no PDF and no composition check (no published answer); the page says so.
 8. Person A's branch `personA/challenge-hardening` holds further hardening work (alert policy, coverage, spelling audit) **not yet merged** into `main`.
+9. Pre-existing and untouched: running the real pipeline natively on Windows fails with a path-escape error (`bad escape \U`); the Docker app is fine.

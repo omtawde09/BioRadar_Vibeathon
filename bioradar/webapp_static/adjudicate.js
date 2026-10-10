@@ -21,222 +21,356 @@
 
   var TXT = {
     en: {
-      "rv.nav": "Review",
-      "rv.title": "Sample review",
-      "rv.lede": "Pick a real public sample. See what was kept, dropped or left unknown, why, and what the officer should do.",
-      "rv.tabs.label": "Review sections",
-      "rv.tab.sample": "Sample", "rv.tab.guard": "Data guard", "rv.tab.seasons": "Seasons & map",
-      "rv.tab.alerts": "Alerts", "rv.tab.why": "Numbers & sources",
-      "rv.notBuilt": "Results not built yet",
-      "rv.notBuiltBody": "Run the one command that processes every real sample, then reload: python -m bioradar.adjudicate.runner all",
-      "rv.couldNotLoad": "Could not load",
-      "rv.couldNotProcess": "This sample could not be processed",
-      "rv.realSample": "Real sample", "rv.rerun": "Re-run live", "rv.rerunTitle": "Run the full analysis now",
-      "rv.whySample": "Why this sample:",
-      "rv.running": "Running the full analysis live", "rv.loading": "Loading result",
-      "rv.preRun": "pre-run result, loaded in {s} s", "rv.live": "computed live in {s} s",
-      "rv.role.mixed": "Mixed community", "rv.role.poor": "Poor quality / low yield",
-      "rv.role.unknowns": "Unknown fish & invasive species", "rv.role.field": "Field samples (summer / winter)",
-      "rv.verdict.Usable": "Usable", "rv.verdict.Usable with caution": "Usable with caution", "rv.verdict.Retake sample": "Retake sample",
-      "rv.level.CRITICAL": "CRITICAL", "rv.level.HIGH": "HIGH", "rv.level.WATCH": "WATCH",
-      "rv.noTrigger": "NO TRIGGER", "rv.notChecked": "NOT CHECKED",
-      "rv.noTrigger.head": "No listed invasive fish crossed the danger rule in this sample.",
-      "rv.noTrigger.body": "Rule: a species-level call of a listed invasive fish with at least 10 reads. Not seen here; that does not prove the water is free of them.",
-      "rv.notChecked.head": "Invasive-species rule not evaluated: this sample is a retake.",
-      "rv.notChecked.body": "Too little usable DNA to say anything about invasive fish here.",
-      "rv.pin": "Pin", "rv.reads": "reads", "rv.matchScore": "match score", "rv.notRecorded": "not recorded",
-      "rv.summary": "Sample quality summary",
-      "rv.kept": "Kept", "rv.unknown": "Unknown / review", "rv.dropped": "Dropped",
-      "rv.distinct": "distinct sequences",
-      "rv.stackLabel": "Kept, unknown and dropped share of reads",
-      "rv.readsLine": "{reads} reads, {distinct} distinct sequences. Input read as {fmt} by content",
-      "rv.noQuality": " (FASTA: no base-quality scores, so the quality filter was skipped)",
-      "rv.sourceLine": ". Source: {project} · run {run} · collected {date}.",
-      "rv.print": "Print officer report (PDF)", "rv.csv": "All dropped sequences (CSV)", "rv.sourceRecord": "Source record",
-      "rv.dropWhy": "Why sequences were dropped", "rv.nothingDropped": "Nothing was dropped.",
-      "rv.examples": "Examples with the written reason for each ({n} dropped sequences are listed in the CSV)",
-      "rv.col.reads": "Reads", "rv.col.sequence": "Sequence", "rv.col.reason": "Reason",
-      "rv.seq": "seq",
-      "rv.reason.invalid_characters": "Not a DNA sequence", "rv.reason.too_short": "Short fragment",
-      "rv.reason.too_many_n": "Too many N bases", "rv.reason.low_complexity": "Low complexity / repeat",
-      "rv.reason.low_quality": "Low base quality", "rv.reason.singleton": "Seen once (probable error)",
-      "rv.reason.human_contamination": "Human contamination", "rv.reason.unrelated": "Unrelated to any reference",
-      "rv.speciesHead": "Species found and their shares",
-      "rv.retake.head": "Retake sample", "rv.retake.body": "Too little usable DNA to report which fish are here. Nothing is guessed.",
-      "rv.noSpecies": "No species-level detections.",
-      "rv.invasive": "invasive", "rv.cannotSeparate": "cannot separate", "rv.identity": "identity", "rv.score": "score",
-      "rv.speciesCount": "species",
-      "rv.denom": "<b>How the share is calculated:</b> reads of the species ÷ {den} reads that could be named (species-level calls + groups the marker cannot separate). Left out of that denominator: {dropped} dropped reads and {novel} reads of sequences too different from the reference to name, out of {total} reads in the sample. A share is a proportion of DNA reads, not a count of animals or their biomass.",
-      "rv.traceNote": "Species with fewer than 10 reads ({n}) are listed as trace, not as detections. Two species whose 12S sequence cannot be told apart are shown together, never forced to one name.",
-      "rv.scoreNote": "Match score (0-1) is a heuristic built from identity and the gap to the next-best species: it falls 4 points per 1% of identity lost, is halved when a different species is almost as close, and is capped (0.99 for a species call, 0.60 for anything unconfirmed). It is not a calibrated probability.",
-      "rv.src.title": "Source and metadata", "rv.src.sub": "Where this sample comes from",
-      "rv.src.dataset": "Dataset", "rv.src.run": "Run / sample", "rv.src.alias": "alias",
-      "rv.src.file": "Original file", "rv.src.marker": "Marker / assay", "rv.src.markerFallback": "see dataset record",
-      "rv.src.reference": "Reference", "rv.src.collected": "Collected", "rv.src.place": "Place / pin",
-      "rv.src.note": "These checks read only this record's own fields. Cross-record checks (duplicate IDs, boundary, species spelling) are in the Data guard tab.",
+      "rv.nav": "Check samples",
+      "rv.title": "Check a water sample",
+      "rv.lede": "Pick a real water sample. See which fish were found, what was set aside and why, and what to do next.",
+      "rv.tabs.label": "Sections of this page",
+      "rv.tab.sample": "Sample", "rv.tab.guard": "Record check", "rv.tab.seasons": "Seasons & map",
+      "rv.tab.alerts": "Alerts", "rv.tab.why": "Numbers & words",
+      "rv.notBuilt": "Results are not ready yet",
+      "rv.notBuiltBody": "Run this one command to check every real sample, then reload the page: python -m bioradar.adjudicate.runner all",
+      "rv.couldNotLoad": "Could not load this",
+      "rv.couldNotProcess": "This sample could not be checked",
+      "rv.realSample": "Real sample", "rv.rerun": "Check again now", "rv.rerunTitle": "Run the full check again, right now",
+      "rv.whySample": "Why we picked it:",
+      "rv.running": "Checking the sample now", "rv.loading": "Loading the result",
+      "rv.preRun": "Result was ready before. Loaded in {s} s.", "rv.live": "Checked just now in {s} s.",
+      "rv.role.mixed": "Fish mixtures (only the count is known)", "rv.role.mixed_truth": "Fish mixtures with a known recipe",
+      "rv.role.unknown_truth": "Mixtures with fish missing from the public list", "rv.role.poor": "Too little good DNA",
+      "rv.role.unknowns": "Unknown fish and harmful fish", "rv.role.field": "Field water samples (summer and winter)",
+      "rv.verdict.Usable": "Good to use", "rv.verdict.Usable with caution": "Use with care", "rv.verdict.Retake sample": "Collect a new sample",
+      "rv.level.CRITICAL": "ACT NOW", "rv.level.HIGH": "SERIOUS", "rv.level.WATCH": "KEEP WATCHING",
+      "rv.noTrigger": "ALL CLEAR", "rv.notChecked": "NOT CHECKED",
+      "rv.noTrigger.head": "No harmful fish from our list were found in this sample.",
+      "rv.noTrigger.body": "The rule: a harmful fish is named for sure and at least 10 pieces of its DNA are found. None here. This does not prove the water is free of them.",
+      "rv.notChecked.head": "We did not look for harmful fish, because this sample needs to be collected again.",
+      "rv.notChecked.body": "There is too little good DNA to say anything about harmful fish.",
+      "rv.pin": "Place", "rv.reads": "DNA pieces", "rv.matchScore": "match score", "rv.notRecorded": "not written down",
+      "rv.summary": "How good is this sample?",
+      "rv.kept": "Matched a fish", "rv.unknown": "Fish we could not name", "rv.dropped": "Set aside",
+      "rv.distinct": "different codes",
+      "rv.stackLabel": "Share of DNA pieces that matched a fish, could not be named, or were set aside",
+      "rv.readsLine": "{reads} DNA pieces, {distinct} different codes. The file type is {fmt}, found by looking inside the file.",
+      "rv.noQuality": " This file has no quality marks, so the quality check was skipped.",
+      "rv.sourceLine": " Source: {project}, run {run}.", "rv.sourceDate": " Collected {date}.",
+      "rv.src.lab": "Made in a lab, so there is no collection date or place",
+      "rv.ref.refseq_12s": "NCBI RefSeq fish list for 12S ({v})", "rv.ref.refseq_coi_16s": "NCBI RefSeq fish list for COI and 16S ({v})",
+      "rv.ref.fish_egg_paper": "The authors' own fish DNA library for these mixtures",
+      "rv.print": "Print a one-page report (PDF)", "rv.csv": "All set-aside DNA (CSV file)", "rv.sourceRecord": "Where it came from",
+      "rv.dropWhy": "Why some DNA was set aside", "rv.nothingDropped": "Nothing was set aside.",
+      "rv.examples": "Examples, each with its reason ({n} set-aside pieces are in the CSV file)",
+      "rv.col.reads": "DNA pieces", "rv.col.sequence": "DNA code", "rv.col.reason": "Reason",
+      "rv.seq": "codes",
+      "rv.reason.invalid_characters": "Not DNA", "rv.reason.too_short": "Too short",
+      "rv.reason.too_many_n": "Too many unreadable letters", "rv.reason.low_complexity": "Same letters repeated",
+      "rv.reason.low_quality": "Poor quality", "rv.reason.singleton": "Seen only once (maybe a mistake)",
+      "rv.reason.human_contamination": "Human DNA", "rv.reason.unrelated": "Not like any fish on the list",
+      "rv.speciesHead": "Fish found and their share",
+      "rv.retake.head": "Collect a new sample", "rv.retake.body": "There is too little good DNA to say which fish live here. We do not guess.",
+      "rv.noSpecies": "No fish could be named for sure.",
+      "rv.invasive": "harmful fish", "rv.cannotSeparate": "look-alikes", "rv.identity": "match", "rv.score": "score",
+      "rv.speciesCount": "fish",
+      "rv.denom": "<b>How a share is worked out:</b> the DNA pieces of one fish, divided by {den} pieces that could be named. Not counted: {dropped} pieces that were set aside, and {novel} pieces too different from any fish on the list to name. The sample held {total} pieces in all. A share is a share of DNA. It is not a count of animals and not their weight.",
+      "rv.traceNote": "Fish with fewer than 10 DNA pieces ({n}) are shown as \"trace\", not as found. Two fish with the same DNA in this gene region are shown together. We never pick one of them by guess.",
+      "rv.scoreNote": "The match score runs from 0 to 1. It goes down as the match gets weaker, and it is halved when another fish matches almost as well. It never goes above 0.99 for a named fish or 0.60 for anything not confirmed. It is a rule of thumb, not a true chance.",
+      "rv.src.title": "Where this sample comes from", "rv.src.sub": "Source and details",
+      "rv.src.dataset": "Data set", "rv.src.run": "Run / sample", "rv.src.alias": "other name",
+      "rv.src.file": "Original file", "rv.src.marker": "Gene region", "rv.src.markerFallback": "see the data set record",
+      "rv.src.reference": "Known-fish list", "rv.src.collected": "Collected on", "rv.src.place": "Place",
+      "rv.src.note": "These checks only look at this one record. Checks across many records are on the Record check tab.",
       "rv.chk.ok": "ok", "rv.chk.note": "note", "rv.chk.problem": "problem", "rv.chk.missing": "missing",
-      "rv.chk.noDate": "no collection date recorded", "rv.chk.future": "date is in the future",
-      "rv.chk.dateOk": "not in the future; precision: {p}", "rv.chk.yearOnly": " only, so it cannot be assigned to a season",
-      "rv.chk.noPin": "no GPS pin recorded", "rv.chk.pinOk": "inside valid ranges", "rv.chk.pinLow": "; low precision: {n}",
-      "rv.chk.pinBad": "outside valid latitude/longitude range",
+      "rv.chk.noDate": "no collection date written down", "rv.chk.future": "the date is in the future",
+      "rv.chk.dateOk": "not in the future; exact to the {p}", "rv.chk.yearOnly": ". Only the year is known, so it cannot be placed in a season",
+      "rv.chk.noPin": "no map point written down", "rv.chk.pinOk": "a possible place on Earth", "rv.chk.pinLow": "; not very exact: {n}",
+      "rv.chk.pinBad": "not a possible place on Earth",
       "rv.prec.day": "day", "rv.prec.month": "month", "rv.prec.year": "year",
-      "rv.queue.head": "Review queue: sequences not called to a species",
-      "rv.queue.none": "Nothing needs review.",
-      "rv.queue.intro": "{n} sequences are not confirmed. Each shows its closest reference match, the <b>percent identity</b> (a measured similarity, not a probability) and a heuristic match score capped at 0.60, so none can pass as confirmed.",
-      "rv.queue.ref": "Reference used: <b>{ref}</b>. Aligned coverage is <b>not provided</b> by the analysis (identity is measured over the whole read, so a short overlap lowers it instead of being hidden).",
-      "rv.queue.closest": "Closest match", "rv.queue.state": "Review state", "rv.queue.whyUnknown": "Why unknown",
-      "rv.queue.needsReview": "needs review", "rv.queue.check": "Check on NCBI", "rv.queue.showing": "Showing the 12 most abundant of {n}.",
-      "rv.exp.count": "Check against what the source says was mixed", "rv.exp.comp": "Check against the source composition",
-      "rv.exp.groups": "(plus {n} groups of species that 12S cannot separate)",
-      "rv.exp.species": "Species", "rv.exp.expected": "Expected", "rv.exp.observed": "Observed", "rv.exp.result": "Result",
-      "rv.map.head": "Where this sample was taken", "rv.map.noPin": "This record has no GPS pin, so it cannot be shown on the map.",
-      "rv.map.note": "Note:", "rv.map.noFlag": "No invasive fish flagged",
-      "rv.guard.title": "Data guard", "rv.guard.sub": "Real archive records, never edited",
-      "rv.guard.clean": "database clean", "rv.guard.notClean": "database NOT clean",
-      "rv.guard.checked": "Records checked", "rv.guard.kept": "Kept in clean store", "rv.guard.rejected": "Rejected", "rv.guard.merged": "Merged",
-      "rv.guard.source": "Source: ENA project PRJEB108476 (snapshot md5 {md5}). Boundary: <b>{b}</b> ({src}). Today = {today}.",
-      "rv.guard.post": "<b>Post-check on the clean store:</b> {dup} duplicate IDs, {out} outside the boundary, {fut} future-dated, {sp} unmerged double spellings across {n} records.",
-      "rv.guard.rule.duplicate_id": "Duplicate sample ID", "rv.guard.rule.outside_boundary": "GPS pin outside boundary",
-      "rv.guard.rule.no_coordinates": "No GPS pin", "rv.guard.rule.future_date": "Date in the future",
-      "rv.guard.rule.double_spelling": "Species, two spellings",
-      "rv.guard.nCase": "{n} {what}", "rv.guard.w.merged": "merged", "rv.guard.w.handled": "handled", "rv.guard.w.rejected": "rejected",
-      "rv.guard.absent": "not in data",
-      "rv.guard.noCase": "The real records contained no such case, so there is nothing to show. The rule is still active.",
-      "rv.guard.every": "Every decision", "rv.guard.col.rule": "Rule", "rv.guard.col.action": "Action", "rv.guard.col.record": "Record",
+      "rv.queue.head": "To check by a person: DNA we did not name",
+      "rv.queue.none": "Nothing needs a second look.",
+      "rv.queue.intro": "{n} kinds of DNA are not confirmed. Each row shows the closest fish on the list and how alike they are (a measured amount, not a chance). The match score stops at 0.60, so none of these can pass as confirmed.",
+      "rv.queue.ref": "Known-fish list used: <b>{ref}</b>. The checker does not report how much of the DNA overlapped. A short overlap lowers the match, so it is not hidden.",
+      "rv.queue.closest": "Closest fish", "rv.queue.state": "Status", "rv.queue.whyUnknown": "Why we did not name it",
+      "rv.queue.needsReview": "needs a check", "rv.queue.check": "Check on NCBI", "rv.queue.showing": "Showing the 12 with the most DNA, out of {n}.",
+      "rv.exp.count": "Check against what the source says was mixed", "rv.exp.comp": "Check against the recipe",
+      "rv.exp.groups": "(and {n} groups of look-alike fish)",
+      "rv.exp.species": "Fish", "rv.exp.expected": "Should be", "rv.exp.observed": "We found", "rv.exp.result": "Result",
+      "rv.exp.tol": "Shares within {x} times of the real share: {n} of {m}.",
+      "rv.exp.extra": "Also found, but not in the mixture: {n}. The authors report {k} of these as false hits in their own paper.",
+      "rv.exp.more": "More about this check",
+      "rv.count.head": "How the DNA was counted",
+      "rv.ug.head": "What the unknown DNA really is",
+      "rv.ug.intro": "These fish are missing from the public list, so the checker does not name them. The scientists who made this mixture published what is in it. The checker never saw that answer. It is shown here only so that you can judge the result.",
+      "rv.ug.truth": "Closest fish in the authors' library", "rv.ug.pieces": "DNA pieces", "rv.ug.closest": "Closest fish on the public list",
+      "rv.ug.inMix": "In the mixture?", "rv.ug.yes": "yes", "rv.ug.no": "no", "rv.ug.share": "Real share",
+      "rv.ug.wrong": "Careful: {n} kinds of fish that were not in the mixture were named. Some are close relatives of a missing fish. A relative can look almost the same in this gene region. Some may be small amounts of other DNA.",
+      "rv.ug.none": "No unknown groups to explain.",
+      "rv.map.head": "Where the water was taken", "rv.map.noPin": "No map point was written down for this sample, so it cannot be shown on the map.",
+      "rv.map.note": "Note:", "rv.map.noFlag": "No harmful fish found",
+      "rv.guard.title": "Record check", "rv.guard.sub": "Real records from a public archive. They are never edited.",
+      "rv.guard.clean": "database is clean", "rv.guard.notClean": "database is NOT clean",
+      "rv.guard.checked": "Records checked", "rv.guard.kept": "Kept in the clean database", "rv.guard.rejected": "Turned away", "rv.guard.merged": "Merged",
+      "rv.guard.source": "Source: ENA project PRJEB108476 (copy fingerprint {md5}). Area line: <b>{b}</b> ({src}). Today is {today}.",
+      "rv.guard.post": "<b>Final check of the clean database:</b> {n} records. Repeated IDs: {dup}. Outside the area: {out}. Dates in the future: {fut}. Fish names with two spellings left: {sp}.",
+      "rv.guard.rule.duplicate_id": "Same sample ID twice", "rv.guard.rule.outside_boundary": "Map point outside the area",
+      "rv.guard.rule.no_coordinates": "No map point", "rv.guard.rule.future_date": "Date in the future",
+      "rv.guard.rule.double_spelling": "Fish name spelt two ways",
+      "rv.guard.nCase": "{n} {what}", "rv.guard.w.merged": "merged", "rv.guard.w.handled": "handled", "rv.guard.w.rejected": "turned away",
+      "rv.guard.absent": "not in the data",
+      "rv.guard.noCase": "The real records had no such case, so there is nothing to show. The rule is still on.",
+      "rv.guard.every": "Every decision", "rv.guard.col.rule": "Rule", "rv.guard.col.action": "What was done", "rv.guard.col.record": "Record",
       "rv.guard.first": "Showing the first 120 of {n} decisions.",
-      "rv.season.none": "No summer/winter pair", "rv.season.noneBody": "No location in the processed samples has both seasons.",
-      "rv.season.location": "Location", "rv.season.summer": "Summer", "rv.season.winter": "Winter",
-      "rv.season.detectedIn": "Species detected ({s})", "rv.season.newVs": "Newly detected vs {s}", "rv.season.missing": "Not detected here, seen in {s}",
-      "rv.season.reps": "{a} replicate sample(s) in {sa}, {b} in {sb}.",
-      "rv.season.rule": "Season rule (set in thresholds.json):",
-      "rv.season.print": "Print officer report for this site (PDF)", "rv.season.printHint": "One page: animals, risk, source and dates, uncertainty, what to do.",
-      "rv.season.noPin": "No GPS pin recorded for this location.",
-      "rv.season.newIn": "Newly detected in {s}", "rv.season.seenNot": "Seen in {o}, not detected in {s}", "rv.season.allIn": "Detected in {s} (all)",
-      "rv.season.sLabel": "Season", "rv.season.speciesTip": "{s}: {n} species",
-      "rv.season.care": "<b>Read this comparison with care.</b> Summer samples: {a} ({ar} reads named). Winter samples: {b} ({br} reads named).",
-      "rv.season.depth": " Sequencing depth differs about {x}-fold.",
-      "rv.season.careEnd": " A season with poorer reads can show fewer species because of the data, not because of the water.",
-      "rv.season.none2": "None.", "rv.season.repl": "{r} reads, {n} replicate(s)",
-      "rv.season.listed": "invasive-listed", "rv.season.listedTip": "Listed invasive fish; confirmed in an alert elsewhere in this project",
-      "rv.alerts.mapHint": "One marker per distinct pin; colour = most severe alert there", "rv.alerts.mapHead": "Alert map",
-      "rv.alerts.pins": "{n} pins. Samples whose source gave only a coarse coordinate share one pin.",
-      "rv.alerts.logHint": "Dashboard banner + this log. No SMS or e-mail is sent.", "rv.alerts.logHead": "Alert log",
-      "rv.alerts.col.level": "Level", "rv.alerts.col.alert": "Alert", "rv.alerts.col.pin": "Pin", "rv.alerts.col.sample": "Sample",
-      "rv.alerts.col.analysis": "Analysis took", "rv.alerts.col.after": "Alert after result",
-      "rv.alerts.foot": "The alert is written within {b} s of the result being ready (budget); the analysis time is shown separately and is not hidden in that figure. Results are pre-run, so opening a sample shows its alert immediately. Samples that triggered nothing are not listed: the rule was active but the source sample did not contain a listed invasive fish.",
-      "rv.alerts.none": "No alerts yet", "rv.alerts.noneBody": "No processed real sample crossed the danger rule. The rule is active; nothing is invented.",
-      "rv.why.thresholds": "Every threshold, in one file, with its reason", "rv.why.col.setting": "Setting", "rv.why.col.value": "Value", "rv.why.col.why": "Why this value",
-      "rv.why.reference": "Reference list", "rv.why.refLine": "{n} sequences, {s} species. Query:",
-      "rv.why.datasets": "Real datasets used", "rv.why.run": "run(s)", "rv.why.ena": "ENA record"
+      "rv.season.none": "No summer and winter pair", "rv.season.noneBody": "No place in the checked samples has both seasons.",
+      "rv.season.location": "Place", "rv.season.summer": "Summer", "rv.season.winter": "Winter",
+      "rv.season.detectedIn": "Fish found ({s})", "rv.season.newVs": "New compared with {s}", "rv.season.missing": "Not found now, but found in {s}",
+      "rv.season.reps": "{a} repeat sample(s) in {sa}, {b} in {sb}.",
+      "rv.season.rule": "How seasons are decided (set in thresholds.json):",
+      "rv.season.print": "Print a one-page report for this place (PDF)", "rv.season.printHint": "One page: the animals, the risk, the source and dates, what we are unsure about, and what to do.",
+      "rv.season.noPin": "No map point was written down for this place.",
+      "rv.season.newIn": "New in {s}", "rv.season.seenNot": "Seen in {o}, not found in {s}", "rv.season.allIn": "Found in {s} (all)",
+      "rv.season.sLabel": "Season", "rv.season.speciesTip": "{s}: {n} fish",
+      "rv.season.care": "<b>Read this comparison with care.</b> Summer samples: {a} ({ar} DNA pieces named). Winter samples: {b} ({br} DNA pieces named).",
+      "rv.season.depth": " One season has about {x} times more DNA than the other.",
+      "rv.season.careEnd": " A season with less DNA can show fewer fish because of the data, not because of the water.",
+      "rv.season.none2": "None.", "rv.season.repl": "{r} DNA pieces, {n} repeat(s)",
+      "rv.season.listed": "harmful fish", "rv.season.listedTip": "A fish on our harmful-fish list, confirmed in an alert elsewhere in this project",
+      "rv.alerts.mapHint": "One dot for each place. The colour shows the worst alert there.", "rv.alerts.mapHead": "Alert map",
+      "rv.alerts.pins": "{n} places. Samples that gave only a rough position share one dot.",
+      "rv.alerts.logHint": "A banner on screen and this list. No text message or e-mail is sent.", "rv.alerts.logHead": "List of alerts",
+      "rv.alerts.col.level": "How serious", "rv.alerts.col.alert": "Alert", "rv.alerts.col.pin": "Place", "rv.alerts.col.sample": "Sample",
+      "rv.alerts.col.analysis": "Check took", "rv.alerts.col.after": "Alert after result",
+      "rv.alerts.foot": "The alert is written within {b} s of the result being ready. The time the check took is shown on its own. It is not hidden inside that number. Results are made ahead of time, so an alert shows as soon as you open the sample. Samples with no alert are not listed. The rule was on, but they held no harmful fish from the list.",
+      "rv.alerts.none": "No alerts yet", "rv.alerts.noneBody": "No real sample has crossed the danger rule. The rule is on. Nothing is made up.",
+      "rv.why.thresholds": "Every rule number, in one file, with the reason", "rv.why.col.setting": "Rule", "rv.why.col.value": "Number", "rv.why.col.why": "Why this number",
+      "rv.why.reference": "Known-fish list", "rv.why.refLine": "{n} DNA codes, {s} fish. How it was built:",
+      "rv.why.datasets": "Real data sets used", "rv.why.run": "run(s)", "rv.why.ena": "Archive record",
+      "rv.plain.head": "In plain words",
+      "rv.plain.main": "This water sample held {total} pieces of DNA. {kept} matched a known fish. {unknown} came from fish we could not name. {dropped} was set aside because it was broken, too short or not from a fish.",
+      "rv.plain.v.Usable": "The sample is good enough to trust.",
+      "rv.plain.v.Usable with caution": "A lot of the DNA was set aside, so read the fish list with care.",
+      "rv.plain.v.Retake sample": "There is too little good DNA to say which fish live here. Please collect a new water sample.",
+      "rv.plain.alert": "Harmful fish were found: {names}. See the box at the top of the page.",
+      "rv.plain.noAlert": "No harmful fish from the list were found.",
+      "rv.plain.guard": "Before a record goes into the database, it is checked. A record with a repeated ID, a place outside the area, a date in the future or a fish name spelt two ways is merged or turned away. The reason is written down. The original data is never changed.",
+      "rv.plain.seasons": "This page compares one place in two seasons. It shows which fish were found in one season but not the other. A different list does not always mean the fish moved. The sample may simply hold less DNA.",
+      "rv.plain.alerts": "When a fish that harms local waters is found, an alert is written here. It gives the place, the fish and how serious it is.",
+      "rv.plain.why": "Every rule the checker uses is kept in one file, with the reason for it. Below you will find those rules, the list of known fish DNA, the data used, and a short list of words explained.",
+      "rv.gloss.head": "Words explained",
+      "rv.gl.edna.t": "eDNA (DNA in water)",
+      "rv.gl.edna.d": "Tiny bits of DNA that animals leave in water. We test the water instead of catching the fish.",
+      "rv.gl.piece.t": "DNA piece (read)",
+      "rv.gl.piece.d": "One short piece of DNA read by the machine. One sample holds thousands.",
+      "rv.gl.marker.t": "Gene region (marker)",
+      "rv.gl.marker.d": "A short part of the DNA that differs from fish to fish, like a name tag. 12S, COI and 16S are three such parts.",
+      "rv.gl.list.t": "Known-fish list (reference list)",
+      "rv.gl.list.d": "A list of fish DNA that scientists have already named. Each piece of DNA is compared with this list.",
+      "rv.gl.match.t": "Match (identity)",
+      "rv.gl.match.d": "How alike two pieces of DNA are. 100% means exactly the same.",
+      "rv.gl.score.t": "Match score",
+      "rv.gl.score.d": "A number from 0 to 1 that shows how sure the checker is. It is a rule of thumb, not a true chance.",
+      "rv.gl.unknown.t": "Unknown",
+      "rv.gl.unknown.d": "DNA that matched no fish on the list well enough. It is never named by guess. A person checks it.",
+      "rv.gl.dropped.t": "Set aside",
+      "rv.gl.dropped.d": "DNA we did not use, because it was too short, broken, human, or not from a fish. Each piece has a written reason.",
+      "rv.gl.complex.t": "Look-alike fish",
+      "rv.gl.complex.d": "Some fish have the same DNA in the gene region we read. We show them together and do not guess one.",
+      "rv.gl.invasive.t": "Harmful fish (invasive species)",
+      "rv.gl.invasive.d": "A fish that came from another place and harms local fish and water.",
+      "rv.gl.retake.t": "Collect a new sample",
+      "rv.gl.retake.d": "The sample has too little good DNA. Take new water and test again.",
+      "rv.gl.mock.t": "Mock mixture",
+      "rv.gl.mock.d": "A mixture made on purpose from fish with known names. It is used to test the checker.",
+      "rv.gl.share.t": "Share",
+      "rv.gl.share.d": "The part of the named DNA that belongs to one fish. It is a share of DNA, not a count of animals.",
+      "rv.gl.boundary.t": "Area line (boundary)",
+      "rv.gl.boundary.d": "The line on the map around the protected area. A record outside it is turned away.",
+      "rv.up.head": "Try your own file",
+      "rv.up.body": "Bring a file of DNA pieces (FASTA or FASTQ). It is checked the same way as the samples above. The file is read once and deleted. It is not saved.",
+      "rv.up.marker": "Gene region in your file",
+      "rv.up.markerHelp": "If you are not sure, choose 12S.",
+      "rv.up.choose": "Choose a file", "rv.up.none": "No file chosen",
+      "rv.up.run": "Check my file", "rv.up.working": "Checking your file",
+      "rv.up.limit": "Files up to {max} MB. Only the first {reads} DNA pieces are checked.",
+      "rv.up.tooBig": "That file is {mb} MB. The limit is {max} MB.",
+      "rv.up.done": "Done in {s} s. Your file was not saved.",
+      "rv.up.failed": "Your file could not be checked.",
+      "rv.up.source": "Your own file",
+      "rv.up.note": "This is your own file, so there is no published answer to compare it with, and no map point.",
+      "rv.up.tag": "your file"
     },
     hi: {
-      "rv.nav": "समीक्षा",
-      "rv.title": "नमूना समीक्षा",
-      "rv.lede": "एक वास्तविक सार्वजनिक नमूना चुनें। देखें कि क्या रखा गया, क्या हटाया गया और क्या अज्ञात रहा, क्यों, और अधिकारी को क्या करना चाहिए।",
-      "rv.tabs.label": "समीक्षा अनुभाग",
-      "rv.tab.sample": "नमूना", "rv.tab.guard": "डेटा जाँच", "rv.tab.seasons": "मौसम और नक्शा",
-      "rv.tab.alerts": "अलर्ट", "rv.tab.why": "संख्याएँ और स्रोत",
+      "rv.nav": "नमूने जाँचें",
+      "rv.title": "पानी का नमूना जाँचें",
+      "rv.lede": "पानी का एक असली नमूना चुनें। देखें कि कौन सी मछलियाँ मिलीं, क्या अलग रखा गया और क्यों, और आगे क्या करना है।",
+      "rv.tabs.label": "इस पन्ने के भाग",
+      "rv.tab.sample": "नमूना", "rv.tab.guard": "रिकॉर्ड जाँच", "rv.tab.seasons": "मौसम और नक्शा",
+      "rv.tab.alerts": "चेतावनी", "rv.tab.why": "संख्याएँ और शब्द",
       "rv.notBuilt": "परिणाम अभी तैयार नहीं हैं",
-      "rv.notBuiltBody": "सभी वास्तविक नमूनों को संसाधित करने वाला कमांड चलाएँ, फिर पेज दोबारा लोड करें: python -m bioradar.adjudicate.runner all",
-      "rv.couldNotLoad": "लोड नहीं हो सका",
-      "rv.couldNotProcess": "इस नमूने को संसाधित नहीं किया जा सका",
-      "rv.realSample": "वास्तविक नमूना", "rv.rerun": "अभी फिर चलाएँ", "rv.rerunTitle": "पूरा विश्लेषण अभी चलाएँ",
-      "rv.whySample": "यह नमूना क्यों:",
-      "rv.running": "पूरा विश्लेषण अभी चल रहा है", "rv.loading": "परिणाम लोड हो रहा है",
-      "rv.preRun": "पहले से चला परिणाम, {s} सेकंड में लोड", "rv.live": "अभी {s} सेकंड में गणना की गई",
-      "rv.role.mixed": "मिश्रित समुदाय", "rv.role.poor": "खराब गुणवत्ता / कम डेटा",
-      "rv.role.unknowns": "अज्ञात मछलियाँ और आक्रामक प्रजातियाँ", "rv.role.field": "क्षेत्र नमूने (गर्मी / सर्दी)",
-      "rv.verdict.Usable": "उपयोग योग्य", "rv.verdict.Usable with caution": "सावधानी के साथ उपयोग योग्य", "rv.verdict.Retake sample": "नमूना दोबारा लें",
-      "rv.level.CRITICAL": "अति गंभीर", "rv.level.HIGH": "उच्च", "rv.level.WATCH": "निगरानी",
-      "rv.noTrigger": "कोई अलर्ट नहीं", "rv.notChecked": "जाँच नहीं हुई",
-      "rv.noTrigger.head": "इस नमूने में सूचीबद्ध कोई आक्रामक मछली खतरे के नियम तक नहीं पहुँची।",
-      "rv.noTrigger.body": "नियम: सूचीबद्ध आक्रामक मछली की प्रजाति-स्तर पर पहचान, कम से कम 10 रीड के साथ। यहाँ नहीं मिली; इसका मतलब यह नहीं कि पानी उनसे मुक्त है।",
-      "rv.notChecked.head": "आक्रामक प्रजाति नियम की जाँच नहीं हुई: यह नमूना दोबारा लेना है।",
-      "rv.notChecked.body": "यहाँ आक्रामक मछलियों के बारे में कुछ कहने लायक उपयोगी DNA बहुत कम है।",
-      "rv.pin": "स्थान", "rv.reads": "रीड", "rv.matchScore": "मिलान स्कोर", "rv.notRecorded": "दर्ज नहीं",
-      "rv.summary": "नमूना गुणवत्ता सारांश",
-      "rv.kept": "रखा गया", "rv.unknown": "अज्ञात / समीक्षा", "rv.dropped": "हटाया गया",
-      "rv.distinct": "अलग-अलग अनुक्रम",
-      "rv.stackLabel": "रखे गए, अज्ञात और हटाए गए रीड का हिस्सा",
-      "rv.readsLine": "{reads} रीड, {distinct} अलग-अलग अनुक्रम। इनपुट सामग्री से {fmt} के रूप में पढ़ा गया",
-      "rv.noQuality": " (FASTA में बेस-गुणवत्ता स्कोर नहीं होते, इसलिए गुणवत्ता फ़िल्टर छोड़ा गया)",
-      "rv.sourceLine": "। स्रोत: {project} · रन {run} · संग्रह {date}।",
-      "rv.print": "अधिकारी रिपोर्ट छापें (PDF)", "rv.csv": "सभी हटाए गए अनुक्रम (CSV)", "rv.sourceRecord": "स्रोत रिकॉर्ड",
-      "rv.dropWhy": "अनुक्रम क्यों हटाए गए", "rv.nothingDropped": "कुछ भी नहीं हटाया गया।",
-      "rv.examples": "हर एक के लिखित कारण के साथ उदाहरण ({n} हटाए गए अनुक्रम CSV में हैं)",
-      "rv.col.reads": "रीड", "rv.col.sequence": "अनुक्रम", "rv.col.reason": "कारण",
-      "rv.seq": "अनु.",
-      "rv.reason.invalid_characters": "DNA अनुक्रम नहीं", "rv.reason.too_short": "छोटा टुकड़ा",
-      "rv.reason.too_many_n": "बहुत अधिक N बेस", "rv.reason.low_complexity": "कम जटिलता / दोहराव",
-      "rv.reason.low_quality": "कम बेस गुणवत्ता", "rv.reason.singleton": "केवल एक बार दिखा (संभावित त्रुटि)",
-      "rv.reason.human_contamination": "मानव DNA का संदूषण", "rv.reason.unrelated": "किसी संदर्भ से संबंधित नहीं",
-      "rv.speciesHead": "मिली प्रजातियाँ और उनका हिस्सा",
-      "rv.retake.head": "नमूना दोबारा लें", "rv.retake.body": "यहाँ कौन सी मछलियाँ हैं, यह बताने लायक उपयोगी DNA बहुत कम है। कोई अनुमान नहीं लगाया गया।",
-      "rv.noSpecies": "प्रजाति-स्तर की कोई पहचान नहीं।",
-      "rv.invasive": "आक्रामक", "rv.cannotSeparate": "अलग नहीं की जा सकतीं", "rv.identity": "समानता", "rv.score": "स्कोर",
-      "rv.speciesCount": "प्रजातियाँ",
-      "rv.denom": "<b>हिस्सा कैसे निकाला गया:</b> प्रजाति के रीड ÷ {den} रीड जिन्हें नाम दिया जा सका (प्रजाति-स्तर की पहचान + वे समूह जिन्हें यह मार्कर अलग नहीं कर सकता)। इस हर से बाहर: {dropped} हटाए गए रीड और {novel} ऐसे अनुक्रमों के रीड जो संदर्भ से इतने अलग थे कि नाम नहीं दिया जा सका; नमूने में कुल {total} रीड थे। हिस्सा DNA रीड का अनुपात है, जानवरों की संख्या या उनका वजन नहीं।",
-      "rv.traceNote": "10 से कम रीड वाली प्रजातियाँ ({n}) अल्प मात्रा के रूप में दिखाई गई हैं, पहचान के रूप में नहीं। जिन दो प्रजातियों का 12S अनुक्रम अलग नहीं किया जा सकता, उन्हें साथ दिखाया गया है, किसी एक नाम पर थोपा नहीं गया।",
-      "rv.scoreNote": "मिलान स्कोर (0-1) एक अनुमानात्मक संख्या है जो समानता और अगली सबसे नज़दीकी प्रजाति से अंतर पर बनी है: समानता में हर 1% कमी पर यह 4 अंक घटती है, दूसरी प्रजाति लगभग उतनी ही नज़दीक हो तो आधी हो जाती है, और सीमित है (प्रजाति की पहचान के लिए 0.99, अपुष्ट के लिए 0.60)। यह प्रमाणित संभावना नहीं है।",
-      "rv.src.title": "स्रोत और मेटाडेटा", "rv.src.sub": "यह नमूना कहाँ से आया",
-      "rv.src.dataset": "डेटासेट", "rv.src.run": "रन / नमूना", "rv.src.alias": "उपनाम",
-      "rv.src.file": "मूल फ़ाइल", "rv.src.marker": "मार्कर / परख", "rv.src.markerFallback": "डेटासेट रिकॉर्ड देखें",
-      "rv.src.reference": "संदर्भ", "rv.src.collected": "संग्रह तिथि", "rv.src.place": "स्थान / पिन",
-      "rv.src.note": "ये जाँचें केवल इस रिकॉर्ड के अपने क्षेत्र देखती हैं। रिकॉर्ड के बीच की जाँचें (दोहराए ID, सीमा, प्रजाति की वर्तनी) डेटा जाँच टैब में हैं।",
-      "rv.chk.ok": "ठीक", "rv.chk.note": "टिप्पणी", "rv.chk.problem": "समस्या", "rv.chk.missing": "अनुपस्थित",
-      "rv.chk.noDate": "संग्रह तिथि दर्ज नहीं", "rv.chk.future": "तिथि भविष्य की है",
-      "rv.chk.dateOk": "भविष्य की नहीं; सटीकता: {p}", "rv.chk.yearOnly": " मात्र, इसलिए इसे किसी मौसम से नहीं जोड़ा जा सकता",
-      "rv.chk.noPin": "GPS पिन दर्ज नहीं", "rv.chk.pinOk": "मान्य सीमा के भीतर", "rv.chk.pinLow": "; कम सटीकता: {n}",
-      "rv.chk.pinBad": "अक्षांश/देशांतर की मान्य सीमा से बाहर",
-      "rv.prec.day": "दिन", "rv.prec.month": "महीना", "rv.prec.year": "वर्ष",
-      "rv.queue.head": "समीक्षा कतार: वे अनुक्रम जिन्हें किसी प्रजाति से नहीं जोड़ा गया",
-      "rv.queue.none": "किसी समीक्षा की आवश्यकता नहीं।",
-      "rv.queue.intro": "{n} अनुक्रम अपुष्ट हैं। हर एक अपना सबसे नज़दीकी संदर्भ मिलान, <b>प्रतिशत समानता</b> (मापी गई समानता, संभावना नहीं) और 0.60 पर सीमित अनुमानात्मक मिलान स्कोर दिखाता है, इसलिए कोई भी पुष्ट नहीं माना जा सकता।",
-      "rv.queue.ref": "उपयोग किया गया संदर्भ: <b>{ref}</b>। संरेखित कवरेज विश्लेषण द्वारा <b>उपलब्ध नहीं कराया गया</b> (समानता पूरे रीड पर मापी जाती है, इसलिए कम ओवरलैप उसे छिपाता नहीं, घटाता है)।",
-      "rv.queue.closest": "सबसे नज़दीकी मिलान", "rv.queue.state": "समीक्षा स्थिति", "rv.queue.whyUnknown": "अज्ञात क्यों",
-      "rv.queue.needsReview": "समीक्षा आवश्यक", "rv.queue.check": "NCBI पर जाँचें", "rv.queue.showing": "{n} में से सबसे अधिक वाले 12 दिखाए गए।",
-      "rv.exp.count": "स्रोत के अनुसार जो मिलाया गया था, उससे जाँच", "rv.exp.comp": "स्रोत की संरचना से जाँच",
-      "rv.exp.groups": "(साथ में {n} प्रजाति-समूह जिन्हें 12S अलग नहीं कर सकता)",
-      "rv.exp.species": "प्रजाति", "rv.exp.expected": "अपेक्षित", "rv.exp.observed": "प्राप्त", "rv.exp.result": "परिणाम",
-      "rv.map.head": "यह नमूना कहाँ लिया गया", "rv.map.noPin": "इस रिकॉर्ड में GPS पिन नहीं है, इसलिए इसे नक्शे पर नहीं दिखाया जा सकता।",
-      "rv.map.note": "टिप्पणी:", "rv.map.noFlag": "किसी आक्रामक मछली का संकेत नहीं",
-      "rv.guard.title": "डेटा जाँच", "rv.guard.sub": "वास्तविक अभिलेखागार रिकॉर्ड, कभी संपादित नहीं",
-      "rv.guard.clean": "डेटाबेस साफ़", "rv.guard.notClean": "डेटाबेस साफ़ नहीं",
-      "rv.guard.checked": "जाँचे गए रिकॉर्ड", "rv.guard.kept": "साफ़ भंडार में रखे गए", "rv.guard.rejected": "अस्वीकृत", "rv.guard.merged": "मिलाए गए",
-      "rv.guard.source": "स्रोत: ENA परियोजना PRJEB108476 (स्नैपशॉट md5 {md5})। सीमा: <b>{b}</b> ({src})। आज = {today}।",
-      "rv.guard.post": "<b>साफ़ भंडार की बाद-जाँच:</b> {n} रिकॉर्ड में {dup} दोहराए ID, {out} सीमा से बाहर, {fut} भविष्य की तिथि, {sp} बिना मिलाई दोहरी वर्तनी।",
-      "rv.guard.rule.duplicate_id": "दोहराया नमूना ID", "rv.guard.rule.outside_boundary": "GPS पिन सीमा से बाहर",
-      "rv.guard.rule.no_coordinates": "GPS पिन नहीं", "rv.guard.rule.future_date": "भविष्य की तिथि",
-      "rv.guard.rule.double_spelling": "प्रजाति, दो वर्तनी",
-      "rv.guard.nCase": "{n} {what}", "rv.guard.w.merged": "मिलाए गए", "rv.guard.w.handled": "निपटाए गए", "rv.guard.w.rejected": "अस्वीकृत",
+      "rv.notBuiltBody": "सभी असली नमूने जाँचने के लिए यह एक कमांड चलाएँ, फिर पन्ना दोबारा खोलें: python -m bioradar.adjudicate.runner all",
+      "rv.couldNotLoad": "यह लोड नहीं हो सका",
+      "rv.couldNotProcess": "इस नमूने की जाँच नहीं हो सकी",
+      "rv.realSample": "असली नमूना", "rv.rerun": "अभी फिर जाँचें", "rv.rerunTitle": "पूरी जाँच अभी दोबारा चलाएँ",
+      "rv.whySample": "इसे क्यों चुना:",
+      "rv.running": "नमूने की जाँच चल रही है", "rv.loading": "परिणाम खुल रहा है",
+      "rv.preRun": "परिणाम पहले से तैयार था। {s} सेकंड में खुला।", "rv.live": "अभी जाँचा गया, {s} सेकंड में।",
+      "rv.role.mixed": "मछलियों के मिश्रण (केवल संख्या पता है)", "rv.role.mixed_truth": "मछलियों के मिश्रण, जिनकी विधि पता है",
+      "rv.role.unknown_truth": "ऐसे मिश्रण जिनकी कुछ मछलियाँ सार्वजनिक सूची में नहीं", "rv.role.poor": "अच्छा DNA बहुत कम",
+      "rv.role.unknowns": "अज्ञात मछलियाँ और हानिकारक मछलियाँ", "rv.role.field": "खेत या जल-स्थल के नमूने (गर्मी और सर्दी)",
+      "rv.verdict.Usable": "उपयोग के लिए ठीक", "rv.verdict.Usable with caution": "सावधानी से उपयोग करें", "rv.verdict.Retake sample": "नया नमूना लें",
+      "rv.level.CRITICAL": "अभी कार्रवाई करें", "rv.level.HIGH": "गंभीर", "rv.level.WATCH": "नज़र रखें",
+      "rv.noTrigger": "सब ठीक", "rv.notChecked": "जाँच नहीं हुई",
+      "rv.noTrigger.head": "इस नमूने में हमारी सूची की कोई हानिकारक मछली नहीं मिली।",
+      "rv.noTrigger.body": "नियम: हानिकारक मछली पक्के तौर पर पहचानी जाए और उसके कम से कम 10 DNA टुकड़े मिलें। यहाँ ऐसा नहीं हुआ। इसका मतलब यह नहीं कि पानी उनसे मुक्त है।",
+      "rv.notChecked.head": "हमने हानिकारक मछली नहीं खोजी, क्योंकि इस नमूने को दोबारा लेना है।",
+      "rv.notChecked.body": "हानिकारक मछलियों के बारे में कुछ कहने लायक अच्छा DNA बहुत कम है।",
+      "rv.pin": "स्थान", "rv.reads": "DNA टुकड़े", "rv.matchScore": "मिलान स्कोर", "rv.notRecorded": "लिखा नहीं गया",
+      "rv.summary": "यह नमूना कितना अच्छा है?",
+      "rv.kept": "मछली से मेल खाया", "rv.unknown": "जिनका नाम नहीं बता सके", "rv.dropped": "अलग रखा गया",
+      "rv.distinct": "अलग-अलग कोड",
+      "rv.stackLabel": "DNA टुकड़ों का हिस्सा: मछली से मेल खाए, नाम नहीं दिया जा सका, या अलग रखे गए",
+      "rv.readsLine": "{reads} DNA टुकड़े, {distinct} अलग-अलग कोड। फ़ाइल का प्रकार {fmt} है, जो फ़ाइल के अंदर देखकर पता चला।",
+      "rv.noQuality": " इस फ़ाइल में गुणवत्ता के निशान नहीं हैं, इसलिए गुणवत्ता जाँच छोड़ दी गई।",
+      "rv.sourceLine": " स्रोत: {project}, रन {run}।", "rv.sourceDate": " संग्रह की तारीख {date}।",
+      "rv.src.lab": "प्रयोगशाला में बनाया गया, इसलिए संग्रह की तारीख या स्थान नहीं है",
+      "rv.ref.refseq_12s": "12S के लिए NCBI RefSeq मछली सूची ({v})", "rv.ref.refseq_coi_16s": "COI और 16S के लिए NCBI RefSeq मछली सूची ({v})",
+      "rv.ref.fish_egg_paper": "इन मिश्रणों के लिए लेखकों की अपनी मछली DNA लाइब्रेरी",
+      "rv.print": "एक पन्ने की रिपोर्ट छापें (PDF)", "rv.csv": "अलग रखे सभी DNA (CSV फ़ाइल)", "rv.sourceRecord": "यह कहाँ से आया",
+      "rv.dropWhy": "कुछ DNA क्यों अलग रखा गया", "rv.nothingDropped": "कुछ भी अलग नहीं रखा गया।",
+      "rv.examples": "उदाहरण, हर एक का कारण साथ में ({n} अलग रखे टुकड़े CSV फ़ाइल में हैं)",
+      "rv.col.reads": "DNA टुकड़े", "rv.col.sequence": "DNA कोड", "rv.col.reason": "कारण",
+      "rv.seq": "कोड",
+      "rv.reason.invalid_characters": "DNA नहीं है", "rv.reason.too_short": "बहुत छोटा",
+      "rv.reason.too_many_n": "बहुत से अपठनीय अक्षर", "rv.reason.low_complexity": "एक ही अक्षर बार-बार",
+      "rv.reason.low_quality": "खराब गुणवत्ता", "rv.reason.singleton": "केवल एक बार दिखा (शायद गलती)",
+      "rv.reason.human_contamination": "मानव DNA", "rv.reason.unrelated": "सूची की किसी मछली जैसा नहीं",
+      "rv.speciesHead": "मिली मछलियाँ और उनका हिस्सा",
+      "rv.retake.head": "नया नमूना लें", "rv.retake.body": "यह बताने लायक अच्छा DNA बहुत कम है कि यहाँ कौन सी मछलियाँ रहती हैं। हम अंदाज़ा नहीं लगाते।",
+      "rv.noSpecies": "किसी मछली का पक्का नाम नहीं बताया जा सका।",
+      "rv.invasive": "हानिकारक मछली", "rv.cannotSeparate": "एक जैसी दिखने वाली", "rv.identity": "मेल", "rv.score": "स्कोर",
+      "rv.speciesCount": "मछलियाँ",
+      "rv.denom": "<b>हिस्सा कैसे निकाला जाता है:</b> एक मछली के DNA टुकड़े, भाग उन {den} टुकड़ों से जिनका नाम बताया जा सका। गिनती में नहीं: अलग रखे गए {dropped} टुकड़े, और {novel} टुकड़े जो सूची की किसी मछली से इतने अलग थे कि नाम नहीं दिया जा सका। नमूने में कुल {total} टुकड़े थे। हिस्सा DNA का हिस्सा है। यह जानवरों की गिनती या उनका वज़न नहीं है।",
+      "rv.traceNote": "10 से कम DNA टुकड़ों वाली मछलियाँ ({n}) \"थोड़ी मात्रा\" के रूप में दिखाई गई हैं, मिली हुई के रूप में नहीं। जिन दो मछलियों का DNA इस जीन क्षेत्र में एक जैसा है, उन्हें साथ दिखाया गया है। हम उनमें से किसी एक को अंदाज़े से नहीं चुनते।",
+      "rv.scoreNote": "मिलान स्कोर 0 से 1 के बीच होता है। मेल कमज़ोर होने पर यह घटता है, और जब कोई दूसरी मछली लगभग उतनी ही मेल खाए तो आधा हो जाता है। नाम पाई मछली के लिए यह 0.99 से और अपुष्ट के लिए 0.60 से ऊपर कभी नहीं जाता। यह मोटा अंदाज़ा है, सच्ची संभावना नहीं।",
+      "rv.src.title": "यह नमूना कहाँ से आया", "rv.src.sub": "स्रोत और ब्योरा",
+      "rv.src.dataset": "डेटा सेट", "rv.src.run": "रन / नमूना", "rv.src.alias": "दूसरा नाम",
+      "rv.src.file": "मूल फ़ाइल", "rv.src.marker": "जीन क्षेत्र", "rv.src.markerFallback": "डेटा सेट का रिकॉर्ड देखें",
+      "rv.src.reference": "ज्ञात मछलियों की सूची", "rv.src.collected": "संग्रह की तारीख", "rv.src.place": "स्थान",
+      "rv.src.note": "ये जाँचें केवल इसी एक रिकॉर्ड को देखती हैं। कई रिकॉर्डों की जाँचें रिकॉर्ड जाँच टैब में हैं।",
+      "rv.chk.ok": "ठीक", "rv.chk.note": "ध्यान दें", "rv.chk.problem": "समस्या", "rv.chk.missing": "नहीं है",
+      "rv.chk.noDate": "संग्रह की तारीख लिखी नहीं गई", "rv.chk.future": "तारीख भविष्य की है",
+      "rv.chk.dateOk": "भविष्य की नहीं; सटीकता: {p}", "rv.chk.yearOnly": "। केवल साल पता है, इसलिए इसे किसी मौसम में नहीं रखा जा सकता",
+      "rv.chk.noPin": "नक्शे का बिंदु लिखा नहीं गया", "rv.chk.pinOk": "पृथ्वी पर संभव स्थान", "rv.chk.pinLow": "; बहुत सटीक नहीं: {n}",
+      "rv.chk.pinBad": "पृथ्वी पर संभव स्थान नहीं",
+      "rv.prec.day": "दिन", "rv.prec.month": "महीना", "rv.prec.year": "साल",
+      "rv.queue.head": "किसी व्यक्ति को जाँचना है: जिस DNA का नाम नहीं दिया",
+      "rv.queue.none": "किसी को दोबारा देखने की ज़रूरत नहीं।",
+      "rv.queue.intro": "{n} तरह के DNA की पुष्टि नहीं हुई। हर पंक्ति में सूची की सबसे नज़दीकी मछली और दोनों कितने मिलते हैं, यह दिखता है (मापी गई मात्रा, संभावना नहीं)। मिलान स्कोर 0.60 पर रुक जाता है, इसलिए इनमें से कोई पुष्ट नहीं माना जा सकता।",
+      "rv.queue.ref": "उपयोग की गई ज्ञात मछलियों की सूची: <b>{ref}</b>। जाँचकर्ता यह नहीं बताता कि DNA कितना ऊपर-ऊपर मिला। कम मिलने पर मेल घटता है, इसलिए यह छिपता नहीं।",
+      "rv.queue.closest": "सबसे नज़दीकी मछली", "rv.queue.state": "स्थिति", "rv.queue.whyUnknown": "नाम क्यों नहीं दिया",
+      "rv.queue.needsReview": "जाँच ज़रूरी", "rv.queue.check": "NCBI पर जाँचें", "rv.queue.showing": "{n} में से सबसे अधिक DNA वाले 12 दिखाए गए।",
+      "rv.exp.count": "स्रोत के अनुसार जो मिलाया गया था, उससे जाँच", "rv.exp.comp": "विधि से जाँच",
+      "rv.exp.groups": "(और एक जैसी दिखने वाली मछलियों के {n} समूह)",
+      "rv.exp.species": "मछली", "rv.exp.expected": "होना चाहिए", "rv.exp.observed": "हमें मिला", "rv.exp.result": "परिणाम",
+      "rv.exp.tol": "असली हिस्से के {x} गुना के भीतर के हिस्से: {m} में से {n}।",
+      "rv.exp.extra": "और भी मिलीं जो मिश्रण में नहीं थीं: {n}। लेखक अपने शोध-पत्र में इनमें से {k} को गलत संकेत बताते हैं।",
+      "rv.exp.more": "इस जाँच के बारे में और",
+      "rv.count.head": "DNA की गिनती कैसे की गई",
+      "rv.ug.head": "अज्ञात DNA असल में क्या है",
+      "rv.ug.intro": "ये मछलियाँ सार्वजनिक सूची में नहीं हैं, इसलिए जाँचकर्ता इनका नाम नहीं देता। यह मिश्रण बनाने वाले वैज्ञानिकों ने बताया है कि इसमें क्या है। जाँचकर्ता ने वह उत्तर कभी नहीं देखा। उसे यहाँ केवल इसलिए दिखाया गया है कि आप परिणाम को परख सकें।",
+      "rv.ug.truth": "लेखकों की लाइब्रेरी की सबसे नज़दीकी मछली", "rv.ug.pieces": "DNA टुकड़े", "rv.ug.closest": "सार्वजनिक सूची की सबसे नज़दीकी मछली",
+      "rv.ug.inMix": "क्या मिश्रण में थी?", "rv.ug.yes": "हाँ", "rv.ug.no": "नहीं", "rv.ug.share": "असली हिस्सा",
+      "rv.ug.wrong": "सावधान: {n} ऐसी मछलियों के नाम बताए गए जो मिश्रण में थीं ही नहीं। कुछ किसी गायब मछली की करीबी रिश्तेदार हैं। इस जीन क्षेत्र में रिश्तेदार लगभग एक जैसा दिख सकता है। कुछ दूसरे DNA की थोड़ी मात्रा भी हो सकती हैं।",
+      "rv.ug.none": "समझाने के लिए कोई अज्ञात समूह नहीं।",
+      "rv.map.head": "पानी कहाँ से लिया गया", "rv.map.noPin": "इस नमूने के लिए नक्शे का बिंदु लिखा नहीं गया, इसलिए इसे नक्शे पर नहीं दिखाया जा सकता।",
+      "rv.map.note": "ध्यान दें:", "rv.map.noFlag": "कोई हानिकारक मछली नहीं मिली",
+      "rv.guard.title": "रिकॉर्ड जाँच", "rv.guard.sub": "सार्वजनिक अभिलेखागार के असली रिकॉर्ड। इन्हें कभी बदला नहीं जाता।",
+      "rv.guard.clean": "डेटाबेस साफ़ है", "rv.guard.notClean": "डेटाबेस साफ़ नहीं है",
+      "rv.guard.checked": "जाँचे गए रिकॉर्ड", "rv.guard.kept": "साफ़ डेटाबेस में रखे गए", "rv.guard.rejected": "लौटाए गए", "rv.guard.merged": "मिलाए गए",
+      "rv.guard.source": "स्रोत: ENA परियोजना PRJEB108476 (प्रति की पहचान {md5})। क्षेत्र की रेखा: <b>{b}</b> ({src})। आज की तारीख {today} है।",
+      "rv.guard.post": "<b>साफ़ डेटाबेस की अंतिम जाँच:</b> {n} रिकॉर्ड। दोहराए ID: {dup}। क्षेत्र के बाहर: {out}। भविष्य की तारीखें: {fut}। दो वर्तनी वाले मछली नाम बचे: {sp}।",
+      "rv.guard.rule.duplicate_id": "एक ही नमूना ID दो बार", "rv.guard.rule.outside_boundary": "नक्शे का बिंदु क्षेत्र के बाहर",
+      "rv.guard.rule.no_coordinates": "नक्शे का बिंदु नहीं", "rv.guard.rule.future_date": "भविष्य की तारीख",
+      "rv.guard.rule.double_spelling": "मछली का नाम दो तरह से लिखा",
+      "rv.guard.nCase": "{n} {what}", "rv.guard.w.merged": "मिलाए गए", "rv.guard.w.handled": "निपटाए गए", "rv.guard.w.rejected": "लौटाए गए",
       "rv.guard.absent": "डेटा में नहीं",
-      "rv.guard.noCase": "वास्तविक रिकॉर्ड में ऐसा कोई मामला नहीं था, इसलिए दिखाने को कुछ नहीं। नियम फिर भी सक्रिय है।",
-      "rv.guard.every": "हर निर्णय", "rv.guard.col.rule": "नियम", "rv.guard.col.action": "कार्रवाई", "rv.guard.col.record": "रिकॉर्ड",
-      "rv.guard.first": "{n} निर्णयों में से पहले 120 दिखाए गए।",
-      "rv.season.none": "गर्मी/सर्दी का जोड़ा नहीं", "rv.season.noneBody": "संसाधित नमूनों में किसी स्थान के दोनों मौसम उपलब्ध नहीं हैं।",
+      "rv.guard.noCase": "असली रिकॉर्ड में ऐसा कोई मामला नहीं था, इसलिए दिखाने को कुछ नहीं। नियम फिर भी चालू है।",
+      "rv.guard.every": "हर फ़ैसला", "rv.guard.col.rule": "नियम", "rv.guard.col.action": "क्या किया गया", "rv.guard.col.record": "रिकॉर्ड",
+      "rv.guard.first": "{n} फ़ैसलों में से पहले 120 दिखाए गए।",
+      "rv.season.none": "गर्मी और सर्दी का जोड़ा नहीं", "rv.season.noneBody": "जाँचे गए नमूनों में किसी स्थान के दोनों मौसम नहीं हैं।",
       "rv.season.location": "स्थान", "rv.season.summer": "गर्मी", "rv.season.winter": "सर्दी",
-      "rv.season.detectedIn": "पहचानी गई प्रजातियाँ ({s})", "rv.season.newVs": "{s} की तुलना में नई पहचानी गई", "rv.season.missing": "यहाँ नहीं मिलीं, {s} में मिली थीं",
-      "rv.season.reps": "{sa} में {a} प्रतिकृति नमूने, {sb} में {b}।",
-      "rv.season.rule": "मौसम नियम (thresholds.json में तय):",
-      "rv.season.print": "इस स्थान की अधिकारी रिपोर्ट छापें (PDF)", "rv.season.printHint": "एक पन्ना: जानवर, जोखिम, स्रोत और तिथियाँ, अनिश्चितता, क्या करना है।",
-      "rv.season.noPin": "इस स्थान के लिए GPS पिन दर्ज नहीं।",
-      "rv.season.newIn": "{s} में नई पहचानी गई", "rv.season.seenNot": "{o} में मिलीं, {s} में नहीं मिलीं", "rv.season.allIn": "{s} में पहचानी गई (सभी)",
-      "rv.season.sLabel": "मौसम", "rv.season.speciesTip": "{s}: {n} प्रजातियाँ",
-      "rv.season.care": "<b>इस तुलना को सावधानी से पढ़ें।</b> गर्मी के नमूने: {a} ({ar} रीड को नाम मिला)। सर्दी के नमूने: {b} ({br} रीड को नाम मिला)।",
-      "rv.season.depth": " अनुक्रमण की गहराई में लगभग {x} गुना अंतर है।",
-      "rv.season.careEnd": " जिस मौसम के रीड कमज़ोर हों, उसमें कम प्रजातियाँ डेटा की वजह से दिख सकती हैं, पानी की वजह से नहीं।",
-      "rv.season.none2": "कोई नहीं।", "rv.season.repl": "{r} रीड, {n} प्रतिकृति",
-      "rv.season.listed": "आक्रामक-सूचीबद्ध", "rv.season.listedTip": "सूचीबद्ध आक्रामक मछली; इस परियोजना में कहीं अलर्ट में पुष्ट",
-      "rv.alerts.mapHint": "हर अलग पिन के लिए एक चिह्न; रंग = वहाँ का सबसे गंभीर अलर्ट", "rv.alerts.mapHead": "अलर्ट नक्शा",
-      "rv.alerts.pins": "{n} पिन। जिन नमूनों के स्रोत ने केवल मोटा निर्देशांक दिया, वे एक पिन साझा करते हैं।",
-      "rv.alerts.logHint": "डैशबोर्ड बैनर + यह लॉग। कोई SMS या ई-मेल नहीं भेजा जाता।", "rv.alerts.logHead": "अलर्ट लॉग",
-      "rv.alerts.col.level": "स्तर", "rv.alerts.col.alert": "अलर्ट", "rv.alerts.col.pin": "स्थान", "rv.alerts.col.sample": "नमूना",
-      "rv.alerts.col.analysis": "विश्लेषण में लगा समय", "rv.alerts.col.after": "परिणाम के बाद अलर्ट",
-      "rv.alerts.foot": "परिणाम तैयार होने के {b} सेकंड के भीतर अलर्ट लिखा जाता है (सीमा); विश्लेषण का समय अलग दिखाया गया है और उस संख्या में छिपाया नहीं गया। परिणाम पहले से चले हुए हैं, इसलिए नमूना खोलते ही उसका अलर्ट दिखता है। जिन नमूनों ने कुछ ट्रिगर नहीं किया वे सूची में नहीं हैं: नियम सक्रिय था पर स्रोत नमूने में कोई सूचीबद्ध आक्रामक मछली नहीं थी।",
-      "rv.alerts.none": "अभी कोई अलर्ट नहीं", "rv.alerts.noneBody": "किसी संसाधित वास्तविक नमूने ने खतरे का नियम पार नहीं किया। नियम सक्रिय है; कुछ भी गढ़ा नहीं गया।",
-      "rv.why.thresholds": "हर सीमा-मान, एक फ़ाइल में, कारण के साथ", "rv.why.col.setting": "सेटिंग", "rv.why.col.value": "मान", "rv.why.col.why": "यह मान क्यों",
-      "rv.why.reference": "संदर्भ सूची", "rv.why.refLine": "{n} अनुक्रम, {s} प्रजातियाँ। क्वेरी:",
-      "rv.why.datasets": "उपयोग किए गए वास्तविक डेटासेट", "rv.why.run": "रन", "rv.why.ena": "ENA रिकॉर्ड"
+      "rv.season.detectedIn": "मिली मछलियाँ ({s})", "rv.season.newVs": "{s} की तुलना में नई", "rv.season.missing": "अब नहीं मिलीं, पर {s} में मिली थीं",
+      "rv.season.reps": "{sa} में {a} दोहराए नमूने, {sb} में {b}।",
+      "rv.season.rule": "मौसम कैसे तय होता है (thresholds.json में तय):",
+      "rv.season.print": "इस स्थान की एक पन्ने की रिपोर्ट छापें (PDF)", "rv.season.printHint": "एक पन्ना: जानवर, जोखिम, स्रोत और तारीखें, जिनमें हमें पक्का भरोसा नहीं, और क्या करना है।",
+      "rv.season.noPin": "इस स्थान के लिए नक्शे का बिंदु लिखा नहीं गया।",
+      "rv.season.newIn": "{s} में नई", "rv.season.seenNot": "{o} में मिलीं, {s} में नहीं मिलीं", "rv.season.allIn": "{s} में मिलीं (सभी)",
+      "rv.season.sLabel": "मौसम", "rv.season.speciesTip": "{s}: {n} मछलियाँ",
+      "rv.season.care": "<b>इस तुलना को सावधानी से पढ़ें।</b> गर्मी के नमूने: {a} ({ar} DNA टुकड़ों को नाम मिला)। सर्दी के नमूने: {b} ({br} DNA टुकड़ों को नाम मिला)।",
+      "rv.season.depth": " एक मौसम में दूसरे से लगभग {x} गुना अधिक DNA है।",
+      "rv.season.careEnd": " जिस मौसम में DNA कम हो, वहाँ कम मछलियाँ दिख सकती हैं। इसका कारण डेटा है, पानी नहीं।",
+      "rv.season.none2": "कोई नहीं।", "rv.season.repl": "{r} DNA टुकड़े, {n} दोहराव",
+      "rv.season.listed": "हानिकारक मछली", "rv.season.listedTip": "हमारी हानिकारक मछलियों की सूची की मछली, जो इस परियोजना में कहीं चेतावनी में पक्की हुई",
+      "rv.alerts.mapHint": "हर स्थान के लिए एक बिंदु। रंग वहाँ की सबसे गंभीर चेतावनी दिखाता है।", "rv.alerts.mapHead": "चेतावनी का नक्शा",
+      "rv.alerts.pins": "{n} स्थान। जिन नमूनों में केवल मोटा स्थान मिला, वे एक बिंदु साझा करते हैं।",
+      "rv.alerts.logHint": "स्क्रीन पर एक पट्टी और यह सूची। कोई SMS या ई-मेल नहीं भेजा जाता।", "rv.alerts.logHead": "चेतावनियों की सूची",
+      "rv.alerts.col.level": "कितनी गंभीर", "rv.alerts.col.alert": "चेतावनी", "rv.alerts.col.pin": "स्थान", "rv.alerts.col.sample": "नमूना",
+      "rv.alerts.col.analysis": "जाँच में लगा समय", "rv.alerts.col.after": "परिणाम के बाद चेतावनी",
+      "rv.alerts.foot": "परिणाम तैयार होने के {b} सेकंड के भीतर चेतावनी लिखी जाती है। जाँच में लगा समय अलग दिखाया गया है, उस संख्या में छिपाया नहीं गया। परिणाम पहले से बने होते हैं, इसलिए नमूना खोलते ही चेतावनी दिखती है। जिन नमूनों में चेतावनी नहीं थी वे सूची में नहीं हैं। नियम चालू था, पर उनमें सूची की कोई हानिकारक मछली नहीं थी।",
+      "rv.alerts.none": "अभी कोई चेतावनी नहीं", "rv.alerts.noneBody": "किसी असली नमूने ने खतरे का नियम पार नहीं किया। नियम चालू है। कुछ भी गढ़ा नहीं गया।",
+      "rv.why.thresholds": "हर नियम की संख्या, एक फ़ाइल में, कारण के साथ", "rv.why.col.setting": "नियम", "rv.why.col.value": "संख्या", "rv.why.col.why": "यह संख्या क्यों",
+      "rv.why.reference": "ज्ञात मछलियों की सूची", "rv.why.refLine": "{n} DNA कोड, {s} मछलियाँ। यह कैसे बनी:",
+      "rv.why.datasets": "उपयोग किए गए असली डेटा सेट", "rv.why.run": "रन", "rv.why.ena": "अभिलेखागार का रिकॉर्ड",
+      "rv.plain.head": "सरल शब्दों में",
+      "rv.plain.main": "पानी के इस नमूने में DNA के {total} टुकड़े थे। {kept} एक जानी हुई मछली से मेल खाए। {unknown} ऐसी मछलियों के थे जिनका नाम हम नहीं बता सके। {dropped} को अलग रखा गया, क्योंकि वे टूटे हुए, बहुत छोटे या मछली के नहीं थे।",
+      "rv.plain.v.Usable": "यह नमूना भरोसे लायक है।",
+      "rv.plain.v.Usable with caution": "काफ़ी DNA अलग रखना पड़ा, इसलिए मछलियों की सूची सावधानी से पढ़ें।",
+      "rv.plain.v.Retake sample": "यह बताने लायक अच्छा DNA बहुत कम है कि यहाँ कौन सी मछलियाँ रहती हैं। कृपया पानी का नया नमूना लें।",
+      "rv.plain.alert": "हानिकारक मछलियाँ मिलीं: {names}। पन्ने के ऊपर का डिब्बा देखें।",
+      "rv.plain.noAlert": "सूची की कोई हानिकारक मछली नहीं मिली।",
+      "rv.plain.guard": "कोई रिकॉर्ड डेटाबेस में जाने से पहले जाँचा जाता है। जिस रिकॉर्ड में ID दोहराया हो, स्थान क्षेत्र के बाहर हो, तारीख भविष्य की हो या मछली का नाम दो तरह से लिखा हो, उसे मिला दिया जाता है या लौटा दिया जाता है। कारण लिख दिया जाता है। मूल डेटा कभी नहीं बदला जाता।",
+      "rv.plain.seasons": "यह पन्ना एक ही स्थान की दो मौसमों में तुलना करता है। यह दिखाता है कि कौन सी मछलियाँ एक मौसम में मिलीं और दूसरे में नहीं। सूची अलग होने का मतलब हमेशा यह नहीं कि मछलियाँ चली गईं। हो सकता है नमूने में बस DNA कम हो।",
+      "rv.plain.alerts": "जब स्थानीय पानी को नुकसान पहुँचाने वाली मछली मिलती है, तो यहाँ चेतावनी लिखी जाती है। उसमें स्थान, मछली और खतरा कितना गंभीर है, यह होता है।",
+      "rv.plain.why": "जाँचकर्ता के सभी नियम एक फ़ाइल में कारण के साथ रखे हैं। नीचे वे नियम, ज्ञात मछलियों के DNA की सूची, उपयोग किया गया डेटा और कुछ शब्दों के अर्थ मिलेंगे।",
+      "rv.gloss.head": "शब्दों के अर्थ",
+      "rv.gl.edna.t": "eDNA (पानी में मिला DNA)",
+      "rv.gl.edna.d": "DNA के बहुत छोटे अंश जो जानवर पानी में छोड़ते हैं। हम मछली पकड़ने के बजाय पानी की जाँच करते हैं।",
+      "rv.gl.piece.t": "DNA टुकड़ा (रीड)",
+      "rv.gl.piece.d": "मशीन से पढ़ा गया DNA का एक छोटा टुकड़ा। एक नमूने में हज़ारों होते हैं।",
+      "rv.gl.marker.t": "जीन क्षेत्र (मार्कर)",
+      "rv.gl.marker.d": "DNA का एक छोटा हिस्सा जो हर मछली में अलग होता है, नाम की पर्ची की तरह। 12S, COI और 16S ऐसे तीन हिस्से हैं।",
+      "rv.gl.list.t": "ज्ञात मछलियों की सूची (संदर्भ सूची)",
+      "rv.gl.list.d": "मछलियों के DNA की सूची जिन्हें वैज्ञानिक पहले ही नाम दे चुके हैं। हर DNA टुकड़े की इस सूची से तुलना होती है।",
+      "rv.gl.match.t": "मेल (identity)",
+      "rv.gl.match.d": "DNA के दो टुकड़े कितने मिलते-जुलते हैं। 100% का मतलब बिल्कुल एक जैसे।",
+      "rv.gl.score.t": "मिलान स्कोर",
+      "rv.gl.score.d": "0 से 1 के बीच की संख्या जो बताती है कि जाँचकर्ता को कितना भरोसा है। यह मोटा अंदाज़ा है, सच्ची संभावना नहीं।",
+      "rv.gl.unknown.t": "अज्ञात",
+      "rv.gl.unknown.d": "ऐसा DNA जो सूची की किसी मछली से ठीक से नहीं मिला। इसका नाम अंदाज़े से कभी नहीं दिया जाता। कोई व्यक्ति इसे जाँचता है।",
+      "rv.gl.dropped.t": "अलग रखा गया",
+      "rv.gl.dropped.d": "वह DNA जो हमने उपयोग नहीं किया, क्योंकि वह बहुत छोटा, टूटा हुआ, मानव का, या मछली का नहीं था। हर टुकड़े का कारण लिखा है।",
+      "rv.gl.complex.t": "एक जैसी दिखने वाली मछलियाँ",
+      "rv.gl.complex.d": "कुछ मछलियों का DNA हमारे पढ़े गए जीन क्षेत्र में एक जैसा होता है। हम उन्हें साथ दिखाते हैं और किसी एक का अंदाज़ा नहीं लगाते।",
+      "rv.gl.invasive.t": "हानिकारक मछली (आक्रामक प्रजाति)",
+      "rv.gl.invasive.d": "दूसरी जगह से आई मछली जो स्थानीय मछलियों और पानी को नुकसान पहुँचाती है।",
+      "rv.gl.retake.t": "नया नमूना लें",
+      "rv.gl.retake.d": "नमूने में अच्छा DNA बहुत कम है। नया पानी लें और फिर जाँचें।",
+      "rv.gl.mock.t": "बनावटी मिश्रण",
+      "rv.gl.mock.d": "जाने-पहचाने नाम वाली मछलियों से जानबूझकर बनाया गया मिश्रण। इससे जाँचकर्ता को परखा जाता है।",
+      "rv.gl.share.t": "हिस्सा",
+      "rv.gl.share.d": "नाम पाए DNA का वह भाग जो किसी एक मछली का है। यह DNA का हिस्सा है, जानवरों की गिनती नहीं।",
+      "rv.gl.boundary.t": "क्षेत्र की रेखा (सीमा)",
+      "rv.gl.boundary.d": "नक्शे पर संरक्षित क्षेत्र के चारों ओर की रेखा। इसके बाहर का रिकॉर्ड लौटा दिया जाता है।",
+      "rv.up.head": "अपनी फ़ाइल आज़माएँ",
+      "rv.up.body": "DNA टुकड़ों की एक फ़ाइल (FASTA या FASTQ) लाएँ। उसकी जाँच ऊपर के नमूनों की तरह ही होती है। फ़ाइल एक बार पढ़ी जाती है और तुरंत मिटा दी जाती है। वह सहेजी नहीं जाती।",
+      "rv.up.marker": "आपकी फ़ाइल का जीन क्षेत्र",
+      "rv.up.markerHelp": "पक्का न हो तो 12S चुनें।",
+      "rv.up.choose": "फ़ाइल चुनें", "rv.up.none": "कोई फ़ाइल नहीं चुनी",
+      "rv.up.run": "मेरी फ़ाइल जाँचें", "rv.up.working": "आपकी फ़ाइल जाँची जा रही है",
+      "rv.up.limit": "{max} MB तक की फ़ाइलें। केवल पहले {reads} DNA टुकड़ों की जाँच होती है।",
+      "rv.up.tooBig": "वह फ़ाइल {mb} MB की है। सीमा {max} MB है।",
+      "rv.up.done": "{s} सेकंड में पूरा हुआ। आपकी फ़ाइल सहेजी नहीं गई।",
+      "rv.up.failed": "आपकी फ़ाइल की जाँच नहीं हो सकी।",
+      "rv.up.source": "आपकी अपनी फ़ाइल",
+      "rv.up.note": "यह आपकी अपनी फ़ाइल है, इसलिए तुलना के लिए कोई प्रकाशित उत्तर नहीं है और नक्शे का कोई बिंदु भी नहीं।",
+      "rv.up.tag": "आपकी फ़ाइल"
     }
   };
 
@@ -289,13 +423,35 @@
           return '<button type="button" data-adj-tab="' + k + '" aria-pressed="' +
             (S.tab === k) + '">' + esc(T("rv.tab." + k)) + "</button>";
         }).join("") + "</div></div>" +
-        '<div id="adjBanner"></div><div id="adjRoot" class="stack" aria-live="polite"></div>';
+        '<div id="adjPlain"></div><div id="adjBanner"></div><div id="adjRoot" class="stack" aria-live="polite"></div>';
       container.querySelectorAll("[data-adj-tab]").forEach(function (b) {
         b.addEventListener("click", function () { setTab(b.dataset.adjTab); });
       });
     },
     onShow: function () { init(); }
   });
+
+  /* "In plain words": one short box at the top of every tab, written for someone who is not a scientist. */
+  function plainBox(html) {
+    return '<aside class="plain-box" aria-label="' + esc(T("rv.plain.head")) + '"><b>' + esc(T("rv.plain.head")) +
+      "</b><p>" + html + "</p></aside>";
+  }
+  function setPlain(html) {
+    var el = document.getElementById("adjPlain");
+    if (el) el.innerHTML = html ? plainBox(html) : "";
+  }
+  function plainForSample(r) {
+    var tot = Math.max(r.reads_total, 1), s = r.summary;
+    var bits = [T("rv.plain.main", { total: UI.num(r.reads_total), kept: pct(s.kept.reads / tot, 0),
+                                     unknown: pct(s.unknown.reads / tot, 0), dropped: pct(s.dropped.reads / tot, 0) }),
+                T("rv.plain.v." + r.verdict)];
+    if (r.verdict !== "Retake sample") {
+      var names = [];
+      (r.alerts || []).forEach(function (a) { if (a.kind === "confirmed" && names.indexOf(a.common_name) < 0) names.push(a.common_name); });
+      bits.push(names.length ? T("rv.plain.alert", { names: names.join(", ") }) : T("rv.plain.noAlert"));
+    }
+    return bits.map(esc).join(" ");
+  }
 
   function setTab(tab) {
     S.tab = tab;
@@ -310,7 +466,8 @@
     root().innerHTML = UI.card(UI.skeleton("line", 4));
     api("/api/adjudicate/index").then(function (idx) {
       S.index = idx;
-      var first = idx.samples.filter(function (s) { return s.role === "mixed"; })[0] || idx.samples[0];
+      var first = idx.samples.filter(function (s) { return s.sample_id === "ZEN-G1"; })[0] ||
+        idx.samples.filter(function (s) { return s.role === "mixed_truth"; })[0] || idx.samples[0];
       S.id = first.sample_id;
       render();
       selectSample(S.id);
@@ -321,6 +478,8 @@
 
   function render() {
     if (!root()) return;
+    if (S.tab === "sample") setPlain(S.result ? plainForSample(S.result) : "");
+    else setPlain(esc(T("rv.plain." + S.tab)));
     if (S.tab === "sample") renderSampleTab();
     else if (S.tab === "guard") loadThen("guard", "/api/adjudicate/guard", renderGuard);
     else if (S.tab === "seasons") loadThen("seasons", "/api/adjudicate/seasons", function (d) {
@@ -343,7 +502,7 @@
   function picker() {
     var groups = {};
     S.index.samples.forEach(function (s) { (groups[s.role] = groups[s.role] || []).push(s); });
-    var order = ["mixed", "poor", "unknowns", "field"];
+    var order = ["mixed_truth", "unknown_truth", "mixed", "poor", "unknowns", "field"];
     var opts = order.filter(function (r) { return groups[r]; }).map(function (role) {
       return '<optgroup label="' + esc(T("rv.role." + role)) + '">' +
         groups[role].map(function (s) {
@@ -356,14 +515,65 @@
       '<select id="adjPick" class="adj-select">' + opts + "</select>" +
       UI.button(T("rv.rerun"), { id: "adjRerun", size: "sm", title: T("rv.rerunTitle") }) +
       '<span class="hint" id="adjStatus" role="status"></span></div>' +
-      '<div class="hint" id="adjWhy" style="margin-top:8px"></div></div>';
+      '<div class="hint" id="adjWhy" style="margin-top:8px"></div></div>' + uploadCard();
+  }
+
+  /* ── bring your own file ────────────────────────────────────────────── */
+
+  var MAX_UPLOAD_MB = 12, UPLOAD_READS = 60000;
+
+  function uploadCard() {
+    return '<div class="card sm adj-upload"><h2 class="adj-h2">' + esc(T("rv.up.head")) + "</h2>" +
+      "<p>" + esc(T("rv.up.body")) + "</p>" +
+      '<div class="row">' +
+      '<label for="adjUpMarker" class="hint">' + esc(T("rv.up.marker")) + "</label>" +
+      '<select id="adjUpMarker" class="adj-select" aria-describedby="adjUpHelp"><option value="12S">12S</option><option value="COI">COI</option><option value="16S">16S</option></select>' +
+      '<input type="file" id="adjUpFile" class="adj-file" accept=".fa,.fasta,.fna,.fq,.fastq,.gz,.txt" aria-label="' + esc(T("rv.up.choose")) + '">' +
+      UI.button(T("rv.up.run"), { id: "adjUpRun", variant: "primary", size: "sm" }) + "</div>" +
+      '<p class="hint" id="adjUpHelp">' + esc(T("rv.up.markerHelp")) + " " +
+      esc(T("rv.up.limit", { max: MAX_UPLOAD_MB, reads: UI.num(UPLOAD_READS) })) + "</p>" +
+      '<p class="hint" id="adjUpStatus" role="status"></p></div>';
+  }
+
+  function wireUpload() {
+    var btn = document.getElementById("adjUpRun");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var input = document.getElementById("adjUpFile"), status = document.getElementById("adjUpStatus");
+      var file = input.files && input.files[0];
+      if (!file) { status.textContent = T("rv.up.none"); return; }
+      if (file.size > MAX_UPLOAD_MB * 1024 * 1024) {
+        status.textContent = T("rv.up.tooBig", { mb: (file.size / 1048576).toFixed(1), max: MAX_UPLOAD_MB });
+        return;
+      }
+      var host = document.getElementById("adjSample"), t0 = Date.now();
+      status.textContent = T("rv.up.working");
+      btn.disabled = true;
+      if (host) host.innerHTML = UI.card('<div class="adj-working"><div class="adj-spin"></div><div><b>' + esc(T("rv.up.working")) + "</b></div></div>");
+      var marker = document.getElementById("adjUpMarker").value;
+      api("/api/adjudicate/analyze?marker=" + encodeURIComponent(marker) + "&name=" + encodeURIComponent(file.name),
+          { method: "POST", body: file }).then(function (r) {
+        S.result = r; S.id = r.sample_id;
+        status.textContent = T("rv.up.done", { s: ((Date.now() - t0) / 1000).toFixed(1) });
+        setPlain(plainForSample(r));
+        paintSample(r);
+        showBanner(r);
+      }).catch(function (e) {
+        status.textContent = T("rv.up.failed") + " " + e.message;
+        if (host) host.innerHTML = UI.state("error", T("rv.up.failed"), e.message);
+      }).then(function () { btn.disabled = false; });
+    });
   }
 
   function renderSampleTab() {
     root().innerHTML = picker() + '<div id="adjSample" class="stack"></div>';
     var sel = document.getElementById("adjPick");
     sel.addEventListener("change", function () { selectSample(sel.value); });
-    document.getElementById("adjRerun").addEventListener("click", function () { selectSample(S.id, true); });
+    document.getElementById("adjRerun").addEventListener("click", function () {
+      if (S.result && S.result.uploaded) { S.id = S.index.samples[0].sample_id; sel.value = S.id; }
+      selectSample(S.id, true);
+    });
+    wireUpload();
     if (S.result) paintSample(S.result);
     updateWhy();
   }
@@ -395,7 +605,7 @@
     }).then(function (r) {
       clearInterval(S.timer);
       S.result = r;
-      if (S.tab === "sample") paintSample(r);
+      if (S.tab === "sample") { setPlain(plainForSample(r)); paintSample(r); }
       updateWhy();
       var sec = ((Date.now() - t0) / 1000).toFixed(1);
       status = document.getElementById("adjStatus") || status;
@@ -427,6 +637,12 @@
 
   function refVersion() {
     return S.provenance ? S.provenance.reference.reference_database_version : "-";
+  }
+
+  /* The list this particular sample was judged against (a sample can use the public list or the authors' own). */
+  function refLabel(r) {
+    var key = "rv.ref." + ((r && r.metadata && r.metadata.profile) || "refseq_12s");
+    return T(key, { v: refVersion() });
   }
 
   function showBanner(r) {
@@ -481,14 +697,17 @@
       }).join("") + "</div>" +
       '<p class="hint">' + esc(T("rv.readsLine", { reads: UI.num(r.reads_total), distinct: UI.num(r.distinct_sequences), fmt: r.input_format.toUpperCase() })) +
       (r.quality_scores_available ? "" : esc(T("rv.noQuality"))) +
-      esc(T("rv.sourceLine", { project: r.metadata.bioproject, run: r.sample_id, date: r.metadata.collection_date || "n/a" })) + "</p>" +
+      (r.uploaded ? "" : esc(T("rv.sourceLine", { project: r.metadata.bioproject, run: r.sample_id })) +
+        (r.metadata.collection_date ? esc(T("rv.sourceDate", { date: r.metadata.collection_date })) : "")) + "</p>" +
+      countingNote(r) +
       '<div class="card-foot">' +
-      UI.button(T("rv.print"), { variant: "primary", id: "adjPdf", icon: "download" }) +
+      (r.uploaded ? "" : UI.button(T("rv.print"), { variant: "primary", id: "adjPdf", icon: "download" })) +
       (r.dropped_csv ? '<a class="btn sm" href="/api/adjudicate/dropped/' + encodeURIComponent(r.sample_id) +
         '.csv">' + esc(T("rv.csv")) + "</a>" : "") +
-      '<a class="btn sm" target="_blank" rel="noopener" href="' + esc(sourceUrl(r)) + '">' + esc(T("rv.sourceRecord")) + "</a></div>");
+      (r.uploaded ? "" : '<a class="btn sm" target="_blank" rel="noopener" href="' + esc(sourceUrl(r)) + '">' + esc(T("rv.sourceRecord")) + "</a>") +
+      "</div>");
 
-    html += sourceCard(r);
+    html += r.uploaded ? UI.card('<h2 class="adj-h2">' + esc(T("rv.up.source")) + '</h2><p class="hint">' + esc(T("rv.up.note")) + "</p>") : sourceCard(r);
 
     var reasons = Object.keys(r.drop_reasons);
     html += UI.card('<div class="card-head"><h2 class="adj-h2">' + esc(T("rv.dropWhy")) + "</h2></div>" +
@@ -496,10 +715,14 @@
       droppedTable(r));
 
     html += UI.card('<div class="card-head"><h2 class="adj-h2">' + esc(T("rv.speciesHead")) + "</h2></div>" +
-      speciesChart(r) + (r.metadata.role === "mixed" ? expectedBlock(r) : ""));
+      speciesChart(r) + (r.metadata.role === "mixed" || r.metadata.role === "mixed_truth" ? expectedBlock(r) : ""));
 
     html += UI.card('<div class="card-head"><h2 class="adj-h2">' + esc(T("rv.queue.head")) + "</h2></div>" +
       unknownTable(r));
+
+    if (r.expected_check && r.expected_check.mode === "unknown_identity") {
+      html += UI.card('<div class="card-head"><h2 class="adj-h2">' + esc(T("rv.ug.head")) + "</h2></div>" + unknownGroups(r));
+    }
 
     html += UI.card('<div class="card-head"><h2 class="adj-h2">' + esc(T("rv.map.head")) + "</h2></div>" +
       (r.metadata.latitude !== null && r.metadata.latitude !== undefined
@@ -508,11 +731,34 @@
         : '<p class="hint">' + esc(T("rv.map.noPin")) + "</p>"));
 
     host.innerHTML = html;
-    document.getElementById("adjPdf").addEventListener("click", function () {
+    var pdf = document.getElementById("adjPdf");
+    if (pdf) pdf.addEventListener("click", function () {
       window.open("/api/adjudicate/report/" + encodeURIComponent(r.sample_id) + ".pdf", "_blank");
     });
     drawMap(r);
     UI.animateIn && UI.animateIn(host);
+  }
+
+  function countingNote(r) {
+    var c = r.counting;
+    return c && c.note ? '<p class="hint"><b>' + esc(T("rv.count.head")) + ":</b> " + esc(c.note) + "</p>" : "";
+  }
+
+  function unknownGroups(r) {
+    var e = r.expected_check, g = e.unknown_groups || [];
+    if (!g.length) return '<p class="hint">' + esc(T("rv.ug.none")) + "</p>";
+    var out = '<p>' + esc(e.verdict) + "</p><p class=\"hint\">" + esc(T("rv.ug.intro")) + "</p>" +
+      '<div class="table-wrap"><table class="data"><thead><tr><th>' + esc(T("rv.ug.truth")) + "</th><th>" + esc(T("rv.ug.pieces")) +
+      "</th><th>" + esc(T("rv.ug.closest")) + "</th><th>" + esc(T("rv.ug.inMix")) + "</th><th>" + esc(T("rv.ug.share")) + "</th></tr></thead><tbody>" +
+      g.slice(0, 12).map(function (x) {
+        return "<tr><td><i>" + esc(x.true_species) + "</i></td><td>" + UI.num(x.reads) + "</td><td><i>" + esc(x.closest_public_match || "-") +
+          "</i></td><td>" + esc(T(x.in_mock_design ? "rv.ug.yes" : "rv.ug.no")) + "</td><td>" + (x.expected_share ? pct(x.expected_share) : "-") + "</td></tr>";
+      }).join("") + "</tbody></table></div>";
+    if ((e.wrong_confident_calls || []).length) {
+      out += '<div class="adj-note">' + esc(T("rv.ug.wrong", { n: e.wrong_confident_calls.length })) + " " +
+        e.wrong_confident_calls.map(function (w) { return "<i>" + esc(w.species) + "</i> (" + UI.num(w.reads) + ")"; }).join(", ") + ".</div>";
+    }
+    return out + (e.limits ? '<p class="hint">' + esc(e.limits) + "</p>" : "");
   }
 
   function sourceUrl(r) { return "https://www.ebi.ac.uk/ena/browser/view/" + encodeURIComponent(r.sample_id); }
@@ -610,11 +856,13 @@
             (m.biosample ? ' &middot; <a target="_blank" rel="noopener" href="' + ena + encodeURIComponent(m.biosample) + '">' + esc(m.biosample) + "</a>" : "") +
             " &middot; " + esc(T("rv.src.alias")) + " " + esc(m.alias || "-")) +
         row(T("rv.src.file"), '<span class="mono">' + esc(r.source_file || "-") + '</span> &middot; md5 <span class="mono">' + esc(m.md5 || "-") + "</span>") +
-        row(T("rv.src.marker"), esc(/12S|COI|16S/.exec(m.dataset_title || "") ? m.dataset_title : T("rv.src.markerFallback"))) +
-        row(T("rv.src.reference"), esc(refVersion())) +
-        row(T("rv.src.collected"), esc(m.collection_date || "n/a") + " " + checkBadge(dc)) +
-        row(T("rv.src.place"), esc(m.location || "n/a") + (m.latitude !== null && m.latitude !== undefined ? " (" + Number(m.latitude).toFixed(4) + ", " + Number(m.longitude).toFixed(4) + ")" : "") +
-            " " + checkBadge(cc)) +
+        row(T("rv.src.marker"), esc(m.marker || (/12S|COI|16S/.exec(m.dataset_title || "") ? m.dataset_title : T("rv.src.markerFallback")))) +
+        row(T("rv.src.reference"), esc(refLabel(r))) +
+        (m.mock_community
+          ? row(T("rv.src.collected"), esc(T("rv.src.lab"))) + row(T("rv.src.place"), esc(T("rv.src.lab")))
+          : row(T("rv.src.collected"), esc(m.collection_date || "n/a") + " " + checkBadge(dc)) +
+            row(T("rv.src.place"), esc(m.location || "n/a") + (m.latitude !== null && m.latitude !== undefined ? " (" + Number(m.latitude).toFixed(4) + ", " + Number(m.longitude).toFixed(4) + ")" : "") +
+              " " + checkBadge(cc))) +
       "</dl>" +
       '<p class="hint">' + esc(T("rv.src.note")) + "</p>");
   }
@@ -628,8 +876,14 @@
         "<p><b>" + esc(e.verdict) + "</b> " + esc(T("rv.exp.groups", { n: e.unresolved_groups })) + "</p>" +
         '<div class="adj-note">' + esc(e.limits) + "</div>";
     }
+    var extra = "";
+    if (e.shares_measured) extra += "<p>" + esc(T("rv.exp.tol", { x: e.tolerance_fold, n: e.shares_within_tolerance, m: e.shares_measured })) + "</p>";
+    if ((e.unexpected_species || []).length) {
+      extra += "<p class=\"hint\">" + esc(T("rv.exp.extra", { n: e.unexpected_species.length, k: e.unexpected_also_in_paper || 0 })) + " " +
+        e.unexpected_species.map(function (u) { return "<i>" + esc(u.species) + "</i>"; }).join(", ") + ".</p>";
+    }
     return '<h3 class="adj-h3">' + esc(T("rv.exp.comp")) + '</h3><p class="hint">' + esc(e.source) + "</p>" +
-      "<p><b>" + esc(e.verdict) + "</b></p>" +
+      "<p><b>" + esc(e.verdict) + "</b></p>" + extra +
       '<div class="table-wrap"><table class="data"><thead><tr><th>' + esc(T("rv.exp.species")) + "</th><th>" + esc(T("rv.exp.expected")) +
       "</th><th>" + esc(T("rv.exp.observed")) + "</th><th>" + esc(T("rv.exp.result")) + "</th></tr></thead><tbody>" +
       e.rows.map(function (x) {
@@ -643,7 +897,7 @@
     if (!q.length) return '<p class="hint">' + esc(T("rv.queue.none")) + "</p>";
     var rows = q.slice(0, 12);
     return '<p class="hint">' + T("rv.queue.intro", { n: UI.num(q.length) }) + "</p>" +
-      '<div class="adj-note">' + T("rv.queue.ref", { ref: esc(refVersion()) }) + " " + esc(T("rv.scoreNote")) + "</div>" +
+      '<div class="adj-note">' + T("rv.queue.ref", { ref: esc(refLabel(r)) }) + " " + esc(T("rv.scoreNote")) + "</div>" +
       '<div class="table-wrap"><table class="data"><thead><tr><th>' + esc(T("rv.col.reads")) + "</th><th>" + esc(T("rv.queue.closest")) +
       "</th><th>" + esc(T("rv.identity")) + "</th><th>" + esc(T("rv.matchScore")) + "</th><th>" + esc(T("rv.queue.state")) +
       "</th><th>" + esc(T("rv.queue.whyUnknown")) + "</th><th></th></tr></thead><tbody>" +
@@ -860,6 +1114,11 @@
 
   /* ── numbers & sources ──────────────────────────────────────────────── */
 
+  function glossaryCard() {
+    var P = window.BioRadarPlain;
+    return UI.card('<h2 class="adj-h2">' + esc(T("rv.gloss.head")) + "</h2>" + (P ? P.glossaryList() : ""));
+  }
+
   function loadWhy() {
     root().innerHTML = UI.card(UI.skeleton("line", 4));
     Promise.all([api("/api/adjudicate/thresholds"), api("/api/adjudicate/provenance")]).then(function (v) {
@@ -879,7 +1138,7 @@
           return "<p><b>" + esc(d.bioproject) + "</b> &middot; " + esc(d.title) + " &middot; " + esc(d.centre) +
             '<br><span class="hint">' + esc(d.used_for) + " &middot; " + d.runs.length + " " + esc(T("rv.why.run")) + ' &middot; <a target="_blank" rel="noopener" href="' +
             esc(d.ena_url) + '">' + esc(T("rv.why.ena")) + "</a> &middot; " + esc(d.publication) + "</span></p>"; }).join("") +
-          '<p class="hint">' + esc(pr.manifest.mates_downloaded) + "</p>");
+          '<p class="hint">' + esc(pr.manifest.mates_downloaded) + "</p>") + glossaryCard();
     }).catch(function (e) { root().innerHTML = UI.state("error", T("rv.couldNotLoad"), e.message); });
   }
 })();

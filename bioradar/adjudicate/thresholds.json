@@ -1,85 +1,85 @@
 {
-  "_about": "Every tunable number used by the adjudication engine lives here and nowhere else. Each carries the reason it has this value. If asked 'why 98.5%?', point at this file. Values are defaults chosen from published practice for the MiFish 12S fish marker, NOT tuned to make any particular sample pass.",
+  "_about": "Every number the checker uses is kept in this one file, and nowhere else. Each number comes with the reason for it. If someone asks \"why 98.5%?\", point here. The values follow common practice for fish DNA tests. They were NOT adjusted to make any sample pass.",
   "thresholds": {
     "min_length": {
       "value": 100,
       "unit": "bp",
-      "why": "The MiFish amplicon is about 160-190 bp. A fragment under 100 bp covers too little of the variable region to separate close species, so it is dropped as a short fragment."
+      "why": "The fish DNA piece we read is about 160 to 190 letters long. A piece under 100 letters is too short to tell close fish apart, so it is set aside."
     },
     "max_n_percent": {
       "value": 2.0,
       "unit": "% of bases",
-      "why": "N means the sequencer could not call the base. More than 2% N in a ~150 bp read is 3+ uncalled bases inside the region we use to tell species apart."
+      "why": "N means the machine could not read a letter. More than 2% of N in a short piece means 3 or more unreadable letters in the very part that tells fish apart."
     },
     "min_mean_quality": {
       "value": 20,
       "unit": "Phred",
-      "why": "Q20 is a 1% expected error rate per base, the usual floor for amplicon reads. Only applied to FASTQ input; FASTA has no quality scores, and that is stated in the output."
+      "why": "Q20 means about 1 mistake in every 100 letters. This is the usual lowest level for this kind of test. It only applies to FASTQ files, because FASTA files carry no quality marks. The result says so."
     },
     "min_complexity_entropy": {
       "value": 1.5,
       "unit": "bits (max 2.0)",
-      "why": "Shannon entropy of base composition. Below 1.5 bits the read is dominated by one or two letters (poly-A, repeats) and is not a real mitochondrial fragment."
+      "why": "This measures how varied the letters are. Below 1.5, one or two letters (like AAAAAA) fill the piece. That is not real fish DNA."
     },
     "min_read_count": {
       "value": 2,
       "unit": "reads per distinct sequence",
-      "why": "A distinct sequence seen exactly once is overwhelmingly a PCR or sequencing error variant of a real sequence. Dropping singletons is standard denoising practice."
+      "why": "A DNA code seen only once is almost always a copying mistake of a real code. Setting such codes aside is standard practice."
     },
     "identity_floor": {
       "value": 0.8,
       "unit": "fraction identical",
-      "why": "Below 80% to every reference entry the sequence is not recognisably a fish 12S fragment at all (even distant fish families stay above this). It is dropped as 'unrelated', not queued."
+      "why": "If a piece is less than 80% alike to every fish on the list, it is not recognisable as fish DNA at all. It is set aside as unrelated and not sent for checking."
     },
     "identity_species": {
       "value": 0.985,
       "unit": "fraction identical",
-      "why": "Species-level call needs at least 98.5% identity to the best reference. 12S fish studies commonly use 98-99%; 98.5% sits in the middle."
+      "why": "To name a fish for sure, a piece must be at least 98.5% alike to the best fish on the list. Studies of this gene region commonly use 98 to 99%, so 98.5% sits in the middle."
     },
     "min_species_margin": {
       "value": 0.01,
       "unit": "identity points",
-      "why": "If the best species and the best DIFFERENT species are within 1 identity point, the sequence cannot honestly be called to one species. It goes to the review queue as ambiguous."
+      "why": "If the best fish and the next-best different fish are within 1 point of each other, we cannot honestly pick one. The piece goes to a person to check."
     },
     "human_identity": {
       "value": 0.95,
       "unit": "fraction identical",
-      "why": "MiFish primers also amplify human 12S. A read at or above 95% to the human mitogenome is treated as human contamination and dropped."
+      "why": "The test can also copy human DNA. A piece that is 95% or more like human DNA is treated as human contamination and set aside."
     },
     "unknown_max_confidence": {
       "value": 0.6,
       "unit": "confidence",
-      "why": "An unknown can never be shown as confirmed. Its confidence is capped here so that it cannot be mistaken for a species call, however good its closest match looks."
+      "why": "An unknown can never look confirmed. Its match score is capped here, however good the closest match looks."
     },
     "confidence_max_known": {
       "value": 0.99,
       "unit": "confidence",
-      "why": "No call is ever shown as 100% certain: the reference list is finite and a perfect match to a wrong entry is still possible."
+      "why": "No answer is ever shown as 100% sure. The list of known fish is not complete, and a perfect match to the wrong fish is still possible."
     },
     "min_detection_reads": {
       "value": 10,
       "unit": "reads per species",
-      "why": "Species backed by fewer than 10 reads in a sample are reported as 'trace' and not as a detection. Index hopping and tag-jumping routinely produce a handful of stray reads."
+      "why": "A fish backed by fewer than 10 DNA pieces is shown as a trace, not as found. A few stray pieces often cross over between samples in the machine."
     },
     "retake_min_kept_fraction": {
       "value": 0.1,
       "unit": "fraction of reads usable",
-      "why": "Below 10% usable the library is essentially a failed PCR (90% junk), so resample. Earlier this was 50%, but running real deep-sequenced estuary samples showed that 70% off-target reads (e.g. 100,000 good fish reads among 400,000) is a caution, not a reason to discard a sample that still has plenty of valid data. The absolute read count below is the main test."
+      "why": "If under 10% of the DNA is usable, the test has mostly failed, so collect a new sample. An earlier version used 50%. Real deep-tested river samples showed that 70% off-target DNA is only a reason for care, not for throwing the sample away. The number of usable pieces below is the main test."
     },
     "caution_max_dropped_fraction": {
       "value": 0.25,
       "unit": "fraction of reads dropped",
-      "why": "Between 25% and 50% of reads lost is not unusable, but it says the library was poor (for example primer-dimer). The verdict is 'Usable with caution' and the loss is shown, instead of pretending nothing happened."
+      "why": "If 25% to 50% of the DNA is lost, the sample is not useless, but it was a poor test (for example, lots of leftover test chemicals). The verdict is \"Use with care\" and the loss is shown, not hidden."
     },
     "retake_min_kept_reads": {
       "value": 1000,
       "unit": "reads",
-      "why": "Fewer than 1,000 usable reads cannot describe a community: a species at 0.5% would have 5 reads. This is the main 'unusable' test."
+      "why": "With under 1,000 usable pieces we cannot describe which fish live there. A fish that makes up 0.5% would have only 5 pieces. This is the main \"collect a new sample\" test."
     },
     "share_tolerance_factor": {
       "value": 3.0,
       "unit": "fold",
-      "why": "Amplification bias between species is real (published work on this dataset reports a positive but imperfect read-to-DNA relationship). An estimated share within 3-fold of the source-supported share is called consistent; outside it is flagged."
+      "why": "Some fish DNA copies better than others, so a measured share is never exact. A share within 3 times of the published share counts as consistent. Outside that range it is flagged."
     },
     "season_months": {
       "value": {
@@ -101,12 +101,26 @@
         ]
       },
       "unit": "month numbers",
-      "why": "Documented rule that maps a collection month to a season. Pearl River Delta: wet, hot monsoon summer is Apr-Sep, the dry cool winter is Oct-Mar. Change here for another region."
+      "why": "This rule turns a collection month into a season. In the Pearl River area, the hot wet summer is April to September and the cool dry winter is October to March. Change it here for another region."
     },
     "alert_latency_seconds": {
       "value": 5,
       "unit": "seconds",
-      "why": "The brief wants an alert 'within seconds' of a triggering sample being processed; the alert event records its measured latency and this is the budget it is judged against."
+      "why": "The challenge asks for an alert within seconds of a sample being processed. Each alert records how long it took, and this is the limit it is judged against."
+    },
+    "max_unique_ratio_for_singleton_rule": {
+      "value": 0.5,
+      "unit": "fraction of reads that are distinct",
+      "why": "The \"seen once means a mistake\" rule only works when true copies are identical, which happens when every piece starts and ends at the same place. If more than half of the pieces are all different, a code seen once says nothing about mistakes. Then the rule is skipped and fish are counted piece by piece."
+    },
+    "species_identity_by_marker": {
+      "value": {
+        "12S": 0.985,
+        "COI": 0.97,
+        "16S": 0.97
+      },
+      "unit": "fraction identical",
+      "why": "The cutoff to name a fish depends on the gene region. 12S has short DNA with few differences between fish, so it uses 98.5%. COI and 16S use 97%, the usual cutoff for these genes, and the one the authors of the fish-egg data used themselves."
     }
   }
 }

@@ -3,7 +3,7 @@
 - Public archive: PRJNA985779 (https://www.ebi.ac.uk/ena/browser/view/PRJNA985779)
 - Submitted by: see ENA record
 - Publication: none listed in the archive record
-- Used for: real field water blank, low yield
+- Used for: a real blank water sample with very little DNA
 - Runs here: 1 (R1 reads only)
 
 Files in `raw/` are the archive's original files, byte for byte, verified by md5 against the

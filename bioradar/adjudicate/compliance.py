@@ -43,14 +43,14 @@ def dataset_hygiene() -> List[Row]:
     manifest = json.loads((DATA_DIR / "manifest.json").read_text(encoding="utf-8"))
     listed, bad_md5, missing = set(), [], []
     for ds in manifest["datasets"]:
-        for run in ds["runs"]:
-            for f in run["files"]:
-                path = DATA_DIR / f["file"]
-                listed.add(path.resolve())
-                if not path.is_file():
-                    missing.append(f["file"])
-                elif _md5(path) != f["md5"]:
-                    bad_md5.append(f["file"])
+        files = [f for run in ds["runs"] for f in run["files"]] + list(ds.get("reference_files", []))
+        for f in files:
+            path = DATA_DIR / f["file"]
+            listed.add(path.resolve())
+            if not path.is_file():
+                missing.append(f["file"])
+            elif _md5(path) != f["md5"]:
+                bad_md5.append(f["file"])
     extra = []
     for raw in (DATA_DIR / "datasets").glob("*/raw"):
         extra += [str(p.name) for p in raw.iterdir() if p.resolve() not in listed]
@@ -81,6 +81,23 @@ def dataset_hygiene() -> List[Row]:
     return rows
 
 
+def _fish_egg_results(mode_unknown: bool) -> List[Dict[str, Any]]:
+    out = []
+    for path in sorted(RESULTS.glob("ZEN-*.json")):
+        ec = json.loads(path.read_text(encoding="utf-8")).get("expected_check", {})
+        if (ec.get("mode") == "unknown_identity") == mode_unknown and ec.get("available"):
+            out.append(ec)
+    return out
+
+
+def _fish_egg_libraries() -> List[Dict[str, Any]]:
+    return _fish_egg_results(False)
+
+
+def _fish_egg_unknowns() -> List[Dict[str, Any]]:
+    return _fish_egg_results(True)
+
+
 def scenarios() -> List[Row]:
     sel = json.loads(SELECTION.read_text(encoding="utf-8"))["cases"]
     t = load()
@@ -96,8 +113,17 @@ def scenarios() -> List[Row]:
 
     r = _result(sel["mixed"]["sample_id"])
     ec = r["expected_check"]
+    libs = _fish_egg_libraries()
+    everywhere = ("Across all {} pooled libraries: every expected species found in {}; "
+                  "shares within {:g}-fold in {} of {} measurable species.".format(
+                      len(libs), sum(1 for e in libs if e["all_found"]), libs[0]["tolerance_fold"],
+                      sum(e["shares_within_tolerance"] for e in libs), sum(e["shares_measured"] for e in libs))
+                  if libs else "")
     if ec.get("available") and ec.get("mode") == "composition" and ec.get("all_found"):
-        status, ev = "PASS", ec["verdict"]
+        status = "PASS"
+        ev = "{}. {} Shares within {:g}-fold: {} of {}. {}".format(
+            ec["verdict"], ec["source"], ec["tolerance_fold"], ec["shares_within_tolerance"], ec["shares_measured"],
+            everywhere)
     elif ec.get("available") and ec.get("mode") == "count_only":
         status = "PARTIAL"
         ev = ("{}. Identities and shares NOT verified: the source states only the number of fish "
@@ -116,10 +142,21 @@ def scenarios() -> List[Row]:
                  "{}: {} sequences in the review queue, max confidence {}".format(
                      r["metadata"]["label"], len(q), max([u["confidence"] for u in q] or [0])),
                  sel["unknowns"]["condition"]))
-    rows.append(("3b. Unknowns whose true identity is known", "GAP",
-                 "No ground-truth identity exists for these sequences; each is offered for manual "
-                 "NCBI review instead. Not claimed.",
-                 "A sample containing 2 sequences not in the reference list, identity known or reviewable."))
+    r = _result(sel["unknowns_known_identity"]["sample_id"])
+    ec = r["expected_check"]
+    libs = _fish_egg_unknowns()
+    if ec.get("mode") == "unknown_identity" and ec["absent_from_public_list"] and             ec["unknown_groups_explained"] >= len(ec["absent_from_public_list"]) and not ec["wrong_confident_calls"]:
+        status = "PASS"
+    else:
+        status = "PARTIAL" if ec.get("mode") == "unknown_identity" else "GAP"
+    wrong = sum(len(e["wrong_confident_calls"]) for e in libs)
+    rows.append(("3b. Unknowns whose true identity is known", status,
+                 "{}: {} of {} species are absent from the public list ({}); all became unknowns and the authors' "
+                 "own reference names them. Across all {} libraries, {} fish that were NOT in the mixture "
+                 "were named anyway (some are close relatives of a missing fish): reported, not hidden.".format(
+                     r["metadata"]["label"], len(ec.get("absent_from_public_list", [])), ec.get("expected_count", 0),
+                     ", ".join(ec.get("absent_from_public_list", [])), len(libs), wrong),
+                 sel["unknowns_known_identity"]["condition"]))
 
     g = json.loads((RESULTS / "guard.json").read_text(encoding="utf-8"))
     missing = g["rules_not_exercised_by_this_data"]
@@ -144,7 +181,8 @@ def scenarios() -> List[Row]:
     site = s["sites"][0] if s["sites"] else None
     rows.append(("6. Season slider, same location", "PASS" if site else "GAP",
                  "{} locations with both seasons; e.g. {}: summer {} vs winter {} species, {} newly detected in summer. "
-                 "Seasons are summer/winter (Aug/Nov), not monsoon/summer.".format(
+                 "Seasons are summer/winter (Aug/Nov) in southern China, NOT monsoon/summer in India: no same-site Indian "
+                 "seasonal amplicon pair was found in the public archives searched.".format(
                      len(s["sites"]), site["location"], site["summer"]["species_detected"],
                      site["winter"]["species_detected"], site["counts"]["summer_only"]) if site else "none",
                  sel["seasons"]["condition"]))

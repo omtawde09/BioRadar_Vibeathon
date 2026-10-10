@@ -1421,6 +1421,16 @@ class Handler(BaseHTTPRequestHandler):
             res = nft.mint_nft(body.get("sample_id", "BR-GOA-001"), body.get("to_address"))
             return self._json(201, res)
 
+        if path == "/api/adjudicate/analyze":
+            from bioradar.adjudicate import api as adjudicate_api, upload as adjudicate_upload
+            length = int(self.headers.get("Content-Length", 0))
+            if length > adjudicate_upload.MAX_BYTES:
+                self.close_connection = True  # the oversized body is not read
+                return self._json(413, {"error": "The file is {:.1f} MB. The limit here is {} MB.".format(
+                    length / 1e6, adjudicate_upload.MAX_BYTES // (1024 * 1024))})
+            raw = self.rfile.read(length) if length else b""
+            return self._send(*self._adjudicate(adjudicate_api.post_raw(path, raw, parse_qs(parsed.query))))
+
         if path.startswith("/api/adjudicate"):
             from bioradar.adjudicate import api as adjudicate_api
             return self._send(*self._adjudicate(adjudicate_api.post(path, self._read_json())))

@@ -64,6 +64,6 @@
       ]
     }
   ],
-  "used_for": "real low-yield field samples (a few hundred reads): unusable, retake",
+  "used_for": "real water samples with very little DNA (a few hundred pieces): unusable, so collect again",
   "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1269473"
 }

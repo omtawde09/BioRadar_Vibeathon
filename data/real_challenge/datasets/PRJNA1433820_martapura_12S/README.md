@@ -3,7 +3,7 @@
 - Public archive: PRJNA1433820 (https://www.ebi.ac.uk/ena/browser/view/PRJNA1433820)
 - Submitted by: Universitas Airlangga
 - Publication: none listed in the archive record
-- Used for: real sample with primer-dimer short fragments (ST04, ST07) and real invasive fish (Oreochromis niloticus, Pterygoplichthys)
+- Used for: a river sample with many short pieces of DNA and real harmful fish (Nile tilapia, sailfin catfish)
 - Runs here: 2 (R1 reads only)
 
 Files in `raw/` are the archive's original files, byte for byte, verified by md5 against the

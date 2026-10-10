@@ -18,6 +18,7 @@ This file is updated and pushed after every phase.
 | B3 | Map, alert and seasons | **done** |
 | B4 | One-page officer report | **done** |
 | B5 | UI regression + demo path | **done** (clean-start rehearsal: see end of B5) |
+| B6 | Close the remaining gaps: ground truth, unseen file, plain language | **done** (see "B6" below) |
 
 ---
 
@@ -324,6 +325,47 @@ the map); a delayed `invalidateSize` on a removed Leaflet map in the Review view
 
 Tests: pytest **267 passed, 2 failed** (same 2 pre-existing); CI fast **18 / 4 / 3** (unchanged). Added:
 `tests/test_results_visuals_static.py` (9, including a real run of the module in node on real-shaped data).
+
+## B6: closing the remaining gaps (done)
+
+Asked for: finish everything the challenge still wanted, and make the whole app and the results page readable by a non-expert.
+Gaps came from `docs/CHALLENGE_CHECKLIST.md`.
+
+**1. Mixed sample with a published answer, and unknowns with a known identity.** New real data: Zenodo 4025362 (Duke & Burton 2020,
+CC0): 12 pooled libraries of 6 fish-egg **mock communities with published proportions** (COI and 16S) and the authors' own reference
+library. The ground truth (`ground_truth/fish_egg_ground_truth.json`) is the paper's Table 1 and supplementary Table S1, checked by a
+script (each community sums to 1, species counts 4/9/7/4/10/17, 23 species). Each library is analysed twice: against the authors' library
+(row `ZEN-<lib>`, a mixed sample with a known answer) and against a public RefSeq COI+16S list built from the same mitogenomes
+(row `ZEN-<lib>-public`; many of the fish are missing from that list, so their DNA must stay unknown, and the authors' library says
+what each really is). Engine changes needed by this data, all documented in `thresholds.json`: IUPAC ambiguity codes count as unclear
+letters; the "seen once" rule is skipped when most reads are all different (trimmed reads); species cutoff per gene region (12S 98.5%, COI and 16S 97%).
+
+Result (`runner verify`): mixed sample **PASS** on `G1` (7 of 7 fish, shares within 3 times: 5 of 5); across all 12 libraries every fish was
+found in **9**, and **54 of 90** measurable shares were within 3 times (60%). Three libraries fail (B2, F1, H2) and stay visible.
+Unknown identity **PASS** on `E1-public` (2 of 4 fish missing from the list, both kept unknown); across the 12 libraries **21 fish that were not
+in the mixture were named** (some are close relatives of a missing fish). Both facts are in the compliance line and on screen.
+
+**2. Unseen input.** New `upload.py` and "Try your own file" on the Check samples page: raw upload (12 MB cap, 80 MB unpacked cap against
+gzip bombs), format by content, same engine and thresholds, file deleted at once, no alert logged, no map point, no PDF. Plain messages for empty, non-DNA,
+oversized and wrong-region input. Verified in the browser with a real-derived FASTA, and in `tests/test_upload.py` (13).
+
+**3. Plain language.** Every screen string was rewritten in everyday English and Hindi (reads -> "DNA pieces", reference list -> "known-fish list",
+Retake -> "Collect a new sample", ...); the engine's own sentences (drop reasons, verdicts, guard reasons, threshold rationales, dataset descriptions) were rewritten the
+same way. New: an "In plain words" box on every page (computed from the data on the Check samples tab and the Results page), a **Words** page and a glossary
+tab entry explaining 14 terms, a "How to read the numbers" list. `readability.py` + `tests/test_plain_language.py` enforce a Flesch-Kincaid grade (mean 2.9, hardest
+string 8.8, limit 10) and a jargon list on every English string. This is a proxy: **no person outside the team has read it.**
+
+**4. Monsoon vs summer in India.** Searched ENA (Lakshadweep, Tuticorin, Sundarbans fish projects and others): no usable same-place Indian seasonal pair
+(Lakshadweep runs are all February; Tuticorin shows one date; Sundarbans is Oct to Dec in Bangladesh). Not claimed; stated on screen and in the docs.
+
+**5. Demo.** `docs/DEMO_SCRIPT.md`: the one-sentence "slides vs real data" line, a minute-by-minute run, what to say about the limits, what to do when something fails.
+
+Tests: pytest **325 passed, 2 failed** (the same 2 pre-existing `test_dataset_registry` failures; was 267 passed, +58 new);
+CI fast **18 passed, 4 failed, 3 skipped** (the same 4 pre-existing). Browser: Check samples (desktop and 375 px), Hindi, every Review tab, the Words page, upload
+(valid and refused). Not verified: a fresh real pipeline run (the Results page only gained a text box above its charts; Docker not re-run in this phase), and a clean-clone
+rehearsal with the new dataset (`runner fetch` downloads it from the manifest; the full run takes about 11 minutes cold).
+
+Files I touched outside `bioradar/adjudicate/` and `bioradar/webapp_static/`: `bioradar/webapp.py` (one route for the raw upload, Person A's file) and `tests/`.
 
 ## Open questions for the maintainer / Person A
 

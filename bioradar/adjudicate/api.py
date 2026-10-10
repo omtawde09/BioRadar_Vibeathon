@@ -11,6 +11,7 @@
     GET  /api/adjudicate/provenance            dataset manifest + reference version
     GET  /api/adjudicate/report/<id>.pdf       one-page officer report, generated now
     GET  /api/adjudicate/site-report/<place>.pdf   one-page report for a place, both seasons
+    POST /api/adjudicate/analyze?marker=12S&name=<file>   analyse a file you bring (raw body, deleted after)
 """
 
 from __future__ import annotations
@@ -20,7 +21,7 @@ import re
 from typing import Any, Dict, Tuple
 from urllib.parse import unquote
 
-from bioradar.adjudicate import alerts, report, runner
+from bioradar.adjudicate import alerts, report, runner, upload
 from bioradar.adjudicate.reference import REF_DIR
 from bioradar.adjudicate.thresholds import load
 
@@ -104,6 +105,14 @@ def get(path: str) -> Response:
         ref = json.loads((REF_DIR / "reference.json").read_text(encoding="utf-8"))
         pdf = report.build_pdf(result, season, ref.get("reference_database_version", ""))
         return 200, pdf, "application/pdf"
+    return _json(404, {"error": "not found"})
+
+
+def post_raw(path: str, raw: bytes, query: Dict[str, Any]) -> Response:
+    """POST whose body is a file, not JSON."""
+    if path.rstrip("/") == "/api/adjudicate/analyze":
+        status, payload = upload.handle(raw, query)
+        return _json(status, payload)
     return _json(404, {"error": "not found"})
 
 

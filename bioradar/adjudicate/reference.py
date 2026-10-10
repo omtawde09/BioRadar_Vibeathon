@@ -46,8 +46,9 @@ def _hamming(a: str, b: str) -> int:
     return sum(1 for x, y in zip(a, b) if x != y)
 
 
-def _find_primer(seq: str, primer: str) -> List[int]:
+def _find_primer(seq: str, primer: str, max_mismatch: int = None) -> List[int]:
     """Start positions where `primer` matches with few mismatches (seeded scan)."""
+    max_mismatch = MAX_PRIMER_MISMATCH if max_mismatch is None else max_mismatch
     hits = []
     n = len(primer)
     seeds = [(0, primer[:8]), (7, primer[7:15]), (n - 8, primer[n - 8:])]
@@ -61,7 +62,7 @@ def _find_primer(seq: str, primer: str) -> List[int]:
             pos = i - offset
             if pos >= 0 and pos not in seen and pos + n <= len(seq):
                 seen.add(pos)
-                if _hamming(seq[pos:pos + n], primer) <= MAX_PRIMER_MISMATCH:
+                if _hamming(seq[pos:pos + n], primer) <= max_mismatch:
                     hits.append(pos)
             start = i + 1
     return sorted(hits)
@@ -96,6 +97,88 @@ def _species_from_header(header: str) -> Tuple[str, str]:
             break
         name.append(w)
     return accession, " ".join(name[:2]) if len(name) >= 2 else " ".join(name)
+
+
+# COI and 16S barcode regions of fish, cut from the same RefSeq mitogenomes (published primers).
+MARKER_PRIMERS = {
+    "COI": ("TCAACCAACCACAAAGACATTGGCAC", "TAGACTTCTGGGTGGCCAAAGAATCA"),   # Ward et al. 2005, FishF1 / FishR1
+    "16S": ("CGCCTGTTTATCAAAAACAT", "CCGGTCTGAACTCAGATCACGT"),             # Palumbi 1996, 16Sar / 16Sbr
+}
+REF_COI16S_DIR = REPO_ROOT / "data" / "real_challenge" / "reference" / "refseq_fish_coi_16s"
+PAPER_REF = (REPO_ROOT / "data" / "real_challenge" / "datasets" / "ZENODO4025362_fish_egg_mock" / "raw"
+             / "Burton_Hastings_COI_16S.fasta")
+WINDOW_PAD = 40  # bases kept either side of the primers: reads trimmed inside the amplicon still fit
+
+
+def extract_region(genome: str, forward: str, reverse: str, max_mismatch: int = 6,
+                   length: Tuple[int, int] = (350, 1000)) -> Optional[str]:
+    """Primer-to-primer region (plus padding) of a mitogenome, either strand."""
+    reverse_rc = revcomp(reverse)
+    for strand in (genome, revcomp(genome)):
+        for f in _find_primer(strand, forward, max_mismatch):
+            for r in _find_primer(strand, reverse_rc, max_mismatch):
+                span = r + len(reverse_rc) - f
+                if length[0] <= span <= length[1]:
+                    return strand[max(0, f - WINDOW_PAD): r + len(reverse_rc) + WINDOW_PAD]
+    return None
+
+
+def build_coi_16s() -> Dict[str, Any]:
+    """Build data/real_challenge/reference/refseq_fish_coi_16s/ from the downloaded RefSeq mitogenomes."""
+    REF_COI16S_DIR.mkdir(parents=True, exist_ok=True)
+    rows, total, found = [], 0, {m: 0 for m in MARKER_PRIMERS}
+    for header, genome in _fasta_with_headers(CACHE_DIR / "refseq_fish_mito.fasta"):
+        total += 1
+        acc, species = _species_from_header(header)
+        if not is_resolved_species(species):
+            continue
+        for marker, (f, r) in MARKER_PRIMERS.items():
+            region = extract_region(genome, f, r)
+            if region:
+                found[marker] += 1
+                rows.append((acc, species, marker, region))
+    with (REF_COI16S_DIR / "reference.fasta").open("w", encoding="utf-8") as out:
+        for acc, species, marker, region in rows:
+            out.write(">{}|{}|{}\n{}\n".format(acc, species.replace(" ", "_"), marker, region))
+    fetch_meta = {}
+    fm = CACHE_DIR / "refseq_fetch.json"
+    if fm.is_file():
+        fetch_meta = json.loads(fm.read_text(encoding="utf-8"))
+    meta = {
+        "name": "RefSeq fish mitogenomes, COI and 16S regions",
+        "reference_database_version": "NCBI RefSeq, retrieved {}".format(fetch_meta.get("retrieved_at", "unknown")),
+        "ncbi_query": fetch_meta.get("query", ""),
+        "mitogenomes_scanned": total,
+        "regions_extracted": found,
+        "distinct_species": len({s for _, s, _, _ in rows}),
+        "primers": {m: {"forward": f, "reverse": r} for m, (f, r) in MARKER_PRIMERS.items()},
+        "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "note": "Each entry is the part of a fish's mitochondrial DNA between the two test markers (primers), cut out "
+                "of the public RefSeq genome, with a little extra on each side. A fish with no RefSeq genome is "
+                "simply not on this list.",
+    }
+    (REF_COI16S_DIR / "reference.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    return meta
+
+
+def load_paper_reference(path: Path = PAPER_REF) -> "Reference":
+    """The authors' own COI + 16S library for the fish-egg mock communities (headers like Genus_species_16S)."""
+    import re as _re
+    entries = []
+    for i, rec in enumerate(read_records(path)):
+        m = _re.match(r"^([A-Z][a-z]+)_([a-z]+)_(\w+)", rec.id)
+        if m:
+            entries.append(("{}#{}".format(rec.id, i), "{} {}".format(m.group(1), m.group(2)), rec.seq.upper()))
+    return Reference(entries)
+
+
+def load_profile(name: str) -> "Reference":
+    """Reference list by profile: the one list a sample is judged against."""
+    if name == "fish_egg_paper":
+        return load_paper_reference()
+    if name == "refseq_coi_16s":
+        return Reference.load(REF_COI16S_DIR / "reference.fasta")
+    return Reference.load()  # default: RefSeq 12S (MiFish) list
 
 
 def _fasta_with_headers(path: Path):
@@ -171,10 +254,9 @@ def _write_reference(rows, total: int, kept: int) -> Dict[str, Any]:
         "distinct_species": len(species),
         "primers": {"forward": PRIMER_F, "reverse": PRIMER_R},
         "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "note": "Amplicon = primer-to-primer region cut from each mitogenome with up to "
-                "{} primer mismatches. Mitogenomes without a findable amplicon are not "
-                "in the list, so some fish are genuinely absent from this reference.".format(
-                    MAX_PRIMER_MISMATCH),
+        "note": "Each entry is the part of a fish's mitochondrial DNA between the two test markers (primers), cut out "
+                "of the public RefSeq genome. A genome with no findable stretch is left out, so some fish are simply "
+                "not on this list.",
     }
     (REF_DIR / "reference.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return meta
@@ -217,8 +299,11 @@ class Reference:
     def __init__(self, entries: List[Tuple[str, str, str]]) -> None:
         self.entries = entries  # (accession, species, amplicon)
         self.index: Dict[str, List[Tuple[int, int]]] = defaultdict(list)
+        # Long references (COI / 16S, hundreds of bases each) index every 3rd position: a query still shares
+        # many k-mers with its best match, and the index stays a third of the size.
+        self.stride = 1 if sum(len(e[2]) for e in entries) <= 1_200_000 else 3
         for idx, (_, _, seq) in enumerate(entries):
-            for pos in range(len(seq) - K + 1):
+            for pos in range(0, len(seq) - K + 1, self.stride):
                 self.index[seq[pos:pos + K]].append((idx, pos))
         self.species_count = len({s for _, s, _ in entries})
         self.spelling_merges: List[Dict[str, Any]] = []
@@ -228,7 +313,8 @@ class Reference:
         fasta = Path(fasta) if fasta else REF_DIR / "reference.fasta"
         entries = []
         for rec in read_records(fasta):
-            acc, _, species = rec.id.partition("|")
+            parts = rec.id.split("|")
+            acc, species = parts[0], (parts[1] if len(parts) > 1 else "")
             entries.append((acc, species.replace("_", " "), rec.seq))
         human = fasta.with_name("human_contaminant.fasta")
         if human.is_file():  # kept in the same index so a human read is recognised as human

@@ -1,0 +1,23 @@
+{
+  "name": "RefSeq fish mitogenomes, COI and 16S regions",
+  "reference_database_version": "NCBI RefSeq, retrieved 2026-10-10T07:15:03+00:00",
+  "ncbi_query": "Actinopteri[Organism] AND srcdb_refseq[PROP] AND biomol_genomic[PROP] AND mitochondrion[filter]",
+  "mitogenomes_scanned": 3967,
+  "regions_extracted": {
+    "COI": 2319,
+    "16S": 3901
+  },
+  "distinct_species": 3810,
+  "primers": {
+    "COI": {
+      "forward": "TCAACCAACCACAAAGACATTGGCAC",
+      "reverse": "TAGACTTCTGGGTGGCCAAAGAATCA"
+    },
+    "16S": {
+      "forward": "CGCCTGTTTATCAAAAACAT",
+      "reverse": "CCGGTCTGAACTCAGATCACGT"
+    }
+  },
+  "built_at": "2026-10-10T10:22:02+00:00",
+  "note": "Each entry is the part of a fish's mitochondrial DNA between the two test markers (primers), cut out of the public RefSeq genome, with a little extra on each side. A fish with no RefSeq genome is simply not on this list."
+}

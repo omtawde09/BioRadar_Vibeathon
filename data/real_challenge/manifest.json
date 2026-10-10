@@ -1,6 +1,6 @@
 {
   "retrieved_at": "2026-10-10T08:01:21+00:00",
-  "mates_downloaded": "R1 only. Originals are stored unmodified and verified by md5; no sequence or metadata record has been created or edited.",
+  "mates_downloaded": "Only the first file of each pair (R1) is used. Files are stored unchanged and checked against the archive's fingerprint (md5). No DNA code or record was made up or edited.",
   "datasets": [
     {
       "bioproject": "PRJNA1059782",
@@ -1044,7 +1044,7 @@
           ]
         }
       ],
-      "used_for": "mixed mock communities (A-D) and the same four sites sampled in summer (2019-08) and winter (2019-11)",
+      "used_for": "fish mixtures made on purpose (A to D), and the same four river places sampled in summer (August 2019) and winter (November 2019)",
       "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1059782"
     },
     {
@@ -1113,7 +1113,7 @@
           ]
         }
       ],
-      "used_for": "real sample with primer-dimer short fragments (ST04, ST07) and real invasive fish (Oreochromis niloticus, Pterygoplichthys)",
+      "used_for": "a river sample with many short pieces of DNA and real harmful fish (Nile tilapia, sailfin catfish)",
       "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1433820"
     },
     {
@@ -1182,7 +1182,7 @@
           ]
         }
       ],
-      "used_for": "real low-yield field samples (a few hundred reads): unusable, retake",
+      "used_for": "real water samples with very little DNA (a few hundred pieces): unusable, so collect again",
       "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA1269473"
     },
     {
@@ -1222,8 +1222,487 @@
           ]
         }
       ],
-      "used_for": "real field water blank, low yield",
+      "used_for": "a real blank water sample with very little DNA",
       "ena_url": "https://www.ebi.ac.uk/ena/browser/view/PRJNA985779"
+    },
+    {
+      "bioproject": "ZENODO-4025362",
+      "folder": "ZENODO4025362_fish_egg_mock",
+      "title": "Fish-egg mock communities with known proportions (COI and 16S)",
+      "centre": "Scripps Institution of Oceanography (Duke & Burton)",
+      "publication": "Duke EM, Burton RS (2020) Ecology and Evolution 10:3463-3476, doi:10.1002/ece3.6144",
+      "runs": [
+        {
+          "run_accession": "ZEN-E1",
+          "biosample": "",
+          "sample_alias": "E1",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC1 (4 species, 100 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC1",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/E1_S5_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "47cac8c95e4c21b8c442679d131a803c",
+              "bytes": 2142539,
+              "source_url": "https://zenodo.org/api/records/4025362/files/E1_S5_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-F1",
+          "biosample": "",
+          "sample_alias": "F1",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC2 (9 species, 175 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC2",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/F1_S6_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "b40e1a55a88f1869930a7f4e0c63940b",
+              "bytes": 1909399,
+              "source_url": "https://zenodo.org/api/records/4025362/files/F1_S6_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-G1",
+          "biosample": "",
+          "sample_alias": "G1",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC3 (7 species, 101 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC3",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/G1_S7_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "a685223002c05bac774ec3e7941c4da6",
+              "bytes": 1547915,
+              "source_url": "https://zenodo.org/api/records/4025362/files/G1_S7_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-H1",
+          "biosample": "",
+          "sample_alias": "H1",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC4 (4 species, 100 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC4",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/H1_S8_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "cdc3c9b11e1bbeed38220dfda3331e24",
+              "bytes": 2957917,
+              "source_url": "https://zenodo.org/api/records/4025362/files/H1_S8_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-A2",
+          "biosample": "",
+          "sample_alias": "A2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC5 (10 species, 101 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC5",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/A2_S9_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "7957beea2d891dbe26c950b2232fe781",
+              "bytes": 7340795,
+              "source_url": "https://zenodo.org/api/records/4025362/files/A2_S9_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-B2",
+          "biosample": "",
+          "sample_alias": "B2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC6 (17 species, 100 eggs), COI amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "COI",
+          "mock_community": "MC6",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/B2_S10_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "9915398fd591ed1152184ed088889faa",
+              "bytes": 9021517,
+              "source_url": "https://zenodo.org/api/records/4025362/files/B2_S10_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-C2",
+          "biosample": "",
+          "sample_alias": "C2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC1 (4 species, 100 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC1",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/C2_S11_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "83d36e9af73fe4daad6ad8b657e52ff3",
+              "bytes": 7566615,
+              "source_url": "https://zenodo.org/api/records/4025362/files/C2_S11_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-D2",
+          "biosample": "",
+          "sample_alias": "D2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC2 (9 species, 175 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC2",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/D2_S12_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "4d4644f4d91b85b98a8b2afab9375122",
+              "bytes": 9988477,
+              "source_url": "https://zenodo.org/api/records/4025362/files/D2_S12_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-E2",
+          "biosample": "",
+          "sample_alias": "E2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC3 (7 species, 101 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC3",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/E2_S13_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "ed84557f0065edf9164431a13c417218",
+              "bytes": 7626128,
+              "source_url": "https://zenodo.org/api/records/4025362/files/E2_S13_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-F2",
+          "biosample": "",
+          "sample_alias": "F2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC4 (4 species, 100 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC4",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/F2_S14_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "822f5c4ea98cea5918bfa70e855d8aab",
+              "bytes": 4647005,
+              "source_url": "https://zenodo.org/api/records/4025362/files/F2_S14_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-G2",
+          "biosample": "",
+          "sample_alias": "G2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC5 (10 species, 101 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC5",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/G2_S15_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "9234db39b5c364e6a776190a00036768",
+              "bytes": 6912610,
+              "source_url": "https://zenodo.org/api/records/4025362/files/G2_S15_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        },
+        {
+          "run_accession": "ZEN-H2",
+          "biosample": "",
+          "sample_alias": "H2",
+          "collection_date": "",
+          "location": "",
+          "latitude_longitude_as_deposited": [
+            "",
+            ""
+          ],
+          "design_note_from_submitter": "mock community MC6 (17 species, 100 eggs), 16S amplicon, pooled replicate PCRs",
+          "biosample_attributes": {},
+          "experiment": "Illumina MiSeq 2x300, merged read pairs (FASTA)",
+          "instrument": "Illumina MiSeq",
+          "read_pairs": 0,
+          "marker": "16S",
+          "mock_community": "MC6",
+          "library_kind": "pooled",
+          "analyses": [
+            {
+              "profile": "fish_egg_paper",
+              "role": "mixed"
+            },
+            {
+              "profile": "refseq_coi_16s",
+              "role": "unknowns"
+            }
+          ],
+          "files": [
+            {
+              "file": "datasets/ZENODO4025362_fish_egg_mock/raw/H2_S16_L001_R1_001_(paired)_trimmed_(paired)_merged.fa",
+              "mate": 1,
+              "md5": "3b0fdb10eb68e0a167c461f39fedf404",
+              "bytes": 7663856,
+              "source_url": "https://zenodo.org/api/records/4025362/files/H2_S16_L001_R1_001_%28paired%29_trimmed_%28paired%29_merged.fa/content"
+            }
+          ]
+        }
+      ],
+      "ena_url": "https://zenodo.org/records/4025362",
+      "used_for": "fish mixtures whose fish AND amounts are published (a known answer), and fish that are missing from the public list (unknown, but the true name is known)",
+      "doi": "10.5061/dryad.zw3r22854",
+      "license": "CC0-1.0",
+      "reference_files": [
+        {
+          "file": "datasets/ZENODO4025362_fish_egg_mock/raw/Burton_Hastings_COI_16S.fasta",
+          "mate": 1,
+          "md5": "f31c8858084220791936c3039dbba1bf",
+          "bytes": 639288,
+          "source_url": "https://zenodo.org/api/records/4025362/files/Burton_Hastings_COI_16S.fasta/content"
+        }
+      ],
+      "reference_note": "the authors' own COI + 16S reference library for these species"
     }
   ]
 }

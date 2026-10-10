@@ -35,11 +35,11 @@ RECORDS_TSV = DATA_DIR / "datasets" / "PRJEB108476_bge_records" / "records" / "P
 BOUNDARY_FILE = DATA_DIR / "boundary" / "litoral_norte.geojson"
 
 RULES = {
-    "duplicate_id": "Duplicate sample ID",
-    "outside_boundary": "GPS pin outside the selected boundary",
-    "no_coordinates": "No GPS pin to check",
+    "duplicate_id": "Same sample ID twice",
+    "outside_boundary": "Map point outside the area",
+    "no_coordinates": "No map point to check",
     "future_date": "Collection date in the future",
-    "double_spelling": "Species recorded under two spellings",
+    "double_spelling": "Fish name spelt two ways",
 }
 
 
@@ -129,9 +129,9 @@ def spelling_variants(species_sequences: Dict[str, str],
                     keep, drop = sorted([names[i], names[j]],
                                         key=lambda n: (-counts.get(n, 0), n))
                     out.append({"keep": keep, "merge": drop, "sequence_identity": round(ident, 4),
-                                "reason": "same genus, epithets differ only in spelling "
-                                          "('{}' vs '{}') and the 12S sequences are {:.1%} "
-                                          "identical: one animal, two spellings".format(
+                                "reason": "same genus, and the second words differ only in spelling "
+                                          "('{}' and '{}'). Their DNA is {:.1%} the same, so it is "
+                                          "one fish written two ways".format(
                                               a, b, ident)})
     return out
 
@@ -166,8 +166,8 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
         if parsed and parsed[0] > today:
             rejected.add(row["run_accession"])
             decide(row, "future_date", "reject",
-                   "collection date {} is after today ({}): the sample cannot have been "
-                   "collected yet, so the date (or the whole record) is wrong".format(
+                   "the collection date {} is after today ({}). The sample cannot have been "
+                   "collected yet, so the date or the whole record is wrong".format(
                        row["collection_date"], today.isoformat()))
 
     # 2. GPS outside boundary / missing
@@ -177,14 +177,14 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
         if not row.get("lat") or not row.get("lon"):
             rejected.add(row["run_accession"])
             decide(row, "no_coordinates", "reject",
-                   "no GPS pin ({}), so it cannot be placed inside the boundary".format(
+                   "no map point ({}), so we cannot tell if it is inside the area".format(
                        row.get("scientific_name") or "field blank"))
             continue
         lat, lon = float(row["lat"]), float(row["lon"])
         if not in_boundary(lon, lat, boundary):
             rejected.add(row["run_accession"])
             decide(row, "outside_boundary", "reject",
-                   "GPS pin ({:.4f}, {:.4f}) is outside the selected boundary '{}'".format(
+                   "the map point ({:.4f}, {:.4f}) is outside the area '{}'".format(
                        lat, lon, boundary["name"]))
 
     # 1. duplicate sample IDs (among records that are otherwise acceptable)
@@ -201,15 +201,15 @@ def run_guard(records: List[Dict[str, str]], boundary: Dict[str, Any],
             merged_runs[alias] = [r["run_accession"] for r in rows]
             for r in rows[1:]:
                 decide(r, "duplicate_id", "merge",
-                       "sample ID '{}' is the same biological sample ({}) sequenced again: "
-                       "merged into run {} as a technical re-run".format(
+                       "sample ID '{}' is the same water sample ({}) tested again. "
+                       "It is merged into run {} as a repeat of the same test".format(
                            alias, rows[0]["sample_accession"], rows[0]["run_accession"]))
         else:
             for r in rows[1:]:
                 rejected.add(r["run_accession"])
                 decide(r, "duplicate_id", "reject",
-                       "sample ID '{}' is claimed by {} different biological samples: ID "
-                       "collision, kept only the first".format(alias, len(biosamples)))
+                       "sample ID '{}' is used by {} different water samples. The IDs clash, "
+                       "so only the first is kept".format(alias, len(biosamples)))
     merged_away = {d["run_accession"] for d in decisions if d["action"] == "merge"}
 
     # 4. double spellings (species vocabulary)

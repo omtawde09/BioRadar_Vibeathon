@@ -21,6 +21,15 @@ class Thresholds:
         except KeyError:
             raise AttributeError(name)
 
+    def for_marker(self, marker: str) -> "Thresholds":
+        """The same thresholds with the species-identity cutoff set for this marker."""
+        raw = {k: dict(v) for k, v in self._raw.items()}
+        per_marker = raw.get("species_identity_by_marker", {}).get("value", {})
+        key = next((m for m in per_marker if m.lower() in (marker or "").lower()), None)
+        if key:
+            raw["identity_species"]["value"] = per_marker[key]
+        return Thresholds(raw)
+
     def rationale(self) -> Dict[str, Dict[str, Any]]:
         return {k: {"value": v["value"], "unit": v.get("unit", ""), "why": v["why"]}
                 for k, v in self._raw.items()}

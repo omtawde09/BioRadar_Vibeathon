@@ -3,7 +3,7 @@
 - Public archive: PRJNA1059782 (https://www.ebi.ac.uk/ena/browser/view/PRJNA1059782)
 - Submitted by: South China Agricultural University
 - Publication: Chen J. et al. 2025, Global Ecology and Conservation 64:e03906, doi:10.1016/j.gecco.2025.e03906
-- Used for: mixed mock communities (A-D) and the same four sites sampled in summer (2019-08) and winter (2019-11)
+- Used for: fish mixtures made on purpose (A to D), and the same four river places sampled in summer (August 2019) and winter (November 2019)
 - Runs here: 33 (R1 reads only)
 
 Files in `raw/` are the archive's original files, byte for byte, verified by md5 against the

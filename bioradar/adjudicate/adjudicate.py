@@ -59,9 +59,11 @@ def _sid(seq: str) -> str:
 
 def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
                     t: Optional[Thresholds] = None, limit: Optional[int] = None) -> Dict[str, Any]:
-    t = t or load()
+    t = (t or load()).for_marker(sample.get("marker", ""))
     started = time.time()
     distinct, total_reads, fmt = dereplicate(path, limit)
+    unique_ratio = len(distinct) / total_reads if total_reads else 0.0
+    count_rule = unique_ratio <= t.max_unique_ratio_for_singleton_rule
 
     dropped: List[Dict[str, Any]] = []
     unknown: List[Dict[str, Any]] = []
@@ -73,7 +75,7 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
 
     for d in distinct:
         mean_q = (d.qual_sum / d.count) if d.qual_sum else None
-        verdict = quality.check(d.seq, d.count, mean_q, t)
+        verdict = quality.check(d.seq, d.count, mean_q, t, count_rule)
         if verdict:
             drop(d, *verdict)
             continue
@@ -82,8 +84,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         if not matches or matches[0].identity < t.identity_floor:
             best = matches[0] if matches else None
             drop(d, "unrelated",
-                 "no reference entry above {:.0%} identity (closest: {} at {:.1%}) - not "
-                 "recognisable as a fish 12S fragment".format(
+                 "no fish on the list is more than {:.0%} alike (closest: {} at {:.1%}): "
+                 "not recognised as fish DNA from this gene region".format(
                      t.identity_floor, best.species if best else "none",
                      best.identity if best else 0.0))
             continue
@@ -91,8 +93,7 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         best = matches[0]
         if best.species == HUMAN and best.identity >= t.human_identity:
             drop(d, "human_contamination",
-                 "matches the human mitochondrial 12S at {:.1%} identity: human contamination, "
-                 "not a fish".format(best.identity), closest_match=HUMAN, identity=best.identity)
+                 "matches human DNA at {:.1%}: human contamination, not a fish".format(best.identity), closest_match=HUMAN, identity=best.identity)
             continue
 
         others = [m for m in matches[1:] if m.species != HUMAN]
@@ -107,8 +108,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         if best.identity < t.identity_species:
             base.update(
                 kind="novel", status="needs review", candidates=[best.species],
-                reason="closest match {} is only {:.1%} identical, under the {:.1%} needed for a "
-                       "species call: not in the reference list or too divergent".format(
+                reason="the closest fish, {}, is only {:.1%} alike, and {:.1%} is needed to name a "
+                       "fish: it is not on the list or is too different".format(
                            best.species, best.identity, t.identity_species),
                 confidence=confidence(best.identity, margin, False, t))
             unknown.append(base)
@@ -118,8 +119,8 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
                                       and m.identity >= t.identity_species]
             base.update(
                 kind="ambiguous", status="needs review", candidates=sorted(set(group)),
-                reason="ambiguous: {} ({:.1%}) and {} ({:.1%}) are within {:g} identity points - "
-                       "cannot be called to one species".format(
+                reason="cannot tell {} ({:.1%}) from {} ({:.1%}): they are within {:g} percentage "
+                       "point(s) of each other, so no single name is given".format(
                            best.species, best.identity, runner.species, runner.identity,
                            round(t.min_species_margin * 100, 2)),
                 confidence=confidence(best.identity, margin, False, t))
@@ -196,19 +197,19 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
     verdict, why = "Usable", []
     if usable_fraction < t.retake_min_kept_fraction:
         verdict = "Retake sample"
-        why.append("only {:.0%} of reads were usable after quality control (minimum {:.0%})".format(
+        why.append("only {:.0%} of the DNA was usable after cleaning (at least {:.0%} is needed)".format(
             usable_fraction, t.retake_min_kept_fraction))
     if usable_reads < t.retake_min_kept_reads:
         verdict = "Retake sample"
-        why.append("only {:,} usable reads (minimum {:,})".format(
+        why.append("only {:,} usable pieces of DNA (at least {:,} are needed)".format(
             usable_reads, t.retake_min_kept_reads))
     if verdict == "Usable" and dropped_fraction > t.caution_max_dropped_fraction:
         verdict = "Usable with caution"
-        why.append("{:.0%} of reads were dropped (caution above {:.0%}): library quality is "
-                   "poor, but enough remains to report".format(
+        why.append("{:.0%} of the DNA was set aside (care is advised above {:.0%}): quality is "
+                   "poor, but enough is left to report".format(
                        dropped_fraction, t.caution_max_dropped_fraction))
     if verdict == "Usable":
-        why.append("{:.0%} of reads passed quality control".format(usable_fraction))
+        why.append("{:.0%} of the DNA passed the checks".format(usable_fraction))
 
     unknown.sort(key=lambda u: -u["reads"])
     dropped.sort(key=lambda d: -d["reads"])
@@ -219,6 +220,16 @@ def adjudicate_file(path, sample: Dict[str, Any], ref: Reference,
         "quality_scores_available": fmt == "fastq",
         "reads_total": total_reads,
         "distinct_sequences": len(distinct),
+        "counting": {
+            "unique_ratio": round(unique_ratio, 3),
+            "singleton_rule_applied": count_rule,
+            "species_identity_cutoff": t.identity_species,
+            "note": ("Copies of the same DNA code were common, so a code seen only once was set aside as a probable mistake."
+                     if count_rule else
+                     "{:.0%} of the DNA pieces were all different (they start and end at different places), so "
+                     "a code seen once is not a sign of a mistake. Every piece was matched on its own and "
+                     "counted for each fish instead.".format(unique_ratio)),
+        },
         "summary": {
             "kept": {"distinct": len(kept), "reads": kept_reads},
             "dropped": {"distinct": len(dropped), "reads": dropped_reads},

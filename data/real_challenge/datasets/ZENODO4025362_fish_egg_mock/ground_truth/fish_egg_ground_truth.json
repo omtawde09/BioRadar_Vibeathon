@@ -1,0 +1,3777 @@
+{
+ "_about": "Ground truth for the fish-egg mock communities of Duke & Burton 2020. Nothing here was invented: Table 1 comes from the article, the library key and false positives from its supplementary Table S1.",
+ "source": {
+  "paper": "Duke EM, Burton RS (2020) Efficacy of metabarcoding for identification of fish eggs evaluated with mock communities. Ecology and Evolution 10:3463-3476",
+  "doi": "10.1002/ece3.6144",
+  "open_access_text": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7141059",
+  "table_1": "Table 1 of the article: proportion of eggs of each species in each mock community (eggs counted by hand).",
+  "table_s1": "Supplementary Table S1 (file ECE3-10-3463-s001.docx): per library, the community, primer set, and every species detected that was NOT in the community (false positives) with read counts.",
+  "data": "Zenodo record 4025362 (mirror of Dryad doi:10.5061/dryad.zw3r22854), CC0",
+  "markers": {
+   "COI": "Ward et al. 2005 primers, ~710 bp amplicon",
+   "16S": "16Sar/16Sbr, Palumbi 1996, ~570 bp amplicon"
+  },
+  "design": "reads were merged pairs; the authors mapped them at 97% similarity to their own local library (Burton_Hastings_COI_16S.fasta)"
+ },
+ "mock_communities": {
+  "MC1": {
+   "total_eggs": 100,
+   "species_count": 4,
+   "species": {
+    "Citharichthys stigmaeus": 0.25,
+    "Engraulis mordax": 0.25,
+    "Oxyjulis californica": 0.25,
+    "Paralichthys californicus": 0.25
+   }
+  },
+  "MC2": {
+   "total_eggs": 175,
+   "species_count": 9,
+   "species": {
+    "Engraulis mordax": 0.571,
+    "Halichoeres semicinctus": 0.057,
+    "Paralabrax clathratus": 0.086,
+    "Paralichthys californicus": 0.029,
+    "Roncador stearnsii": 0.057,
+    "Sardinops sagax": 0.057,
+    "Scomber japonicus": 0.057,
+    "Semicossyphus pulcher": 0.057,
+    "Seriphus politus": 0.029
+   }
+  },
+  "MC3": {
+   "total_eggs": 101,
+   "species_count": 7,
+   "species": {
+    "Chilara taylori": 0.01,
+    "Genyonemus lineatus": 0.03,
+    "Halichoeres semicinctus": 0.168,
+    "Oxyjulis californica": 0.495,
+    "Paralichthys californicus": 0.149,
+    "Roncador stearnsii": 0.099,
+    "Seriphus politus": 0.05
+   }
+  },
+  "MC4": {
+   "total_eggs": 100,
+   "species_count": 4,
+   "species": {
+    "Halichoeres semicinctus": 0.7,
+    "Menticirrhus undulatus": 0.1,
+    "Seriphus politus": 0.1,
+    "Xenistius californiensis": 0.1
+   }
+  },
+  "MC5": {
+   "total_eggs": 101,
+   "species_count": 10,
+   "species": {
+    "Anisotremus davidsonii": 0.05,
+    "Citharichthys stigmaeus": 0.01,
+    "Engraulis mordax": 0.05,
+    "Halichoeres semicinctus": 0.099,
+    "Menticirrhus undulatus": 0.05,
+    "Paralichthys californicus": 0.099,
+    "Sardinops sagax": 0.198,
+    "Scomber japonicus": 0.198,
+    "Trachurus symmetricus": 0.05,
+    "Xenistius californiensis": 0.198
+   }
+  },
+  "MC6": {
+   "total_eggs": 100,
+   "species_count": 17,
+   "species": {
+    "Anisotremus davidsonii": 0.02,
+    "Cheilotrema saturnum": 0.01,
+    "Cynoscion parvipinnis": 0.04,
+    "Etrumeus acuminatus": 0.01,
+    "Genyonemus lineatus": 0.02,
+    "Hippoglossina stomata": 0.01,
+    "Paralabrax clathratus": 0.03,
+    "Paralichthys californicus": 0.2,
+    "Pleuronichthys coenosus": 0.01,
+    "Pleuronichthys verticalis": 0.02,
+    "Roncador stearnsii": 0.03,
+    "Sardinops sagax": 0.01,
+    "Scomber japonicus": 0.25,
+    "Semicossyphus pulcher": 0.01,
+    "Seriphus politus": 0.02,
+    "Trachurus symmetricus": 0.01,
+    "Xenistius californiensis": 0.3
+   }
+  }
+ },
+ "library_key": {
+  "E1": {
+   "mock": "MC1",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "F1": {
+   "mock": "MC2",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "G1": {
+   "mock": "MC3",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "H1": {
+   "mock": "MC4",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "A2": {
+   "mock": "MC5",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "B2": {
+   "mock": "MC6",
+   "primers": "COI",
+   "kind": "pooled"
+  },
+  "C2": {
+   "mock": "MC1",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "D2": {
+   "mock": "MC2",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "E2": {
+   "mock": "MC3",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "F2": {
+   "mock": "MC4",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "G2": {
+   "mock": "MC5",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "H2": {
+   "mock": "MC6",
+   "primers": "16S",
+   "kind": "pooled"
+  },
+  "A3": {
+   "mock": "MC1",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "B3": {
+   "mock": "MC1",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "C3": {
+   "mock": "MC1",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "D3": {
+   "mock": "MC1",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "E3": {
+   "mock": "MC2",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "F3": {
+   "mock": "MC2",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "G3": {
+   "mock": "MC2",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "H3": {
+   "mock": "MC2",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "A4": {
+   "mock": "MC3",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "B4": {
+   "mock": "MC3",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "C4": {
+   "mock": "MC3",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "D4": {
+   "mock": "MC3",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "E4": {
+   "mock": "MC4",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "F4": {
+   "mock": "MC4",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "G4": {
+   "mock": "MC4",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "H4": {
+   "mock": "MC4",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "A5": {
+   "mock": "MC5",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "B5": {
+   "mock": "MC5",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "C5": {
+   "mock": "MC5",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "D5": {
+   "mock": "MC5",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "E5": {
+   "mock": "MC6",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "F5": {
+   "mock": "MC6",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "G5": {
+   "mock": "MC6",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "H5": {
+   "mock": "MC6",
+   "primers": "COI",
+   "kind": "replicate"
+  },
+  "A6": {
+   "mock": "MC1",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "B6": {
+   "mock": "MC1",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "C6": {
+   "mock": "MC1",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "D6": {
+   "mock": "MC1",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "E6": {
+   "mock": "MC2",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "F6": {
+   "mock": "MC2",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "G6": {
+   "mock": "MC2",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "H6": {
+   "mock": "MC2",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "A7": {
+   "mock": "MC3",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "B7": {
+   "mock": "MC3",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "C7": {
+   "mock": "MC3",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "D7": {
+   "mock": "MC3",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "E7": {
+   "mock": "MC4",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "F7": {
+   "mock": "MC4",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "G7": {
+   "mock": "MC4",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "H7": {
+   "mock": "MC4",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "A8": {
+   "mock": "MC5",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "C8": {
+   "mock": "MC5",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "E8": {
+   "mock": "MC6",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "F8": {
+   "mock": "MC6",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "G8": {
+   "mock": "MC6",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "H8": {
+   "mock": "MC6",
+   "primers": "16S",
+   "kind": "replicate"
+  },
+  "A11": {
+   "mock": "MC1",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "B11": {
+   "mock": "MC1",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "C11": {
+   "mock": "MC1",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "D11": {
+   "mock": "MC1",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "E11": {
+   "mock": "MC2",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "F11": {
+   "mock": "MC2",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "G11": {
+   "mock": "MC2",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "H11": {
+   "mock": "MC2",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "A12": {
+   "mock": "MC3",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "B12": {
+   "mock": "MC3",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "C12": {
+   "mock": "MC3",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "D12": {
+   "mock": "MC3",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "E12": {
+   "mock": "MC4",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "F12": {
+   "mock": "MC4",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "G12": {
+   "mock": "MC4",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  },
+  "H12": {
+   "mock": "MC4",
+   "primers": "multiplexed COI+16S",
+   "kind": "multiplexed"
+  }
+ },
+ "false_positives_listed_by_paper": {
+  "E1": [
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 21,
+    "proportion": 0.00497
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00118
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00071
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00047
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00024
+   }
+  ],
+  "F1": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 10,
+    "proportion": 0.00226
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00023
+   }
+  ],
+  "G1": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 110,
+    "proportion": 0.04663
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 41,
+    "proportion": 0.01738
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 6,
+    "proportion": 0.00254
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00127
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00127
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00085
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00042
+   }
+  ],
+  "H1": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 31,
+    "proportion": 0.00457
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00118
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00044
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00044
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.0003
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00015
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00015
+   }
+  ],
+  "A2": [
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.0007
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "B2": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 943,
+    "proportion": 0.05237
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 709,
+    "proportion": 0.03937
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 289,
+    "proportion": 0.01605
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 123,
+    "proportion": 0.00683
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 29,
+    "proportion": 0.00161
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 7,
+    "proportion": 0.00039
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00028
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   }
+  ],
+  "C2": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 79,
+    "proportion": 0.00556
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 46,
+    "proportion": 0.00324
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 38,
+    "proportion": 0.00267
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   }
+  ],
+  "D2": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "E2": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 708,
+    "proportion": 0.06694
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 94,
+    "proportion": 0.00889
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 75,
+    "proportion": 0.00709
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 48,
+    "proportion": 0.00454
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 32,
+    "proportion": 0.00303
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 21,
+    "proportion": 0.00199
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "16S",
+    "reads": 20,
+    "proportion": 0.00189
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 9,
+    "proportion": 0.00085
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00038
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00038
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Paralabrax maculatofasciatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   }
+  ],
+  "F2": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 25,
+    "proportion": 0.00242
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00019
+   }
+  ],
+  "G2": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Haemulon flaviguttatum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Hermosilla azurea",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "H2": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 368,
+    "proportion": 0.02181
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 61,
+    "proportion": 0.00362
+   },
+   {
+    "species": "Seriola lalandi",
+    "locus": "16S",
+    "reads": 24,
+    "proportion": 0.00142
+   },
+   {
+    "species": "Seriola rivoliana",
+    "locus": "16S",
+    "reads": 11,
+    "proportion": 0.00065
+   },
+   {
+    "species": "Naucrates ductor",
+    "locus": "16S",
+    "reads": 9,
+    "proportion": 0.00053
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.0003
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Haemulon flaviguttatum",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Chilara taylori",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 6e-05
+   },
+   {
+    "species": "Paralabrax maculatofasciatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "A3": [
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 133,
+    "proportion": 0.00833
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 30,
+    "proportion": 0.00188
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 13,
+    "proportion": 0.00081
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 10,
+    "proportion": 0.00063
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00031
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "B3": [
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 129,
+    "proportion": 0.00843
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 12,
+    "proportion": 0.00078
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 10,
+    "proportion": 0.00065
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 6,
+    "proportion": 0.00039
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00033
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "C3": [
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 116,
+    "proportion": 0.01026
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 15,
+    "proportion": 0.00133
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 9,
+    "proportion": 0.0008
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00071
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00035
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 9e-05
+   }
+  ],
+  "D3": [
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 178,
+    "proportion": 0.00961
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 27,
+    "proportion": 0.00146
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.00059
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.00059
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.00059
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00027
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "E3": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "F3": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "G3": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 9e-05
+   }
+  ],
+  "H3": [
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "A4": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 587,
+    "proportion": 0.05146
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 55,
+    "proportion": 0.00482
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 25,
+    "proportion": 0.00219
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 20,
+    "proportion": 0.00175
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00026
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00018
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 9e-05
+   }
+  ],
+  "B4": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 637,
+    "proportion": 0.04883
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 78,
+    "proportion": 0.00598
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 36,
+    "proportion": 0.00276
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 35,
+    "proportion": 0.00268
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00023
+   }
+  ],
+  "C4": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 834,
+    "proportion": 0.04737
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 124,
+    "proportion": 0.00704
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 33,
+    "proportion": 0.00187
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 23,
+    "proportion": 0.00131
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 7,
+    "proportion": 0.0004
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "D4": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 955,
+    "proportion": 0.05446
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 98,
+    "proportion": 0.00559
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 50,
+    "proportion": 0.00285
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 39,
+    "proportion": 0.00222
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00046
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00029
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "E4": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 44,
+    "proportion": 0.0029
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "F4": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 48,
+    "proportion": 0.00252
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 10,
+    "proportion": 0.00053
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00042
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "G4": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 72,
+    "proportion": 0.00314
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 18,
+    "proportion": 0.00079
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.00048
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 4e-05
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 4e-05
+   }
+  ],
+  "H4": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 64,
+    "proportion": 0.00401
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 13,
+    "proportion": 0.00081
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00025
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "A5": [
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 106,
+    "proportion": 0.00829
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00063
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "B5": [
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 17,
+    "proportion": 0.00135
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00024
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "C5": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00015
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "D5": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 4e-05
+   }
+  ],
+  "E5": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 770,
+    "proportion": 0.05308
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 556,
+    "proportion": 0.03833
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 108,
+    "proportion": 0.00744
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00055
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "F5": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1685,
+    "proportion": 0.05519
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 1039,
+    "proportion": 0.03403
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 234,
+    "proportion": 0.00766
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 21,
+    "proportion": 0.00069
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 15,
+    "proportion": 0.00049
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 6,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 3e-05
+   }
+  ],
+  "G5": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1085,
+    "proportion": 0.05094
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 648,
+    "proportion": 0.03043
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 134,
+    "proportion": 0.00629
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 9,
+    "proportion": 0.00042
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00038
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Symphurus atricaudus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "H5": [
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 728,
+    "proportion": 0.05222
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 464,
+    "proportion": 0.03328
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 86,
+    "proportion": 0.00617
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00029
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "A6": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 71,
+    "proportion": 0.00652
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 26,
+    "proportion": 0.00239
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 16,
+    "proportion": 0.00147
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00064
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00018
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00018
+   }
+  ],
+  "B6": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 33,
+    "proportion": 0.00547
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 17,
+    "proportion": 0.00282
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 11,
+    "proportion": 0.00182
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   }
+  ],
+  "C6": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 135,
+    "proportion": 0.00734
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 50,
+    "proportion": 0.00272
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 35,
+    "proportion": 0.0019
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "D6": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 90,
+    "proportion": 0.00547
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 36,
+    "proportion": 0.00219
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 17,
+    "proportion": 0.00103
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 8,
+    "proportion": 0.00049
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "E6": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "F6": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 6,
+    "proportion": 0.0004
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00013
+   }
+  ],
+  "G6": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00019
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 6e-05
+   }
+  ],
+  "H6": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 9,
+    "proportion": 0.00068
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00015
+   }
+  ],
+  "A7": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 862,
+    "proportion": 0.06218
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 146,
+    "proportion": 0.01053
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 126,
+    "proportion": 0.00909
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 74,
+    "proportion": 0.00534
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 43,
+    "proportion": 0.0031
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 24,
+    "proportion": 0.00173
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 9,
+    "proportion": 0.00065
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.0005
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00036
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00036
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Trachurus symmetricus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Paralabrax nebulifer",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "B7": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 895,
+    "proportion": 0.06223
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 129,
+    "proportion": 0.00897
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 114,
+    "proportion": 0.00793
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 50,
+    "proportion": 0.00348
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 30,
+    "proportion": 0.00209
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 13,
+    "proportion": 0.0009
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 9,
+    "proportion": 0.00063
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00049
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "C7": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 941,
+    "proportion": 0.06872
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 134,
+    "proportion": 0.00979
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 97,
+    "proportion": 0.00708
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 53,
+    "proportion": 0.00387
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 35,
+    "proportion": 0.00256
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 19,
+    "proportion": 0.00139
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 11,
+    "proportion": 0.0008
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 6,
+    "proportion": 0.00044
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00015
+   }
+  ],
+  "D7": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 6,
+    "proportion": 0.07317
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.0122
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.0122
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.0122
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.0122
+   }
+  ],
+  "E7": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 80,
+    "proportion": 0.00327
+   },
+   {
+    "species": "Hermosilla azurea",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 4e-05
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 4e-05
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 4e-05
+   }
+  ],
+  "F7": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 43,
+    "proportion": 0.00342
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 12,
+    "proportion": 0.00095
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Hermosilla azurea",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "G7": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 45,
+    "proportion": 0.00269
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00024
+   }
+  ],
+  "H7": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 34,
+    "proportion": 0.00185
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 5e-05
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "A8": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.0004
+   },
+   {
+    "species": "Haemulon flaviguttatum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Hermosilla azurea",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "C8": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 8e-05
+   }
+  ],
+  "E8": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 130,
+    "proportion": 0.02766
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 20,
+    "proportion": 0.00426
+   },
+   {
+    "species": "Seriola lalandi",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00213
+   },
+   {
+    "species": "Naucrates ductor",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00064
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00043
+   },
+   {
+    "species": "Seriola rivoliana",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00043
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00021
+   }
+  ],
+  "F8": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 206,
+    "proportion": 0.02283
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 45,
+    "proportion": 0.00499
+   },
+   {
+    "species": "Seriola lalandi",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00111
+   },
+   {
+    "species": "Seriola rivoliana",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00111
+   },
+   {
+    "species": "Naucrates ductor",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00055
+   },
+   {
+    "species": "Citharichthys sordidus",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00033
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   }
+  ],
+  "G8": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 342,
+    "proportion": 0.02313
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 53,
+    "proportion": 0.00359
+   },
+   {
+    "species": "Seriola lalandi",
+    "locus": "16S",
+    "reads": 27,
+    "proportion": 0.00183
+   },
+   {
+    "species": "Seriola rivoliana",
+    "locus": "16S",
+    "reads": 11,
+    "proportion": 0.00074
+   },
+   {
+    "species": "Naucrates ductor",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00068
+   },
+   {
+    "species": "Haemulon flaviguttatum",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "H8": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 370,
+    "proportion": 0.02435
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 48,
+    "proportion": 0.00316
+   },
+   {
+    "species": "Seriola lalandi",
+    "locus": "16S",
+    "reads": 18,
+    "proportion": 0.00118
+   },
+   {
+    "species": "Seriola rivoliana",
+    "locus": "16S",
+    "reads": 18,
+    "proportion": 0.00118
+   },
+   {
+    "species": "Citharichthys xanthostigma",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00046
+   },
+   {
+    "species": "Naucrates ductor",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Haemulon flaviguttatum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "A11": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 82,
+    "proportion": 0.00436
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 38,
+    "proportion": 0.00202
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 34,
+    "proportion": 0.00181
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 26,
+    "proportion": 0.00138
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 11,
+    "proportion": 0.00059
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 8,
+    "proportion": 0.00043
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00037
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00021
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 5e-05
+   }
+  ],
+  "B11": [
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 51,
+    "proportion": 0.00401
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 24,
+    "proportion": 0.00189
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 22,
+    "proportion": 0.00173
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 21,
+    "proportion": 0.00165
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 7,
+    "proportion": 0.00055
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 6,
+    "proportion": 0.00047
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00031
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00024
+   },
+   {
+    "species": "Seriphus politus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00016
+   }
+  ],
+  "C11": [
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 73,
+    "proportion": 0.01199
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 54,
+    "proportion": 0.00887
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 15,
+    "proportion": 0.00246
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 10,
+    "proportion": 0.00164
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 7,
+    "proportion": 0.00115
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00049
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Menticirrhus undulatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00016
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00016
+   }
+  ],
+  "D11": [
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 158,
+    "proportion": 0.01161
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 100,
+    "proportion": 0.00735
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 32,
+    "proportion": 0.00235
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 27,
+    "proportion": 0.00198
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "COI",
+    "reads": 25,
+    "proportion": 0.00184
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00051
+   },
+   {
+    "species": "Halichoeres semicinctus",
+    "locus": "16S",
+    "reads": 7,
+    "proportion": 0.00051
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00029
+   }
+  ],
+  "E11": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00052
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00026
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00026
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00026
+   }
+  ],
+  "F11": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.0004
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00013
+   }
+  ],
+  "G11": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   }
+  ],
+  "H11": [
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 16,
+    "proportion": 0.0011
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00021
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00014
+   },
+   {
+    "species": "Ophidion scrippsae",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 7e-05
+   },
+   {
+    "species": "Sardinops sagax CO",
+    "locus": "-11",
+    "reads": 1,
+    "proportion": 7e-05
+   }
+  ],
+  "A12": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 445,
+    "proportion": 0.05063
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 149,
+    "proportion": 0.01695
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 66,
+    "proportion": 0.00751
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 54,
+    "proportion": 0.00614
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 37,
+    "proportion": 0.00421
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 12,
+    "proportion": 0.00137
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00114
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 9,
+    "proportion": 0.00102
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00057
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00057
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00046
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00011
+   }
+  ],
+  "B12": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 269,
+    "proportion": 0.04049
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 99,
+    "proportion": 0.0149
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 40,
+    "proportion": 0.00602
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 33,
+    "proportion": 0.00497
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 22,
+    "proportion": 0.00331
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 13,
+    "proportion": 0.00196
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 7,
+    "proportion": 0.00105
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00075
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00075
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00015
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00015
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00015
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00015
+   }
+  ],
+  "C12": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 523,
+    "proportion": 0.05305
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 162,
+    "proportion": 0.01643
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 64,
+    "proportion": 0.00649
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 57,
+    "proportion": 0.00578
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 50,
+    "proportion": 0.00507
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 33,
+    "proportion": 0.00335
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 23,
+    "proportion": 0.00233
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 19,
+    "proportion": 0.00193
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 9,
+    "proportion": 0.00091
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 3,
+    "proportion": 0.0003
+   },
+   {
+    "species": "Atractoscion nobilis",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Etrumeus acuminatus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.0002
+   },
+   {
+    "species": "Anisotremus davidsonii",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.0001
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.0001
+   },
+   {
+    "species": "Paralabrax nebulifer",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.0001
+   }
+  ],
+  "D12": [
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 368,
+    "proportion": 0.0429
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 156,
+    "proportion": 0.01818
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 51,
+    "proportion": 0.00594
+   },
+   {
+    "species": "Pleuronichthys ritteri",
+    "locus": "16S",
+    "reads": 49,
+    "proportion": 0.00571
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "16S",
+    "reads": 46,
+    "proportion": 0.00536
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 39,
+    "proportion": 0.00455
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 22,
+    "proportion": 0.00256
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "16S",
+    "reads": 20,
+    "proportion": 0.00233
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 13,
+    "proportion": 0.00152
+   },
+   {
+    "species": "Xenistius californiensis",
+    "locus": "COI",
+    "reads": 6,
+    "proportion": 0.0007
+   },
+   {
+    "species": "Pleuronichthys coenosus",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00058
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00058
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00047
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00047
+   },
+   {
+    "species": "Anchoa delicatissima",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Girella nigricans",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00023
+   },
+   {
+    "species": "Cynoscion parvipinnis",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00012
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00012
+   }
+  ],
+  "E12": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 50,
+    "proportion": 0.00428
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 50,
+    "proportion": 0.00428
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 21,
+    "proportion": 0.0018
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 18,
+    "proportion": 0.00154
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 14,
+    "proportion": 0.0012
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00068
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 8,
+    "proportion": 0.00068
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "COI",
+    "reads": 5,
+    "proportion": 0.00043
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Chilara taylori",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Paralabrax maculatofasciatus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 9e-05
+   }
+  ],
+  "F12": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 14,
+    "proportion": 0.00178
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 6,
+    "proportion": 0.00076
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00051
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00025
+   },
+   {
+    "species": "Anisotremus davidsonii",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00013
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00013
+   }
+  ],
+  "G12": [
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 17,
+    "proportion": 0.00184
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 15,
+    "proportion": 0.00162
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 13,
+    "proportion": 0.00141
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 9,
+    "proportion": 0.00097
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00054
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 4,
+    "proportion": 0.00043
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00022
+   },
+   {
+    "species": "Anisotremus davidsonii",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   },
+   {
+    "species": "Sphyraena argentea",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00011
+   }
+  ],
+  "H12": [
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "16S",
+    "reads": 38,
+    "proportion": 0.00641
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "16S",
+    "reads": 16,
+    "proportion": 0.0027
+   },
+   {
+    "species": "Sardinops sagax",
+    "locus": "16S",
+    "reads": 16,
+    "proportion": 0.0027
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "16S",
+    "reads": 10,
+    "proportion": 0.00169
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "16S",
+    "reads": 5,
+    "proportion": 0.00084
+   },
+   {
+    "species": "Engraulis mordax",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00067
+   },
+   {
+    "species": "Oxyjulis californica",
+    "locus": "COI",
+    "reads": 4,
+    "proportion": 0.00067
+   },
+   {
+    "species": "Citharichthys stigmaeus",
+    "locus": "COI",
+    "reads": 3,
+    "proportion": 0.00051
+   },
+   {
+    "species": "Etrumeus teres",
+    "locus": "COI",
+    "reads": 2,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Paralichthys californicus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Scomber japonicus",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Semicossyphus pulcher",
+    "locus": "16S",
+    "reads": 2,
+    "proportion": 0.00034
+   },
+   {
+    "species": "Anisotremus davidsonii",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Cheilotrema saturnum",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Paralabrax clathratus",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Paralabrax nebulifer",
+    "locus": "16S",
+    "reads": 1,
+    "proportion": 0.00017
+   },
+   {
+    "species": "Umbrina roncador",
+    "locus": "COI",
+    "reads": 1,
+    "proportion": 0.00017
+   }
+  ]
+ }
+}

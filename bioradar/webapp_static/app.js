@@ -1200,6 +1200,7 @@
     var report = run.report;
     var V = window.BioRadarVisuals;
     host.innerHTML =
+      (window.BioRadarPlain ? window.BioRadarPlain.resultsBox(report) : "") +
       '<div class="kpis">' +
         UI.kpi(t("results.namedSpecies"), report.named_species, { color: "accent" }) +
         UI.kpi(t("results.phyla"), report.phyla) +
