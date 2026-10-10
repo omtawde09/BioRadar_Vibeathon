@@ -191,7 +191,7 @@ def test_report_is_a_valid_one_page_pdf():
               "metadata": {"label": "L (with) parens", "alias": "L", "collection_date": "2020-01",
                            "bioproject": "PRJ", "dataset_title": "T", "latitude": 1.0, "longitude": 2.0},
               "species": [{"species": "A b", "kind": "species", "status": "detected",
-                           "share": 0.5, "confidence": 0.9}]}
+                           "share": 0.5, "confidence": 0.9, "reads": 50}]}  # rows always carry reads
     pdf = report.build_pdf(result)
     assert pdf.startswith(b"%PDF-1.4") and pdf.rstrip().endswith(b"%%EOF") and b"/Count 1" in pdf
 

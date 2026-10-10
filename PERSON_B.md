@@ -16,7 +16,7 @@ This file is updated and pushed after every phase.
 | B2 | Challenge review states | **done** |
 | B3 | Map, alert and seasons | **done** |
 | B4 | One-page officer report | **done** |
-| B5 | UI regression + demo path | pending |
+| B5 | UI regression + demo path | **done** (clean-start rehearsal: see end of B5) |
 
 ---
 
@@ -195,6 +195,66 @@ contract changed. Person A can move it if they prefer it elsewhere.
 **Not done / limits.** The report is a PDF produced by the server; the browser's Save-as-PDF path was not used because
 the stdlib PDF already satisfies the one-page requirement. The "unseen sample" report works the same way through
 `report/<run>.pdf`.
+
+---
+
+## Phase B5: UI regression and demo path (done)
+
+### What changed (webapp_static + tests; two small, flagged exceptions)
+
+| Gap from B1 | Fix |
+|---|---|
+| Review view English-only | **English / हिन्दी.** 130+ strings through `BioRadarI18n`; switching language re-renders the view (checked: nav, title, tabs, banner, all five tabs). Scientific names, accession IDs and sentences written by the analysis (verdict reasons, per-sequence drop reasons, alert actions, threshold rationale) stay English by design and are listed as such. `i18n.js` got one **additive** hook, `addStrings()`, that never overwrites an existing key |
+| No live region | results container `aria-live="polite"`, status line `role="status"`, banners `role="alert"/"status"` |
+| Hard-coded colours | none left in `adjudicate.css` (only `#fff` and `#241a04`, the constants the app's CSS already allows); map markers read the design tokens |
+| Weak banner contrast (found in dark theme) | amber banner now dark ink in both themes: **6.75:1 light, 9.83:1 dark** (was 1.48:1 in dark) |
+| Focus | real Tab key presses: order correct, ring visible (`:focus-visible` true, 1.6 px outline); season slider reachable and **ArrowRight** switches to winter and updates every number |
+| Failure states | results missing -> empty state with the exact command to run (tested by hiding `index.json`, then restored); retake sample -> **NOT CHECKED** banner; no alert -> **NO TRIGGER** banner |
+
+Exceptions to B's file guard, both small and both bugs in code Person B depends on:
+1. `bioradar/adjudicate/fetch.py`: `fetch_reference` computed which records it already had, **ignored that and appended**, so re-running `fetch` would have **duplicated every reference record** (and changed the recorded reference date). Now: if the cache matches the current NCBI query it is a no-op ("cached"); otherwise it rewrites from scratch through a temp file.
+2. `tests/test_adjudicate.py`: one fixture lacked `reads` (a field every real result has), exposed by the B4 report change.
+
+### Test evidence (actual output, this checkout)
+
+| Command | Baseline (Phase 0) | Now |
+|---|---|---|
+| `python -m pytest tests/ -q` | 193 passed, 2 failed | **251 passed, 2 failed** (the same 2 demo-dataset tests) |
+| `bash ci/check_integration.sh --fast` | 18 passed, 4 failed, 3 skipped | **18 passed, 4 failed, 3 skipped** (same 4; none new) |
+
+New tests this sprint: `tests/test_review_view_static.py` (15: registry, EN/HI key + placeholder parity, Hindi is Hindi, every backend value has a label, no CDN, tokens only, ARIA, document-root selector trap, "absent" never used for non-detection, JS parses, report endpoints refuse bad input), `tests/test_report_one_page.py` (43), plus 21 adjudication tests from earlier. Test runs rewrite 4 tracked files; they were restored before each commit.
+
+### Demo path (click by click; about 6 minutes)
+
+Start: `python -m bioradar.webapp --port 8099`, open http://localhost:8099, click **Review**. All results are pre-run (each opens in under half a second).
+
+| # | Show | Click |
+|---|---|---|
+| 1 | source manifest | **Numbers & sources** tab: reference version, every threshold with its reason, the 4 real datasets with ENA links |
+| 2 | poor-quality real input | **Sample** tab, picker -> `GSS356 - British Columbia`: **Retake sample**, per-sequence reasons incl. 65 human reads; banner NOT CHECKED |
+| 3 | five+ species with denominator | picker -> `A2 - HongQimen` (mock community): bars read `reads / denominator = share`; formula note; **count check** (15 for 15; shares NOT verified: the source gives only the count) |
+| 4 | unknown review queue | picker -> `Irigation point 3 - South Kalimantan`: queue with closest match, identity, match score, `needs review`, reference version, "coverage not provided" |
+| 5 | data guard | **Data guard** tab: 18 future dates, 4,707 outside the boundary, 24 duplicate IDs merged, 2 double spellings, post-check clean |
+| 6 | invasive alert + pin | banner on `Irigation point 3`: **HIGH, Nile tilapia**, pin -3.4053, 114.7900; **Alerts** tab -> Alert map |
+| 7 | season slider | **Seasons & map** tab -> HongQimen: drag (or arrow-key) summer <-> winter: 58 vs 56 species, 7 new, 5 not detected; then Humen to show the **quality caution** (20 vs 46 species is partly a read-quality effect) |
+| 8 | one-page report | **Print officer report for this site (PDF)** on the Seasons tab; **Print officer report (PDF)** on any sample. Fallback copies: `docs/demo_outputs/*.pdf` |
+| 9 | unseen real input | picker -> any other sample (e.g. `JTD1 - Jitimen`) then **Re-run live** (15 to 35 s, timer shown) |
+| 10 | language | EN / हिन्दी toggle at any step |
+
+Honest lines to say out loud: mixed-sample shares are **not** verified against a published table (source gives only the
+count); monsoon vs summer is **not** claimed (the data is Aug vs Nov, summer vs winter); the invasive triggers are in Indonesia
+and China, not India; unknown identities have no ground truth.
+
+### Known issues (unresolved, not hidden)
+
+| Issue | Where | Owner / next step |
+|---|---|---|
+| Google Fonts link in `index.html` fails CI "no external asset" | pre-existing | decision needed: bundle fonts locally |
+| 11 hard-coded colours in `app.css` fail CI "no hex outside tokens" | pre-existing | B's file; not part of the challenge, left |
+| Active tab text (accent green on white) is 3.43:1 | app-wide `.segmented` token, not this view | design-token decision |
+| `coverage` and `score_type` are not backend fields | contract request open since B1 | Person A |
+| Season samples are summer/winter, not monsoon/summer | data | stated on every screen |
+| `test_dataset_registry` x2 fail | pre-existing | maintainer |
 
 ## Open questions for the maintainer / Person A
 

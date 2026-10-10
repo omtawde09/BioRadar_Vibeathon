@@ -278,6 +278,16 @@
 
   function language() { return current; }
 
+  /* A feature module adds its own strings without editing this file's tables.
+     Existing keys are never overwritten. */
+  function addStrings(lang, strings) {
+    var table = STRINGS[lang];
+    if (!table || !strings) return;
+    Object.keys(strings).forEach(function (key) {
+      if (!Object.prototype.hasOwnProperty.call(table, key)) table[key] = strings[key];
+    });
+  }
+
   function restore() {
     var saved = null;
     try { saved = localStorage.getItem("bioradar.lang"); } catch (e) { /* private mode */ }
@@ -288,6 +298,7 @@
     t: t,
     setLanguage: setLanguage,
     language: language,
+    addStrings: addStrings,
     restore: restore,
     available: [
       { code: "en", label: "English", short: "EN" },

@@ -1,0 +1,99 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.0 842.0] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 5970 >>
+stream
+0.070 0.300 0.220 rg 0.0 780.0 595.0 62.0 re f
+BT /F2 17.0 Tf 1.000 1.000 1.000 rg 40.0 812.0 Td (BioRadar - Officer Report) Tj ET
+BT /F1 9.0 Tf 0.850 0.950 0.900 rg 40.0 794.0 Td (Irigation point 3 - South Kalimantan  |  generated 2026-10-10 14:37) Tj ET
+0.880 0.450 0.050 rg 40.0 718.0 515.0 52.0 re f
+BT /F2 8.0 Tf 1.000 1.000 1.000 rg 52.0 753.0 Td (RISK LEVEL) Tj ET
+BT /F2 14.0 Tf 1.000 1.000 1.000 rg 52.0 736.0 Td (HIGH - INVASIVE FISH DETECTED) Tj ET
+0.700 0.720 0.750 rg 40.0 687.0 515.0 0.8 re f
+BT /F2 8.5 Tf 0.350 0.380 0.420 rg 40.0 690.0 Td (WHAT TO DO) Tj ET
+BT /F2 12.0 Tf 0.100 0.100 0.120 rg 40.0 670.8 Td (Plan a field check at this pin. Take a second water sample and look for the fish. Report) Tj ET
+BT /F2 12.0 Tf 0.100 0.100 0.120 rg 40.0 654.6 Td (it to the regional fisheries or forest office.) Tj ET
+0.700 0.720 0.750 rg 40.0 629.6 515.0 0.8 re f
+BT /F2 8.5 Tf 0.350 0.380 0.420 rg 40.0 632.6 Td (ANIMALS DETECTED \(SHARE OF THE FISH DNA READS THAT COULD BE NAMED\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 615.1 Td (Barbonymus schwanenfeldii) Tj ET
+0.200 0.500 0.420 rg 272.0 614.1 175.0 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 453.0 615.1 Td (50.6%  \(22,984 reads\)) Tj ET
+BT /F2 9.0 Tf 0.780 0.130 0.130 rg 40.0 600.6 Td (Oreochromis niloticus  [INVASIVE]) Tj ET
+0.780 0.130 0.130 rg 272.0 599.6 66.9 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 344.9 600.6 Td (19.3%  \(8,784 reads\)) Tj ET
+BT /F2 9.0 Tf 0.780 0.130 0.130 rg 40.0 586.1 Td (Clarias gariepinus  [INVASIVE]) Tj ET
+0.780 0.130 0.130 rg 272.0 585.1 16.0 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 294.0 586.1 Td (4.6%  \(2,098 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 571.6 Td (Barbonymus gonionotus) Tj ET
+0.200 0.500 0.420 rg 272.0 570.6 12.8 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 290.8 571.6 Td (3.7%  \(1,687 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 557.1 Td (Monotrete leiurus) Tj ET
+0.200 0.500 0.420 rg 272.0 556.1 6.9 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 284.9 557.1 Td (2.0%  \(903 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 542.6 Td (Systomus orphoides) Tj ET
+0.200 0.500 0.420 rg 272.0 541.6 2.9 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 280.9 542.6 Td (0.8%  \(381 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 528.1 Td (Channa striata) Tj ET
+0.200 0.500 0.420 rg 272.0 527.1 2.7 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 280.7 528.1 Td (0.8%  \(359 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 513.6 Td (Channa gachua) Tj ET
+0.200 0.500 0.420 rg 272.0 512.6 2.7 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 280.7 513.6 Td (0.8%  \(351 reads\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 499.1 Td (Osphronemus goramy) Tj ET
+0.200 0.500 0.420 rg 272.0 498.1 2.5 9.0 re f
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 280.5 499.1 Td (0.7%  \(325 reads\)) Tj ET
+BT /F1 8.0 Tf 0.400 0.400 0.450 rg 40.0 488.5 Td (Share = reads of the animal / 45,443 reads that could be named. A share is a proportion of DNA reads, not a count of animals or their) Tj ET
+BT /F1 8.0 Tf 0.400 0.400 0.450 rg 40.0 478.0 Td (weight.) Tj ET
+BT /F1 8.5 Tf 0.100 0.100 0.120 rg 40.0 466.8 Td (... and 15 more in the full table.) Tj ET
+BT /F2 9.0 Tf 0.550 0.420 0.000 rg 40.0 450.9 Td (Possible invasive fish, NOT confirmed: Pterygoplichthys disjunctivus \(not separable from Hypostomus plecostomus,) Tj ET
+BT /F2 9.0 Tf 0.550 0.420 0.000 rg 40.0 439.0 Td (Pterygoplichthys pardalis\); Oreochromis niloticus \(not separable from Sarotherodon galilaeus\); Cyprinus carpio \(not) Tj ET
+BT /F2 9.0 Tf 0.550 0.420 0.000 rg 40.0 427.1 Td (separable from Cyprinus acutidorsalis, Cyprinus pellegrini, Procypris mera\).) Tj ET
+0.700 0.720 0.750 rg 40.0 402.1 515.0 0.8 re f
+BT /F2 8.5 Tf 0.350 0.380 0.420 rg 40.0 405.1 Td (SOURCE AND SAMPLE DATE) Tj ET
+BT /F1 9.5 Tf 0.100 0.100 0.120 rg 40.0 389.6 Td (Sample: Irigation point 3 | Collected: 2025-08 | Place: South Kalimantan \(-3.4053, 114.7900\)) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 377.7 Td (Public archive: PRJNA1433820 \(eDNA metabarcoding of freshwater fishes, Martapura River & irrigation \(12S MiFish-U\)\),) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 40.0 365.8 Td (run SRR37521672.) Tj ET
+0.700 0.720 0.750 rg 40.0 340.8 515.0 0.8 re f
+BT /F2 8.5 Tf 0.350 0.380 0.420 rg 40.0 343.8 Td (UNCERTAINTY AND MISSING COVERAGE) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 328.9 Td (- Sample verdict: Usable with caution. 41% of reads were dropped \(caution above 25%\): library quality is poor, but enough) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 317.1 Td (remains to report.) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 305.2 Td (- 17% of reads were kept as species calls, 42% are unknown or need review, 41% were dropped by quality checks.) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 293.3 Td (- 7,925 different DNA fragments could not be named. They are NOT identified: each is queued for an expert to review, with) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 281.4 Td (its closest match shown.) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 269.5 Td (- Only fish in the reference list \(3,693 species\) can be named. A fish that is missing from it shows up as unknown, never) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 257.7 Td (under a wrong name.) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 245.8 Td (- Season: no summer/winter pair is available for this place, so no seasonal change can be reported.) Tj ET
+BT /F1 9.0 Tf 0.100 0.100 0.120 rg 44.0 233.9 Td (- No published ground truth was available for this sample's species split.) Tj ET
+0.700 0.720 0.750 rg 40.0 52.0 515.0 0.6 re f
+BT /F1 7.5 Tf 0.400 0.400 0.450 rg 40.0 40.0 Td (Generated live from real public sequence data. Reference: NCBI RefSeq, retrieved 2026-10-10T07:15:03+00:00) Tj ET
+BT /F1 7.5 Tf 0.400 0.400 0.450 rg 40.0 30.0 Td (Invasive-species listing: IUCN Global Invasive Species Database \(iucngisd.org\). Thresholds: bioradar/adjudicate/thresholds.json.) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000255 00000 n 
+0000006277 00000 n 
+0000006374 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+6476
+%%EOF

@@ -47,8 +47,8 @@
 .adj-banner-main { padding: var(--space-3) var(--space-4) var(--space-3) 0; }
 .adj-banner-act { margin-top: 4px; opacity: .95; }
 .adj-banner.invasive { background: var(--alert-invasive); }
-.adj-banner.high { background: #c4701b; }
-.adj-banner.medium { background: #8a7400; }
+.adj-banner.high { background: var(--alert-rare); color: #241a04; }  /* dark ink on amber in both themes, as the app's .badge.medium */
+.adj-banner.medium { background: var(--surface-pressed); color: var(--text-primary); border-left: 8px solid var(--alert-rare); }
 
 @media (max-width: 720px) {
   .adj-bar-row { grid-template-columns: 1fr; gap: 4px; }
@@ -69,3 +69,8 @@
 
 .adj-banner.none { background: var(--surface-pressed); color: var(--text-primary); box-shadow: none; border: 1px solid var(--border-hairline); }
 .adj-banner.none .adj-banner-level { background: var(--accent-soft); color: var(--text-secondary); }
+
+.adj-select:focus-visible, .adj-slider input[type="range"]:focus-visible,
+.segmented button:focus-visible, .adj-details summary:focus-visible {
+  outline: 2px solid var(--accent-primary); outline-offset: 2px;
+}

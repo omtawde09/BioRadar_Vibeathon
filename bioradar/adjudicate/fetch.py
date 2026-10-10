@@ -245,11 +245,16 @@ def fetch_reference() -> Path:
     ids = _esearch(REFSEQ_QUERY)
     print("  RefSeq Actinopteri mitogenomes: {}".format(len(ids)), flush=True)
     target = CACHE_DIR / "refseq_fish_mito.fasta"
-    done = set()
-    if target.is_file():
-        done = {line[1:].split()[0] for line in target.read_text().splitlines()
-                if line.startswith(">")}
-    with target.open("a", encoding="utf-8") as out:
+    meta_file = CACHE_DIR / "refseq_fetch.json"
+    if target.is_file() and meta_file.is_file() and (CACHE_DIR / "human_mito.fasta").is_file():
+        have = sum(1 for line in target.read_text(encoding="utf-8").splitlines() if line.startswith(">"))
+        recorded = json.loads(meta_file.read_text(encoding="utf-8")).get("records_requested")
+        if recorded == len(ids) and have == len(ids):
+            print("  cached: {} records already match the current NCBI query".format(have), flush=True)
+            return target  # keep the recorded retrieval date: the reference version must not drift
+    # Rewrite from scratch through a temp file. Never append: re-running used to duplicate every record.
+    tmp = target.with_suffix(".fasta.part")
+    with tmp.open("w", encoding="utf-8") as out:
         for start in range(0, len(ids), BATCH):
             batch = ids[start:start + BATCH]
             try:
@@ -261,6 +266,7 @@ def fetch_reference() -> Path:
             out.write(text if text.endswith("\n") else text + "\n")
             print("  fetched {}/{}".format(min(start + BATCH, len(ids)), len(ids)), flush=True)
             time.sleep(0.4)  # NCBI allows 3 requests/s without a key
+    tmp.replace(target)
     human = _efetch_fasta(_esearch("{}[Accession]".format(HUMAN_MITO)))
     (CACHE_DIR / "human_mito.fasta").write_text(human, encoding="utf-8")
     meta = {
