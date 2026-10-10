@@ -1,0 +1,193 @@
+{
+  "method": "leave-one-species-out on the reference: each species' amplicon queried with that species hidden; a rank counts as stated when relative-weight support >= 0.6",
+  "built_at": "2026-10-10T10:07:42+00:00",
+  "reference": "NCBI RefSeq, retrieved 2026-10-10T07:15:03+00:00",
+  "species_tested": 3692,
+  "seconds": 170.9,
+  "accuracy": {
+    "genus": {
+      "0.00-0.50": {
+        "n": 210,
+        "correct": 76,
+        "accuracy": 0.362
+      },
+      "0.50-0.60": {
+        "n": 254,
+        "correct": 126,
+        "accuracy": 0.496
+      },
+      "0.60-0.70": {
+        "n": 322,
+        "correct": 186,
+        "accuracy": 0.578
+      },
+      "0.70-0.80": {
+        "n": 399,
+        "correct": 279,
+        "accuracy": 0.699
+      },
+      "0.80-0.90": {
+        "n": 502,
+        "correct": 380,
+        "accuracy": 0.757
+      },
+      "0.90-0.95": {
+        "n": 302,
+        "correct": 236,
+        "accuracy": 0.781
+      },
+      "0.95-1.00": {
+        "n": 743,
+        "correct": 629,
+        "accuracy": 0.847
+      }
+    },
+    "family": {
+      "0.00-0.50": {
+        "n": 337,
+        "correct": 254,
+        "accuracy": 0.754
+      },
+      "0.50-0.60": {
+        "n": 349,
+        "correct": 325,
+        "accuracy": 0.931
+      },
+      "0.60-0.70": {
+        "n": 440,
+        "correct": 416,
+        "accuracy": 0.945
+      },
+      "0.70-0.80": {
+        "n": 499,
+        "correct": 488,
+        "accuracy": 0.978
+      },
+      "0.80-0.90": {
+        "n": 588,
+        "correct": 579,
+        "accuracy": 0.985
+      },
+      "0.90-0.95": {
+        "n": 327,
+        "correct": 319,
+        "accuracy": 0.976
+      },
+      "0.95-1.00": {
+        "n": 840,
+        "correct": 830,
+        "accuracy": 0.988
+      }
+    },
+    "order": {
+      "0.00-0.50": {
+        "n": 389,
+        "correct": 348,
+        "accuracy": 0.895
+      },
+      "0.50-0.60": {
+        "n": 349,
+        "correct": 348,
+        "accuracy": 0.997
+      },
+      "0.60-0.70": {
+        "n": 442,
+        "correct": 441,
+        "accuracy": 0.998
+      },
+      "0.70-0.80": {
+        "n": 487,
+        "correct": 486,
+        "accuracy": 0.998
+      },
+      "0.80-0.90": {
+        "n": 573,
+        "correct": 570,
+        "accuracy": 0.995
+      },
+      "0.90-0.95": {
+        "n": 311,
+        "correct": 308,
+        "accuracy": 0.99
+      },
+      "0.95-1.00": {
+        "n": 817,
+        "correct": 815,
+        "accuracy": 0.998
+      }
+    },
+    "class": {
+      "0.00-0.50": {
+        "n": 571,
+        "correct": 571,
+        "accuracy": 1.0
+      },
+      "0.50-0.60": {
+        "n": 379,
+        "correct": 379,
+        "accuracy": 1.0
+      },
+      "0.60-0.70": {
+        "n": 466,
+        "correct": 466,
+        "accuracy": 1.0
+      },
+      "0.70-0.80": {
+        "n": 505,
+        "correct": 505,
+        "accuracy": 1.0
+      },
+      "0.80-0.90": {
+        "n": 594,
+        "correct": 594,
+        "accuracy": 1.0
+      },
+      "0.90-0.95": {
+        "n": 327,
+        "correct": 327,
+        "accuracy": 1.0
+      },
+      "0.95-1.00": {
+        "n": 850,
+        "correct": 850,
+        "accuracy": 1.0
+      }
+    }
+  },
+  "summary": {
+    "genus": {
+      "cases": 3674,
+      "stated": 2732,
+      "correct": 1912,
+      "accuracy_when_stated": 0.7,
+      "stated_fraction": 0.744
+    },
+    "family": {
+      "cases": 3680,
+      "stated": 3380,
+      "correct": 3211,
+      "accuracy_when_stated": 0.95,
+      "stated_fraction": 0.918
+    },
+    "order": {
+      "cases": 3519,
+      "stated": 3368,
+      "correct": 3316,
+      "accuracy_when_stated": 0.985,
+      "stated_fraction": 0.957
+    },
+    "class": {
+      "cases": 3692,
+      "stated": 3692,
+      "correct": 3692,
+      "accuracy_when_stated": 1.0,
+      "stated_fraction": 1.0
+    }
+  },
+  "species_whose_genus_has_no_other_reference_species": {
+    "cases": 1038,
+    "genus_stated": 518,
+    "genus_stated_wrong": 518
+  },
+  "limits": "Queries are clean reference amplicons, not reads with sequencing errors. Lineages absent from the reference are only represented by species whose genus has a single reference member. Use as a measured hit rate, not a probability for one read."
+}

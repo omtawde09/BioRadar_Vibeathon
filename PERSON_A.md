@@ -121,3 +121,32 @@ Test hygiene finding: running the whole suite rewrites tracked files
 * Phase 2b: native range also covers unresolved groups; no confirmed+possible duplicates; `coverage` on matches;
   `design_share_check`; fixture fix; `ENGINE_VERSION` 4 so cached results refresh; `COMPLIANCE.md` regenerated;
   `data/challenge/manifest.csv`.
+
+## Relative finder (priority feature, Phase 5)
+
+Goal from the team: a vector-embedding model that finds the closest relative of an unknown
+specimen and speculates its identity from DNA, evolutionary history, ecology, chromosomes,
+hormones and diet. Package `bioradar/relatives/` (standard library, Python 3.8).
+
+| Factor | How it is used | Source |
+|---|---|---|
+| DNA sequence | canonical 6-mer TF-IDF embedding (strand independent), exact cosine over an inverted index; aligner identity + coverage for the top hits; 128-d dense projection for export | committed RefSeq 12S reference (3,799 amplicons) |
+| Evolutionary history | weighted vote of the 10 nearest species on genus / family / order / class; stated at the finest rank with support >= 0.6 AND held-out accuracy >= 0.8 at that similarity | NCBI Taxonomy lineage, `reference/refseq_fish_12s/lineage.tsv` (3,799 entries, 26 without family) |
+| Ecology | evidence only when observed: habitat and country from the sample metadata, or supplied by a user | `traits` channel (trait tables with a source per row) |
+| Chromosomes, hormones, diet | **cannot be read from a DNA fragment in water.** Evidence only if measured on a physical specimen and supplied as an observation; otherwise listed under `factors_not_used`, and relatives' documented values shown as an inferred profile ("expected if the hypothesis is right") | trait tables |
+
+Calibration (`python -m bioradar.relatives calibrate`, leave-one-species-out on all 3,694 reference
+species, 171 s): when the relatives agree, genus is right 70% of the time (stated for 74%), family 95%
+(92%), order 98.5% (96%), class 100%. For the 1,038 species whose genus has no other reference member,
+a genus was stated 518 times and was always wrong, which is why the per-similarity accuracy gate exists.
+Genus accuracy by top cosine: 0.36 (<0.5) rising to 0.85 (0.95-1.0); family 0.75 to 0.99.
+
+Real run (`python -m bioradar.relatives sample SRR37521672 --top 12`, Martapura/South Kalimantan):
+the 13,284-read unknown closest to *Oreochromis niloticus* (aligner identity 97.7%) is stated as
+family Cichlidae only (genus accuracy at cosine 0.80-0.90 is 0.76, under the 0.8 bar); a 2,290-read
+unknown is stated as genus *Pterygoplichthys* (support 0.67); the rest as Cichlidae or Cyprinidae.
+
+API: `GET /api/adjudicate/relatives/<sample_id>` (top 10 unknowns, cached) and
+`POST /api/adjudicate/relatives/query` with `{"sequence": "...", "observations": {"habitat": "freshwater", "karyotype_2n": 48}}`.
+Every response carries `status: hypothesis - needs expert review; never a confirmed identification`.
+UI panel: handoff to Person B (`webapp_static/` is B's).
