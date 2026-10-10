@@ -1,0 +1,17 @@
+{
+  "name": "RefSeq fish mitogenomes, MiFish-U amplicon",
+  "reference_database_version": "NCBI RefSeq, retrieved 2026-10-10T07:15:03+00:00",
+  "ncbi_query": "Actinopteri[Organism] AND srcdb_refseq[PROP] AND biomol_genomic[PROP] AND mitochondrion[filter]",
+  "mitogenomes_downloaded": 3967,
+  "amplicons_extracted": 3799,
+  "distinct_species": 3694,
+  "primers": {
+    "forward": "GTCGGTAAAACTCGTGCCAGC",
+    "reverse": "CATAGTGGGGTATCTAATCCCAGTTTG"
+  },
+  "built_at": "2026-10-10T07:24:31+00:00",
+  "note": "Amplicon = primer-to-primer region cut from each mitogenome with up to 5 primer mismatches. Mitogenomes without a findable amplicon are not in the list, so some fish are genuinely absent from this reference.",
+  "excluded_unresolved_names": 39,
+  "excluded_note": "Mitogenomes named only to genus ('Genus sp.', 'cf.', 'aff.') are not species-level references and are left out.",
+  "human_contaminant_amplicon_bp": 219
+}

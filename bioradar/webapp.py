@@ -951,6 +951,12 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, status: int, payload: Any) -> None:
         self._send(status, json.dumps(payload).encode("utf-8"), "application/json")
 
+    @staticmethod
+    def _adjudicate(response):
+        """(status, body, type) from the adjudicate API -> arguments for _send."""
+        status, body, content_type = response
+        return status, body, content_type
+
     def _read_json(self) -> Dict[str, Any]:
         length = int(self.headers.get("Content-Length", 0))
         raw = self.rfile.read(length) if length else b"{}"
@@ -995,6 +1001,10 @@ class Handler(BaseHTTPRequestHandler):
             return self._serve_static("index.html")
         if path.startswith("/static/"):
             return self._serve_static(path[len("/static/"):])
+
+        if path.startswith("/api/adjudicate"):
+            from bioradar.adjudicate import api as adjudicate_api
+            return self._send(*self._adjudicate(adjudicate_api.get(path)))
 
         if path == "/api/health":
             health = obs.health()
@@ -1410,6 +1420,10 @@ class Handler(BaseHTTPRequestHandler):
             from bioradar.blockchain import nft
             res = nft.mint_nft(body.get("sample_id", "BR-GOA-001"), body.get("to_address"))
             return self._json(201, res)
+
+        if path.startswith("/api/adjudicate"):
+            from bioradar.adjudicate import api as adjudicate_api
+            return self._send(*self._adjudicate(adjudicate_api.post(path, self._read_json())))
 
         if path == "/api/upload":
             return self._handle_upload(parsed.query)

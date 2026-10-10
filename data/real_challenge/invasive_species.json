@@ -1,0 +1,41 @@
+{
+  "_about": "Documented invasive-fish list used for officer alerts. Every entry cites where its listing comes from. The list is a starter set for the fish detected in the chosen real datasets; it is NOT a complete national list and does not replace a regulator's own list.",
+  "threat_levels": {
+    "CRITICAL": "Species is on the IUCN/ISSG list '100 of the World's Worst Invasive Alien Species'. Alert the officer immediately; confirm in the field within days.",
+    "HIGH": "Species has a full IUCN Global Invasive Species Database (GISD) profile documenting harmful invasions. Alert the officer; confirm with a field survey.",
+    "WATCH": "The sequence cannot be told apart from a listed invasive species and is NOT confirmed. Shown as a possible detection only; send for review or retake before any action."
+  },
+  "gisd_note": "GISD = Global Invasive Species Database, IUCN SSC Invasive Species Specialist Group, https://www.iucngisd.org",
+  "species": [
+    {"name": "Oreochromis niloticus", "common": "Nile tilapia", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=1322"]},
+    {"name": "Oreochromis mossambicus", "common": "Mozambique tilapia", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=131", "https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Clarias gariepinus", "common": "North African catfish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=1900"]},
+    {"name": "Clarias batrachus", "common": "Walking catfish", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Pterygoplichthys pardalis", "common": "Amazon sailfin catfish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/speciesname/Pterygoplichthys+pardalis", "https://www.iucngisd.org/gisd/pdf.php?sc=1658"]},
+    {"name": "Pterygoplichthys disjunctivus", "common": "Vermiculated sailfin catfish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/speciesname/Pterygoplichthys+disjunctivus"]},
+    {"name": "Pterygoplichthys multiradiatus", "common": "Orinoco sailfin catfish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/pdf.php?sc=1656"]},
+    {"name": "Pterygoplichthys anisitsi", "common": "Southern sailfin catfish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/pdf.php?sc=1659"]},
+    {"name": "Gambusia affinis", "common": "Western mosquitofish", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=126", "https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Gambusia holbrooki", "common": "Eastern mosquitofish", "level": "HIGH",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=617"]},
+    {"name": "Cyprinus carpio", "common": "Common carp", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Micropterus salmoides", "common": "Largemouth bass", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Lates niloticus", "common": "Nile perch", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/species.php?sc=89", "https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Oncorhynchus mykiss", "common": "Rainbow trout", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]},
+    {"name": "Salmo trutta", "common": "Brown trout", "level": "CRITICAL",
+     "sources": ["https://www.iucngisd.org/gisd/100_worst.php"]}
+  ]
+}

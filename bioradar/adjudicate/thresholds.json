@@ -1,0 +1,112 @@
+{
+  "_about": "Every tunable number used by the adjudication engine lives here and nowhere else. Each carries the reason it has this value. If asked 'why 98.5%?', point at this file. Values are defaults chosen from published practice for the MiFish 12S fish marker, NOT tuned to make any particular sample pass.",
+  "thresholds": {
+    "min_length": {
+      "value": 100,
+      "unit": "bp",
+      "why": "The MiFish amplicon is about 160-190 bp. A fragment under 100 bp covers too little of the variable region to separate close species, so it is dropped as a short fragment."
+    },
+    "max_n_percent": {
+      "value": 2.0,
+      "unit": "% of bases",
+      "why": "N means the sequencer could not call the base. More than 2% N in a ~150 bp read is 3+ uncalled bases inside the region we use to tell species apart."
+    },
+    "min_mean_quality": {
+      "value": 20,
+      "unit": "Phred",
+      "why": "Q20 is a 1% expected error rate per base, the usual floor for amplicon reads. Only applied to FASTQ input; FASTA has no quality scores, and that is stated in the output."
+    },
+    "min_complexity_entropy": {
+      "value": 1.5,
+      "unit": "bits (max 2.0)",
+      "why": "Shannon entropy of base composition. Below 1.5 bits the read is dominated by one or two letters (poly-A, repeats) and is not a real mitochondrial fragment."
+    },
+    "min_read_count": {
+      "value": 2,
+      "unit": "reads per distinct sequence",
+      "why": "A distinct sequence seen exactly once is overwhelmingly a PCR or sequencing error variant of a real sequence. Dropping singletons is standard denoising practice."
+    },
+    "identity_floor": {
+      "value": 0.8,
+      "unit": "fraction identical",
+      "why": "Below 80% to every reference entry the sequence is not recognisably a fish 12S fragment at all (even distant fish families stay above this). It is dropped as 'unrelated', not queued."
+    },
+    "identity_species": {
+      "value": 0.985,
+      "unit": "fraction identical",
+      "why": "Species-level call needs at least 98.5% identity to the best reference. 12S fish studies commonly use 98-99%; 98.5% sits in the middle."
+    },
+    "min_species_margin": {
+      "value": 0.01,
+      "unit": "identity points",
+      "why": "If the best species and the best DIFFERENT species are within 1 identity point, the sequence cannot honestly be called to one species. It goes to the review queue as ambiguous."
+    },
+    "human_identity": {
+      "value": 0.95,
+      "unit": "fraction identical",
+      "why": "MiFish primers also amplify human 12S. A read at or above 95% to the human mitogenome is treated as human contamination and dropped."
+    },
+    "unknown_max_confidence": {
+      "value": 0.6,
+      "unit": "confidence",
+      "why": "An unknown can never be shown as confirmed. Its confidence is capped here so that it cannot be mistaken for a species call, however good its closest match looks."
+    },
+    "confidence_max_known": {
+      "value": 0.99,
+      "unit": "confidence",
+      "why": "No call is ever shown as 100% certain: the reference list is finite and a perfect match to a wrong entry is still possible."
+    },
+    "min_detection_reads": {
+      "value": 10,
+      "unit": "reads per species",
+      "why": "Species backed by fewer than 10 reads in a sample are reported as 'trace' and not as a detection. Index hopping and tag-jumping routinely produce a handful of stray reads."
+    },
+    "retake_min_kept_fraction": {
+      "value": 0.1,
+      "unit": "fraction of reads usable",
+      "why": "Below 10% usable the library is essentially a failed PCR (90% junk), so resample. Earlier this was 50%, but running real deep-sequenced estuary samples showed that 70% off-target reads (e.g. 100,000 good fish reads among 400,000) is a caution, not a reason to discard a sample that still has plenty of valid data. The absolute read count below is the main test."
+    },
+    "caution_max_dropped_fraction": {
+      "value": 0.25,
+      "unit": "fraction of reads dropped",
+      "why": "Between 25% and 50% of reads lost is not unusable, but it says the library was poor (for example primer-dimer). The verdict is 'Usable with caution' and the loss is shown, instead of pretending nothing happened."
+    },
+    "retake_min_kept_reads": {
+      "value": 1000,
+      "unit": "reads",
+      "why": "Fewer than 1,000 usable reads cannot describe a community: a species at 0.5% would have 5 reads. This is the main 'unusable' test."
+    },
+    "share_tolerance_factor": {
+      "value": 3.0,
+      "unit": "fold",
+      "why": "Amplification bias between species is real (published work on this dataset reports a positive but imperfect read-to-DNA relationship). An estimated share within 3-fold of the source-supported share is called consistent; outside it is flagged."
+    },
+    "season_months": {
+      "value": {
+        "summer": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "winter": [
+          10,
+          11,
+          12,
+          1,
+          2,
+          3
+        ]
+      },
+      "unit": "month numbers",
+      "why": "Documented rule that maps a collection month to a season. Pearl River Delta: wet, hot monsoon summer is Apr-Sep, the dry cool winter is Oct-Mar. Change here for another region."
+    },
+    "alert_latency_seconds": {
+      "value": 5,
+      "unit": "seconds",
+      "why": "The brief wants an alert 'within seconds' of a triggering sample being processed; the alert event records its measured latency and this is the budget it is judged against."
+    }
+  }
+}

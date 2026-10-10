@@ -1,0 +1,62 @@
+/* Review view. Uses the existing tokens; nothing here restyles another view. */
+
+.adj-h2 { margin: 0; font-size: var(--text-lg, 1.15rem); line-height: 1.25; }
+.adj-h3 { margin: var(--space-3) 0 var(--space-2); font-size: var(--text-base, 1rem); }
+.adj-verdict { margin: var(--space-2) 0 var(--space-4); font-size: 1.05rem; }
+.adj-note { margin-top: var(--space-4); padding: var(--space-3) var(--space-4); border-left: 4px solid var(--alert-rare);
+  background: var(--surface-pressed); border-radius: var(--radius-sm); color: var(--text-primary); }
+.adj-select { min-height: 44px; flex: 1 1 280px; max-width: 100%; padding: 0 var(--space-3); border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline); background: var(--surface-raised); color: var(--text-primary); font: inherit; }
+.adj-seq { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adj-details summary { cursor: pointer; padding: var(--space-2) 0; color: var(--text-secondary); }
+
+.adj-stack { display: flex; height: 18px; border-radius: 9px; overflow: hidden; background: var(--surface-pressed);
+  margin: var(--space-3) 0 var(--space-4); }
+.adj-stack > div { min-width: 2px; }
+
+.adj-bars { display: flex; flex-direction: column; gap: 10px; margin: var(--space-3) 0; }
+.adj-bar-row { display: grid; grid-template-columns: minmax(150px, 280px) 1fr minmax(120px, 190px); gap: var(--space-3); align-items: center; }
+.adj-bar-label { font-size: var(--text-sm); }
+.adj-bar-track { height: 14px; background: var(--surface-pressed); border-radius: 7px; overflow: hidden; }
+.adj-bar-fill { height: 100%; border-radius: 7px; min-width: 2px; }
+.adj-bar-val { font-size: var(--text-xs); color: var(--text-secondary); text-align: right; }
+
+.adj-map { height: 320px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-hairline); }
+.adj-map.short { height: 260px; margin-top: var(--space-3); }
+
+.adj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); }
+.adj-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-6); }
+.adj-list { margin: 0; padding-left: 1.1em; columns: 2; column-gap: var(--space-6); }
+.adj-list li { break-inside: avoid; margin-bottom: 4px; }
+
+.adj-slider { display: flex; align-items: center; gap: var(--space-4); margin: var(--space-3) 0 var(--space-4); flex-wrap: wrap; }
+.adj-slider input[type="range"] { flex: 1 1 180px; min-width: 140px; accent-color: var(--accent-primary); height: 28px; }
+.adj-slider span { color: var(--text-secondary); font-weight: 500; }
+.adj-slider span.on { color: var(--text-primary); font-weight: 700; }
+
+.adj-working { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4); }
+.adj-spin { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--surface-pressed);
+  border-top-color: var(--accent-primary); animation: adjspin .9s linear infinite; }
+@keyframes adjspin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .adj-spin { animation: none; } }
+
+.adj-banner { display: flex; gap: var(--space-4); align-items: stretch; margin-bottom: var(--space-4);
+  border-radius: var(--radius-md); overflow: hidden; color: #fff; box-shadow: var(--neu-raised); }
+.adj-banner-level { display: flex; align-items: center; justify-content: center; padding: 0 var(--space-4);
+  font-weight: 800; letter-spacing: .06em; min-width: 108px; background: rgba(0,0,0,.2); }
+.adj-banner-main { padding: var(--space-3) var(--space-4) var(--space-3) 0; }
+.adj-banner-act { margin-top: 4px; opacity: .95; }
+.adj-banner.invasive { background: var(--alert-invasive); }
+.adj-banner.high { background: #c4701b; }
+.adj-banner.medium { background: #8a7400; }
+
+@media (max-width: 720px) {
+  .adj-bar-row { grid-template-columns: 1fr; gap: 4px; }
+  .adj-bar-val { text-align: left; }
+  .adj-list { columns: 1; }
+  .adj-banner { flex-direction: column; }
+  .adj-banner-level { padding: var(--space-2); }
+  .adj-banner-main { padding: 0 var(--space-4) var(--space-3); }
+}
+
+.adj-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
