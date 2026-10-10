@@ -32,7 +32,7 @@ from bioradar.adjudicate.reference import REF_DIR, Reference
 from bioradar.relatives import lineage as lineage_mod
 from bioradar.relatives.kmer import DENSE_DIMS, K, Index, dense
 
-MODEL_VERSION = "1"
+MODEL_VERSION = "2"  # 2: exact 2,080-d dense export; reference QC quarantine
 CALIBRATION_FILE = REF_DIR / "relatives_calibration.json"
 RANKS = ["genus", "family", "order", "class"]  # finest first
 
@@ -86,9 +86,11 @@ def _bin(value: float) -> str:
 
 class RelativeFinder:
     def __init__(self, ref: Reference, lineage: Dict[str, Dict[str, str]],
-                 calibration: Optional[Dict[str, Any]] = None) -> None:
+                 calibration: Optional[Dict[str, Any]] = None,
+                 exclude_accessions: Iterable[str] = ()) -> None:
         self.ref = ref
-        entries = [e for e in ref.entries if e[1] != "Homo sapiens"]
+        self.excluded = set(exclude_accessions)  # reference QC quarantine (refqc.py)
+        entries = [e for e in ref.entries if e[1] != "Homo sapiens" and e[0] not in self.excluded]
         self.index = Index.build(entries)
         self.lineage = lineage
         self.calibration = calibration or {}
@@ -101,11 +103,15 @@ class RelativeFinder:
         self.trait_table = trait_mod.load_traits() if trait_mod else None
 
     @classmethod
-    def load(cls) -> "RelativeFinder":
+    def load(cls, apply_qc: bool = True) -> "RelativeFinder":
         cal = None
         if CALIBRATION_FILE.is_file():
             cal = json.loads(CALIBRATION_FILE.read_text(encoding="utf-8"))
-        return cls(Reference.load(), lineage_mod.load(), cal)
+        excluded: Iterable[str] = ()
+        if apply_qc:
+            from bioradar.relatives.refqc import quarantined_accessions
+            excluded = quarantined_accessions()
+        return cls(Reference.load(), lineage_mod.load(), cal, excluded)
 
     # -- 1. DNA sequence --------------------------------------------------------------------
 
@@ -258,7 +264,8 @@ class RelativeFinder:
             "name": "BioRadar relative finder",
             "version": MODEL_VERSION,
             "embedding": "canonical {}-mer TF-IDF, L2-normalised; exact cosine via inverted index; "
-                         "{}-d signed-hash dense projection for export".format(K, DENSE_DIMS),
+                         "exact {}-d dense export".format(K, DENSE_DIMS),
+            "reference_qc_quarantined": sorted(self.excluded),
             "features": len(self.index.embedder.idf),
             "reference": self.ref.version,
             "reference_entries": len(self.index.labels),

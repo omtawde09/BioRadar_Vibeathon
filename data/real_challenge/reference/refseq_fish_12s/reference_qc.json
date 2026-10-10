@@ -1,0 +1,108 @@
+{
+  "built_at": "2026-10-10T10:41:40+00:00",
+  "reference": "NCBI RefSeq, retrieved 2026-10-10T07:15:03+00:00",
+  "rule": "nearest other species >= 0.85 cosine in a different order",
+  "quarantined": [
+    {
+      "accession": "NW_028117713.1",
+      "species": "Leuciscus leuciscus",
+      "order": "Cypriniformes",
+      "nearest": "Stomias atriventer",
+      "nearest_accession": "NC_037248.1",
+      "nearest_order": "Stomiiformes",
+      "cosine": 0.9155,
+      "reason": "12S is 0.915 cosine to Stomias atriventer (Stomiiformes), a different order from the entry's own name (Cypriniformes): one of the two records is mislabelled or contaminated",
+      "action": "quarantined: genome-scaffold entry conflicts with a curated mitogenome"
+    }
+  ],
+  "reported": [
+    {
+      "accession": "NC_052766.1",
+      "species": "Schedophilus medusophagus",
+      "order": "Scombriformes",
+      "nearest": "Neogobius melanostomus",
+      "nearest_accession": "NC_052757.1",
+      "nearest_order": "Gobiiformes",
+      "cosine": 0.9544,
+      "reason": "12S is 0.954 cosine to Neogobius melanostomus (Gobiiformes), a different order from the entry's own name (Scombriformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_052757.1",
+      "species": "Neogobius melanostomus",
+      "order": "Gobiiformes",
+      "nearest": "Hyperoglyphe japonica",
+      "nearest_accession": "NC_013149.1",
+      "nearest_order": "Scombriformes",
+      "cosine": 0.9673,
+      "reason": "12S is 0.967 cosine to Hyperoglyphe japonica (Scombriformes), a different order from the entry's own name (Gobiiformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_037248.1",
+      "species": "Stomias atriventer",
+      "order": "Stomiiformes",
+      "nearest": "Leuciscus leuciscus",
+      "nearest_accession": "NW_028117713.1",
+      "nearest_order": "Cypriniformes",
+      "cosine": 0.9155,
+      "reason": "12S is 0.915 cosine to Leuciscus leuciscus (Cypriniformes), a different order from the entry's own name (Stomiiformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_025665.1",
+      "species": "Seriolella porosa",
+      "order": "Scombriformes",
+      "nearest": "Piaractus brachypomus",
+      "nearest_accession": "NC_025315.2",
+      "nearest_order": "Characiformes",
+      "cosine": 0.8875,
+      "reason": "12S is 0.887 cosine to Piaractus brachypomus (Characiformes), a different order from the entry's own name (Scombriformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_024108.1",
+      "species": "Grammistes sexlineatus",
+      "order": "Perciformes",
+      "nearest": "Lophius litulon",
+      "nearest_accession": "NC_023828.1",
+      "nearest_order": "Lophiiformes",
+      "cosine": 0.8844,
+      "reason": "12S is 0.884 cosine to Lophius litulon (Lophiiformes), a different order from the entry's own name (Perciformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_023828.1",
+      "species": "Lophius litulon",
+      "order": "Lophiiformes",
+      "nearest": "Grammistes sexlineatus",
+      "nearest_accession": "NC_024108.1",
+      "nearest_order": "Perciformes",
+      "cosine": 0.8844,
+      "reason": "12S is 0.884 cosine to Grammistes sexlineatus (Perciformes), a different order from the entry's own name (Lophiiformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_022490.1",
+      "species": "Nesiarchus nasutus",
+      "order": "Scombriformes",
+      "nearest": "Hippoglossoides elassodon",
+      "nearest_accession": "NC_082804.1",
+      "nearest_order": "Pleuronectiformes",
+      "cosine": 0.91,
+      "reason": "12S is 0.910 cosine to Hippoglossoides elassodon (Pleuronectiformes), a different order from the entry's own name (Scombriformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    },
+    {
+      "accession": "NC_013149.1",
+      "species": "Hyperoglyphe japonica",
+      "order": "Scombriformes",
+      "nearest": "Neogobius melanostomus",
+      "nearest_accession": "NC_052757.1",
+      "nearest_order": "Gobiiformes",
+      "cosine": 0.9673,
+      "reason": "12S is 0.967 cosine to Neogobius melanostomus (Gobiiformes), a different order from the entry's own name (Scombriformes): one of the two records is mislabelled or contaminated",
+      "action": "reported only"
+    }
+  ]
+}

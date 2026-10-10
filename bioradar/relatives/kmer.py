@@ -9,9 +9,10 @@ Embedding = canonical k-mer TF-IDF vector, L2-normalised:
   computed over the reference;
 * cosine similarity between two vectors is the relatedness score used to rank relatives.
 
-`dense()` folds the sparse vector into a fixed-size dense vector (signed feature hashing,
-several hashes per k-mer) for export, plotting or an external vector store. Search itself
-uses the exact sparse cosine through an inverted index, so nothing is lost to the projection.
+`dense()` writes the same vector as a fixed-length list, one dimension per canonical k-mer
+(2,080 for k=6), for export to a vector store. It is exact; an earlier 128-d hashed projection
+kept only 45% of the true top-10 neighbours and was dropped. Search uses the sparse vectors
+through an inverted index.
 
 Nothing is trained: the "model" is the reference, its IDF weights and the index.
 Standard library only; Python 3.8 compatible.
@@ -19,14 +20,11 @@ Standard library only; Python 3.8 compatible.
 
 from __future__ import annotations
 
-import hashlib
 import math
 from collections import Counter, defaultdict
 from typing import Dict, Iterable, List, Sequence, Tuple
 
 K = 6
-DENSE_DIMS = 128
-DENSE_HASHES = 4
 _CODE = {"A": 0, "C": 1, "G": 2, "T": 3}
 _MASK = (1 << (2 * K)) - 1
 
@@ -94,18 +92,31 @@ class Embedder:
         return normalise({c: tf * self.idf.get(c, self.default_idf) for c, tf in counts.items()})
 
 
-def dense(vec: SparseVec, dims: int = DENSE_DIMS, hashes: int = DENSE_HASHES) -> List[float]:
-    """Fixed-size dense embedding by signed feature hashing (deterministic, no training).
-    Cosine between dense vectors approximates the sparse cosine."""
-    out = [0.0] * dims
+def _canonical_codes(k: int = K) -> List[int]:
+    shift = 2 * (k - 1)
+    out = set()
+    for code in range(4 ** k):
+        rc, x = 0, code
+        for i in range(k):
+            rc = (rc << 2) | (3 - (x & 3))
+            x >>= 2
+        out.add(min(code, rc))
+    return sorted(out)
+
+
+CANONICAL_CODES = _canonical_codes()
+DENSE_DIMS = len(CANONICAL_CODES)  # 2,080 for k=6
+_SLOT = {code: i for i, code in enumerate(CANONICAL_CODES)}
+
+
+def dense(vec: SparseVec) -> List[float]:
+    """The same embedding as a fixed-length dense vector: one dimension per canonical k-mer
+    (2,080 for k=6), in a fixed order. Exact - dot products equal the sparse cosine - so it can
+    be exported to any vector store without changing which relatives are nearest."""
+    out = [0.0] * DENSE_DIMS
     for code, value in vec.items():
-        digest = hashlib.blake2b(code.to_bytes(4, "little"), digest_size=2 * hashes).digest()
-        for h in range(hashes):
-            slot = int.from_bytes(digest[2 * h:2 * h + 2], "little")
-            sign = 1.0 if slot & 1 else -1.0
-            out[(slot >> 1) % dims] += sign * value / math.sqrt(hashes)
-    norm = math.sqrt(sum(x * x for x in out))
-    return [round(x / norm, 6) for x in out] if norm else out
+        out[_SLOT[code]] = round(value, 6)
+    return out
 
 
 class Index:

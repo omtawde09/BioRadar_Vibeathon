@@ -37,12 +37,14 @@ def test_windows_with_n_are_skipped_and_vectors_are_unit_length():
     assert math.isclose(sum(v * v for v in vec.values()), 1.0, rel_tol=1e-9)
 
 
-def test_dense_projection_is_deterministic_and_tracks_sparse_cosine():
+def test_dense_export_is_exact_one_dimension_per_canonical_kmer():
+    assert kmer.DENSE_DIMS == 2080  # (4**6 + 4**3) / 2 canonical 6-mers
     e = kmer.Embedder.fit(["ACGTTGCAAGGCTTACCGATAGGCTAACG" * 3, "GGGCCCAAATTTGCGCAT" * 4])
-    v = e.embed("ACGTTGCAAGGCTTACCGATAGGCTAACG" * 3)
-    d1, d2 = kmer.dense(v), kmer.dense(v)
-    assert d1 == d2 and len(d1) == kmer.DENSE_DIMS
-    assert math.isclose(sum(x * x for x in d1), 1.0, rel_tol=1e-4)
+    a = e.embed("ACGTTGCAAGGCTTACCGATAGGCTAACG" * 3)
+    b = e.embed("ACGTTGCAAGGCTTACCGATCGGCTAACG" * 3)
+    da, db = kmer.dense(a), kmer.dense(b)
+    assert len(da) == kmer.DENSE_DIMS
+    assert math.isclose(sum(x * y for x, y in zip(da, db)), kmer.cosine(a, b), abs_tol=1e-4)
 
 
 def test_index_returns_one_row_per_species_and_honours_exclusion():

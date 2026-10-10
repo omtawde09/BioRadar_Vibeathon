@@ -30,6 +30,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="BioRadar relative finder")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("lineage")
+    sub.add_parser("refqc")
     cal = sub.add_parser("calibrate")
     cal.add_argument("--limit", type=int)
     q = sub.add_parser("query")
@@ -46,6 +47,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         from bioradar.relatives import lineage
         print(lineage.fetch())
         print(json.dumps(lineage.meta(), indent=2))
+        return 0
+    if args.cmd == "refqc":
+        from bioradar.relatives import refqc
+        doc = refqc.scan()
+        print(json.dumps({"quarantined": doc["quarantined"], "reported": doc["reported"]}, indent=2))
         return 0
     if args.cmd == "calibrate":
         from bioradar.relatives import calibrate
