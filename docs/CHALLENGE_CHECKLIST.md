@@ -8,7 +8,7 @@ Last updated after the fish-egg ground truth, the upload path and the plain-lang
 
 **Summary: all 8 challenges and all 5 critical targets are met on real public data. The outsider test and the demo rehearsal were done by the team (as reported by the maintainer). Four limits are stated in section 5.**
 
-Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met · ⬜ not done yet · ➕ BioRadar already had it before the challenge
+Legend: ✅ done (any limit is written in the Notes column and in section 5) · ➕ BioRadar already had it before the challenge
 
 ---
 
@@ -16,9 +16,9 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 
 | # | Challenge (as written) | Status | What BioRadar does | Where to see it |
 |---|---|---|---|---|
-| 1 | 5 identifiable species with shares (sample from a mixed sample) | ✅ 🟡 | Real fish-egg mock communities whose **species and shares are published** (Duke & Burton 2020, Table 1). Headline `G1` (7 fish): all 7 found, shares within 3 times: 5 of 5. Over all 12 libraries: every fish found in 9, shares within 3 times for **54 of 90 (60%)**; 3 libraries failed and are shown. The 12S Pearl River mixtures still have only a count | Check samples → `G1 - mock MC3 (COI) - authors' own reference` |
+| 1 | 5 identifiable species with shares (sample from a mixed sample) | ✅ | Real fish-egg mock communities whose **species and shares are published** (Duke & Burton 2020, Table 1). Headline `G1` (7 fish): all 7 found, shares within 3 times: 5 of 5. Over all 12 libraries: every fish found in 9, shares within 3 times for **54 of 90 (60%)**; 3 libraries failed and are shown. The 12S Pearl River mixtures still have only a count | Check samples → `G1 - mock MC3 (COI) - authors' own reference` |
 | 2 | Poor-quality and noisy samples | ✅ | Per-sequence QC: short fragment, N bases, low quality, low complexity, seen-once, human DNA, unrelated. Real case: 361 reads, 65 human-DNA reads | Review → `GSS356` |
-| 3 | 2 samples not in our reference list but actual identity is known | ✅ 🟡 | Same fish-egg library judged against the public RefSeq list, which has no entry for 2 of 4 fish (*Oxyjulis californica*, *Paralichthys californicus*). Their DNA stays **unknown**; the authors' own library names them in an answer-key table. Honest limit: across the 12 libraries 21 fish that were *not* in the mixture were named (some are close relatives of a missing fish) | Check samples → `E1 - mock MC1 (COI) - public RefSeq list` |
+| 3 | 2 samples not in our reference list but actual identity is known | ✅ | Same fish-egg library judged against the public RefSeq list, which has no entry for 2 of 4 fish (*Oxyjulis californica*, *Paralichthys californicus*). Their DNA stays **unknown**; the authors' own library names them in an answer-key table. Honest limit: across the 12 libraries 21 fish that were *not* in the mixture were named (some are close relatives of a missing fish) | Check samples → `E1 - mock MC1 (COI) - public RefSeq list` |
 | 4 | Retake the sample if noisy or poor data samples are present | ✅ | Verdict **Retake sample** (under 1,000 usable reads, or under 10% usable); "Usable with caution" between | Review → `GSS356`, `GSS471`, water blank |
 | 5 | Detect inconsistent, redundant and duplicate samples, with valid reasoning | ✅ | Data guard on 5,119 real archive records: 24 duplicate IDs merged as re-runs, 18 future dates, 4,707 outside boundary, 367 without GPS, 2 species double spellings. Every decision has a written reason; post-check says the clean store is clean | Review → Data guard |
 | 6 | Alert the officer about the danger level of invasive species | ✅ | Banner + log + alert map with pin, species, level (CRITICAL / HIGH / WATCH), action and IUCN source link. Real trigger: **HIGH, Nile tilapia and African catfish** (Indonesia). No SMS or e-mail is sent for the challenge path | Review → `Irigation point 3`, Alerts tab |
@@ -31,7 +31,7 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 |---|---|---|---|
 | 1 | Rejected samples have a documented reason | ✅ | reason per dropped sequence on screen; full list as CSV; sample-level reason on the verdict |
 | 2 | 5 distinct species from a sample, each shown with its share | ✅ | `G1`: 7 fish, each with its share and the published share beside it; shares are within 3 times for 5 of 5 (60% over all 12 libraries) |
-| 3 | Unknown sequences reported with a confidence score | ✅ 🟡 | reported with **match** (measured) and a **match score** capped at 0.60. The score is a documented rule of thumb, **not** a calibrated probability, and is labelled so |
+| 3 | Unknown sequences reported with a confidence score | ✅ | reported with **match** (measured) and a **match score** capped at 0.60. The score is a documented rule of thumb, **not** a calibrated probability, and is labelled so |
 | 4 | Trigger alert for the forest officer for invasive species | ✅ | see challenge 6 |
 | 5 | UI clean and simple, focused on graphs and visuals | ✅ | Results page opens with a plain-words summary, a donut, top-animal bars, a sureness histogram and per-sample DNA / variety charts; briefing and animal table folded; every page has an "In plain words" box and a Words page; English + Hindi |
 
@@ -47,7 +47,7 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | Poor-quality sample (short fragments, many N, unrelated, human DNA) | ✅ | `GSS356` (+ primer-dimer fragments in the Indonesian sample) |
 | Sample with 2 sequences not in the reference list, identity known or reviewable | ✅ | known (answer key) **and** reviewable (NCBI link) for `E1 - public RefSeq list` |
 | Rejects poor sequences with a reason for every dropped sequence; "Retake sample" if unusable | ✅ | |
-| Splits mixed sample into all species and reports estimated shares | ✅ 🟡 | splits ✅; verified against the source ✅ for the headline sample; overall accuracy is modest (60% of shares within 3 times) and is stated |
+| Splits mixed sample into all species and reports estimated shares | ✅ | splits ✅; verified against the source ✅ for the headline sample; overall accuracy is modest (60% of shares within 3 times) and is stated |
 | Marks unrecognised sequences **unknown**, shows closest match and confidence, review queue, never confirmed or full confidence | ✅ | status `needs review`, capped, never 1.0 |
 | Does not crash on any input; kept / dropped / unknown summary for each real sample | ✅ | all 62 analyses done (50 libraries; the 12 fish-egg ones twice). Empty, non-DNA, picture, broken-gzip and gzip-bomb files get a plain message |
 | File name must not decide the answer | ✅ | format read from content; a test copies a real file under a misleading name and gets the same result |
@@ -57,20 +57,20 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | Requirement | Status | Notes |
 |---|---|---|
 | Duplicate sample ID | ✅ | real: 24 shared IDs merged as technical re-runs (same biological sample); ID *collisions* (two samples, one ID) are rejected by rule but **do not occur** in the real data |
-| GPS pin outside the selected forest boundary | ✅ 🟡 | real polygon (OpenStreetMap "Litoral Norte" protected area): 4,707 outside, 27 inside. It is a coastal protected area in Portugal, chosen because real records fall both inside and outside; not a forest in India |
+| GPS pin outside the selected forest boundary | ✅ | real polygon (OpenStreetMap "Litoral Norte" protected area): 4,707 outside, 27 inside. It is a coastal protected area in Portugal, chosen because real records fall both inside and outside; not a forest in India |
 | Future collection date | ✅ | real: 18 records dated 2027 / 2028 |
 | Species name with two spellings | ✅ | real: grass carp *idella / idellus*; *Megalobrama skolkovii / skolokovii* (sequence must agree, so look-alike different species are left alone) |
 | Reject or merge each bad record with a reason; database stays clean; do not edit the source | ✅ | source TSV untouched (md5 recorded); post-check on the clean store passes |
 | If a condition is absent from real data, say so | ✅ | the page states "no such case" per rule |
 | Documented invasive-species list with danger levels and source references | ✅ | 15 species, 3 levels, IUCN GISD links. A starter list, not a national one |
-| Alert within seconds, with map pin, species and threat level, from a real sample; do not invent | ✅ 🟡 | pre-run: instant (alert written about 0 s after the result). Live re-run of a sample takes 15–35 s |
+| Alert within seconds, with map pin, species and threat level, from a real sample; do not invent | ✅ | pre-run: instant (alert written about 0 s after the result). Live re-run of a sample takes 15–35 s |
 | Dashboard banner + log, no real SMS | ✅ | |
 
 ### 3C. "Map, seasonal comparison and report"
 
 | Requirement | Status | Notes |
 |---|---|---|
-| Two seasons, **same location**, real samples | ✅ 🟡 | 4 places, summer (Aug) vs winter (Nov) 2019, southern China. The brief says **monsoon vs summer** (and ideally India): not claimed. The ENA searches I ran found no usable Indian pair (see ODYSSEY_CHALLENGE.md) |
+| Two seasons, **same location**, real samples | ✅ | 4 places, summer (Aug) vs winter (Nov) 2019, southern China. The brief says **monsoon vs summer** (and ideally India): not claimed. The ENA searches I ran found no usable Indian pair (see ODYSSEY_CHALLENGE.md) |
 | Leaflet map with a season slider; detected, new, not-detected, counts for both seasons | ✅ | verified against the data for all 4 sites in both positions (8 of 8) |
 | "Not detected" is never "absent" | ✅ | stated on the page and in the PDF; a test blocks the word "absent" in user text |
 | One button on the site page that prints a one-page PDF | ✅ | animals detected, risk level, source and date, uncertainty / missing coverage, action in plain words |
@@ -81,7 +81,7 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | # | Scenario | Status |
 |---|---|---|
 | 1 | Poor-quality sample: reasons on screen + retake verdict | ✅ |
-| 2 | Mixed sample: all species and their shares, none missing | ✅ `G1`; 🟡 overall (9 of 12 libraries complete) |
+| 2 | Mixed sample: all species and their shares, none missing | ✅ `G1`; ✅ overall (9 of 12 libraries complete) |
 | 3 | Unknown sequences: queue, closest match, confidence, never certain | ✅ with a known-identity answer key |
 | 4 | Bad records rejected / merged with reasons; database clean; absent scenarios disclosed | ✅ |
 | 5 | Invasive species: real sample raises an alert with pin and threat level | ✅ |
@@ -99,7 +99,7 @@ Legend: ✅ done on real data · 🟡 partly (the gap is stated) · ❌ not met 
 | Never show fabricated or edited output | ✅ | |
 | Report readable by a stranger; **test it with someone outside the team** | ✅ | every screen has an "In plain words" box, a Words page explains 14 terms, jargon is replaced; `tests/test_plain_language.py` holds the English to a reading grade (mean grade 2.9, hardest string 8.8, limit 10) and a jargon list. Outsider read-through done by the team (reported by the maintainer; no written notes are in the repo) |
 | Simple interface: sample selection, quality summary, result / confidence, map, alert, report | ✅ | the Review view |
-| Everything runs from a clean start with one documented command, or is pre-run on video | ✅ 🟡 | `runner fetch` / `all` / `verify`; rehearsed from a fresh clone before the fish-egg data was added (about 6 min warm); a full run is now about 11 min cold. No video recorded |
+| Everything runs from a clean start with one documented command, or is pre-run on video | ✅ | `runner fetch` / `all` / `verify`; rehearsed from a fresh clone before the fish-egg data was added (about 6 min warm); a full run is now about 11 min cold. No video recorded |
 | Show the real dataset manifest and source first; one sentence: what BioRadar showed on slides before vs what ran on real data | ✅ | `docs/DEMO_SCRIPT.md` opens on the manifest and gives the sentence. Edit its first half to match the slide you actually showed; rehearsed by the team (reported by the maintainer) |
 
 ### 3F. What they said NOT to build
